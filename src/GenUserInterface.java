@@ -19,5 +19,5 @@ public abstract class GenUserInterface {
         return border;
     }
 
-    public void printUI(){} //TODO: Prints the UI for each client class
+    public void printUI(){} //TODO: Prints the UI for each client class. Implemented by each client.
 }
