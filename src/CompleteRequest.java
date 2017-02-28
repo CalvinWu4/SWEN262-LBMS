@@ -9,11 +9,11 @@ public class CompleteRequest{
         request = "";
     }
 
-    public void setExchange(String newInput, String partialInput){
+    void setExchange(String newInput, String partialInput){
         request = partialInput + newInput;
     }
 
-    public String getExchange(){
+    String getExchange(){
         return request;
     }
 }

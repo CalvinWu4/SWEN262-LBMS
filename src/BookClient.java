@@ -2,7 +2,7 @@
  * Created by Brandon on 2/28/2017.
  */
 public class BookClient extends GenUserInterface {
-    public BookClient(){
+    BookClient(){
         printUI();
         BookExchange newExchange = new BookExchange();
     }

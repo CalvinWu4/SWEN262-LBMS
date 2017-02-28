@@ -8,14 +8,14 @@ public abstract class GenUserInterface {
 
     private String border; //Used as the top and bottom borders of the UI
 
-    public GenUserInterface(){
+    GenUserInterface(){
         border = "=======================";
     }
 
     /*
     Gets the top/bottom border strings of the UI
      */
-    public String getBorder(){
+    String getBorder(){
         return border;
     }
 

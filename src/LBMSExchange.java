@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class LBMSExchange extends Exchange {
 
-    public LBMSExchange() {
+    LBMSExchange() {
         Scanner userInput = new Scanner(System.in);
         sendRequest(userInput);
     }
@@ -37,8 +37,7 @@ public class LBMSExchange extends Exchange {
                 System.out.println("Command not Implemented");
                 break;
             case "5":
-                System.out.println("Command not Implemented");
-                break;
+                System.exit(0);
         } //TODO: Interpret numerical command to switch between clients
     }
 }

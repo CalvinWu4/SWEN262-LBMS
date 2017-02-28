@@ -11,12 +11,12 @@ public abstract class Exchange {
     private CompleteRequest completeRequest = new CompleteRequest();
     private PartialRequest partialRequest = new PartialRequest();
 
-    public Exchange(){
+    Exchange(){
         isComplete = false;
         isExecuted = false;
     }
 
-    public boolean getIsComplete(){
+    boolean getIsComplete(){
         return isComplete;
     }
 
@@ -27,7 +27,7 @@ public abstract class Exchange {
     /*
     Parses the user's input to decide whether the command was complete or not.
      */
-    public void parse(String userInput){
+    void parse(String userInput){
         Scanner StringParser = new Scanner(userInput);
         String completeUserLine = "";
         StringParser.useDelimiter("");
@@ -59,7 +59,7 @@ public abstract class Exchange {
     //TODO: Implemented by the several exchange subclasses. Checks to see if command is valid and how to execute it.
 
     //Checks to see if the current command has been completed or not, then returns the command.
-    public String getExchange(){
+    String getExchange(){
         if(completeRequest.getExchange().isEmpty()){
             return partialRequest.getExchange();
         }

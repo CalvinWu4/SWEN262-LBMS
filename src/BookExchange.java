@@ -5,7 +5,7 @@ import java.util.Scanner;
  */
 
 public class BookExchange extends Exchange {
-    public BookExchange(){
+    BookExchange(){
         Scanner userInput = new Scanner(System.in);
         sendRequest(userInput);
     }

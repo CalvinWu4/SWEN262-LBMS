@@ -4,7 +4,7 @@
 
 public class LBMSClient extends GenUserInterface {
 
-    public LBMSClient(){
+    LBMSClient(){
         printUI();
         LBMSExchange newExchange = new LBMSExchange();
     }
@@ -16,7 +16,7 @@ public class LBMSClient extends GenUserInterface {
         System.out.println("2) Dummy Option"); //TODO: List actual options in menu.
         System.out.println("3) Dummy Option"); //Do we want to use an array to keep track instead of hard coding?
         System.out.println("4) Dummy Option");
-        System.out.println("5) Dummy Option");
+        System.out.println("5) Quit");
         System.out.println(getBorder());
     }
 
