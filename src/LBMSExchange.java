@@ -31,13 +31,17 @@ public class LBMSExchange extends Exchange {
                 StatsClient switchToStatsClient = new StatsClient();
                 break;
             case "3":
-                System.out.println("Command not Implemented");
+                VisitorClient switchToVisitorClient = new VisitorClient();
                 break;
             case "4":
-                System.out.println("Command not Implemented");
+                DateClient switchToDateClient = new DateClient();
                 break;
             case "5":
                 System.exit(0);
+            default:
+                System.out.println("Invalid command.");
+                LBMSClient freshLBMSClient = new LBMSClient();
+                break;
         } //TODO: Interpret numerical command to switch between clients
     }
 }

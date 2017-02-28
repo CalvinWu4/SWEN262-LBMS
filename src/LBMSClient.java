@@ -14,9 +14,9 @@ public class LBMSClient extends GenUserInterface {
         System.out.println(getBorder());
         System.out.println("Welcome to the LBMS");
         System.out.println("1) Books");
-        System.out.println("2) Stats"); //TODO: Replace dummy options with actual options in menu.
-        System.out.println("3) Dummy Option"); //Do we want to use an array to keep track instead of hard coding?
-        System.out.println("4) Dummy Option");
+        System.out.println("2) Stats for Nerds"); //TODO: Replace dummy options with actual options in menu.
+        System.out.println("3) Visitors"); //Do we want to use an array to keep track instead of hard coding?
+        System.out.println("4) Edit Date");
         System.out.println("5) Quit");
         System.out.println(getBorder());
     }

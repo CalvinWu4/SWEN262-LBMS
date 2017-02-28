@@ -3,8 +3,8 @@ import java.util.Scanner;
 /**
  * Created by Brandon on 2/28/2017.
  */
-public class StatsExchange extends Exchange {
-    StatsExchange(){
+public class DateExchange extends Exchange{
+    DateExchange(){
         Scanner userInput = new Scanner(System.in);
         sendRequest(userInput);
     }
@@ -21,30 +21,30 @@ public class StatsExchange extends Exchange {
 
     @Override
     public void interpret(String request){
-        StatsClient freshStatsClient;
+        DateClient freshDateClient;
         switch (request){
             case "1":
                 LBMSClient switchToLBMSClient = new LBMSClient();
                 break;
             case "2":
                 System.out.println("Command not Implemented");
-                freshStatsClient = new StatsClient();
+                freshDateClient = new DateClient();
                 break;
             case "3":
                 System.out.println("Command not Implemented");
-                freshStatsClient = new StatsClient();
+                freshDateClient = new DateClient();
                 break;
             case "4":
                 System.out.println("Command not Implemented");
-                freshStatsClient = new StatsClient();
+                freshDateClient = new DateClient();
                 break;
             case "5":
                 System.out.println("Command not Implemented");
-                freshStatsClient = new StatsClient();
+                freshDateClient = new DateClient();
                 break;
             default:
                 System.out.println("Invalid Command.");
-                freshStatsClient = new StatsClient();
+                freshDateClient = new DateClient();
                 break;
         }
     } //TODO: Interpret numerical command to switch between clients
