@@ -1,18 +1,16 @@
 /**
- * Created by Brandon on 2/27/2017.
+ * Created by Brandon on 2/28/2017.
  */
-
-public class LBMSClient extends GenUserInterface {
-
-    public LBMSClient(){
+public class BookClient extends GenUserInterface {
+    public BookClient(){
         printUI();
-        LBMSExchange newExchange = new LBMSExchange();
+        BookExchange newExchange = new BookExchange();
     }
 
     @Override
     public void printUI() {
         System.out.println(getBorder());
-        System.out.println("1) Books");
+        System.out.println("1) Back");
         System.out.println("2) Dummy Option"); //TODO: List actual options in menu.
         System.out.println("3) Dummy Option"); //Do we want to use an array to keep track instead of hard coding?
         System.out.println("4) Dummy Option");
@@ -20,8 +18,4 @@ public class LBMSClient extends GenUserInterface {
         System.out.println(getBorder());
     }
 
-    public static void main(String[] args) {
-        LBMSClient testPrint = new LBMSClient();
-
-    }
 }

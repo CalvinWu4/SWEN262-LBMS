@@ -1,19 +1,18 @@
-/**
- * Created by Brandon on 2/27/2017.
- */
-
 import java.util.Scanner;
 
-public class LBMSExchange extends Exchange {
+/**
+ * Created by Brandon on 2/28/2017.
+ */
 
-    public LBMSExchange() {
+public class BookExchange extends Exchange {
+    public BookExchange(){
         Scanner userInput = new Scanner(System.in);
         sendRequest(userInput);
     }
 
-    private void sendRequest(Scanner userInput) { //Retrieves user input and send it to parse().
+    private void sendRequest(Scanner userInput){ //Retrieves user input and send it to parse().
         String userLine = "";
-        while (!getIsComplete()) {
+        while (!getIsComplete()){
             System.out.print("~");
             userLine += userInput.next();
             parse(userLine);
@@ -22,10 +21,10 @@ public class LBMSExchange extends Exchange {
     }
 
     @Override
-    public void interpret(String request) {
-        switch (request) {
+    public void interpret(String request){
+        switch (request){
             case "1":
-                BookClient switchToBookClient = new BookClient();
+                LBMSClient switchToLBMSClient = new LBMSClient();
                 break;
             case "2":
                 System.out.println("Command not Implemented");
@@ -39,6 +38,6 @@ public class LBMSExchange extends Exchange {
             case "5":
                 System.out.println("Command not Implemented");
                 break;
-        } //TODO: Interpret numerical command to switch between clients
-    }
+        }
+    } //TODO: Interpret numerical command to switch between clients
 }
