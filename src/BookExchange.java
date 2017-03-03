@@ -14,7 +14,7 @@ public class BookExchange extends Exchange {
         String userLine = "";
         while (!getIsComplete()){
             System.out.print("~");
-            userLine += userInput.next();
+            userLine += userInput.nextLine();
             parse(userLine);
         }
         interpret(getExchange());
