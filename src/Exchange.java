@@ -1,5 +1,5 @@
 /**
- * Created by Brandon on 2/27/2017.
+ * Created by Brandon and Kevin on 2/27/2017.
  */
 
 import java.util.Scanner;
@@ -8,8 +8,8 @@ public abstract class Exchange {
 
     private boolean isComplete;
     private boolean isExecuted;
-    private CompleteRequest completeRequest = new CompleteRequest();
-    private PartialRequest partialRequest = new PartialRequest();
+
+    private String request = "";
 
     Exchange(){
         isComplete = false;
@@ -36,36 +36,26 @@ public abstract class Exchange {
             if(StringParser.hasNext(";")){
                 StringParser.close();
                 isComplete = true;
-                completeRequest.setExchange(completeUserLine, partialRequest.getExchange());
+                request = completeUserLine;
                 return;
             }
             else{
                 completeUserLine += StringParser.next();
+                request = completeUserLine;
             }
         }
 
-        completeUserLine = "";
         StringParser.close();
 
-        if(partialRequest.getExchange() != null) {
-            partialRequest.setExchange(completeUserLine, partialRequest.getExchange());
-        }
-        else{
-            partialRequest.setExchange(completeUserLine);
-        }
     }
 
     public void interpret(String request){};
     //TODO: Implemented by the several exchange subclasses. Checks to see if command is valid and how to execute it.
 
+
     //Checks to see if the current command has been completed or not, then returns the command.
     String getExchange(){
-        if(completeRequest.getExchange().isEmpty()){
-            return partialRequest.getExchange();
-        }
-        else{
-            return completeRequest.getExchange();
-        }
-    };
+        return request;
+    }
 
 }
