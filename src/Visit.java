@@ -4,43 +4,36 @@ import java.util.Date;
  * Created by Calvin on 3/5/2017.
  */
 public class Visit {
-    private int isbn;
     private int visitorId;
-    private Date dateBorrowed;
-    private Date dueDate;
+    private Date arrival;
+    private Date departure;
 
-    Visit(int isbn, int visitorID, Date dateBorrowed, Date dueDate){
-        this.isbn = isbn;
-        this.visitorId = visitorID;
-        this.dateBorrowed = dateBorrowed;
-        this.dueDate = dueDate;
+
+    Visit(int visitorId, Date arrival, Date departure){
+        this.visitorId = visitorId;
+        this.arrival = arrival;
+        this.departure = departure;
     }
 
     // Setters
-    public void setIsbn(){
-        this.isbn = isbn;
-    }
     public void setVisitorID(){
         this.visitorId = visitorId;
     }
-    public void setDateBorrowed(){
-        this.dateBorrowed = dateBorrowed;
+    public void setArrival(){
+        this.arrival = arrival;
     }
-    public void setDueDate(){
-        this.dueDate = dueDate;
+    public void setDeparture(){
+        this.departure = departure;
     }
 
     // Getters
-    public int getIsbn(){
-        return this.isbn;
-    }
     public int getVisitorID(){
         return this.visitorId;
     }
-    public Date getDateBorrowed(){
-        return this.dateBorrowed;
+    public Date getArrival(){
+        return this.arrival;
     }
-    public Date getDueDate(){
-        return this.dueDate;
+    public Date getDeparture(){
+        return this.departure;
     }
 }
