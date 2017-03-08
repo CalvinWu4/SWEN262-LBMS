@@ -49,6 +49,8 @@ public abstract class Exchange {
 
     }
 
+
+
     public void interpret(String request){};
     //TODO: Implemented by the several exchange subclasses. Checks to see if command is valid and how to execute it.
 

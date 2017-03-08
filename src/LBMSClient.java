@@ -5,6 +5,7 @@
 public class LBMSClient extends GenUserInterface {
 
     LBMSClient(){
+        printUI();
         LBMSExchange newExchange = new LBMSExchange();
     }
 
