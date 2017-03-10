@@ -23,6 +23,5 @@ public class LBMSClient extends GenUserInterface {
 
     public static void main(String[] args) {
         LBMSClient testPrint = new LBMSClient();
-
     }
 }

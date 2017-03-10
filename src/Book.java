@@ -12,15 +12,17 @@ public class Book {
     private Date publishedDate;
     private int totalNumCopies;
     private int numAvailableCopies;
+    private boolean availability;
 
-    public Book(int _isbn, String _title, ArrayList<String> _authors, String _publisher, Date _publishedDate, int _totalNumCopies, int _numAvailableCopies){
-        isbn = _isbn;
-        title = _title;
-        authors = _authors;
-        publisher = _publisher;
-        publishedDate = _publishedDate;
-        totalNumCopies = _totalNumCopies;
-        numAvailableCopies = _numAvailableCopies;
+    public Book(int _isbn, String _title, ArrayList<String> _authors, String _publisher, Date _publishedDate, int _totalNumCopies, int _numAvailableCopies, boolean _availability){
+        this.isbn = _isbn;
+        this.title = _title;
+        this.authors = _authors;
+        this.publisher = _publisher;
+        this.publishedDate = _publishedDate;
+        this.totalNumCopies = _totalNumCopies;
+        this.numAvailableCopies = _numAvailableCopies;
+        this.availability = _availability;
     }
 
     public int getIsbn(){
@@ -29,8 +31,13 @@ public class Book {
     public String getTitle(){
         return title;
     }
-    public ArrayList<String> getAuthors(){
-        return authors;
+    public String getAuthors(){
+        String auths = "";
+        for(String author : authors){
+            auths += author+", ";
+        }
+        auths = auths.replaceAll(", $","");
+        return auths;
     }
     public String getPublisher(){
         return publisher;
@@ -44,26 +51,32 @@ public class Book {
     public int getNumAvailableCopies(){
         return numAvailableCopies;
     }
+    public boolean isAvailable() {
+        return availability;
+    }
 
     public void setIsbn(int _isbn){
-        isbn = _isbn;
+        this.isbn = _isbn;
     }
     public void setTitle(String _title){
-        title = _title;
+        this.title = _title;
     }
     public void setAuthors(ArrayList<String> _authors){
-        authors = _authors;
+        this.authors = _authors;
     }
     public void setPublisher(String _publisher){
-        publisher = _publisher;
+        this.publisher = _publisher;
     }
     public void setPublishedDate(Date _publishedDate){
-        publishedDate = _publishedDate;
+        this.publishedDate = _publishedDate;
     }
     public void setTotalNumCopies(int _totalNumCopies){
-        totalNumCopies = _totalNumCopies;
+        this.totalNumCopies = _totalNumCopies;
     }
-    public  void setNumAvailableCopies(int _numAvailableCopies){
-        numAvailableCopies = _numAvailableCopies;
+    public void setNumAvailableCopies(int _numAvailableCopies){
+        this.numAvailableCopies = _numAvailableCopies;
+    }
+    public void setAvailability(boolean _availability) {
+        this.availability = _availability;
     }
 }
