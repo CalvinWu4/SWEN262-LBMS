@@ -1,3 +1,7 @@
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  * Created by Calvin on 3/5/2017.
  */
@@ -7,6 +11,7 @@ public class Visitor {
     private String address;
     private Integer phone;
     private Integer id;
+    private ArrayList<Visit> visits;
 
     Visitor(String firstName, String lastName, String address, int phone, int id){
         this.firstName = firstName;
@@ -14,6 +19,10 @@ public class Visitor {
         this.address = address;
         this.phone = phone;
         this.id = id;
+    }
+
+    public void addVisit(int visitorId, Date arrival, Date departure){
+        new Visit(visitorId, arrival, departure);
     }
 
     // Setters
@@ -29,7 +38,7 @@ public class Visitor {
     public void setPhone(int phone){
         this.phone = phone;
     }
-    public void setID(int ID){
+    public void setId(int id){
         this.id = id;
     }
 
@@ -46,7 +55,7 @@ public class Visitor {
     public int getPhone(){
         return this.phone;
     }
-    public int getID(){
+    public int getId(){
         return this.id;
     }
 }
