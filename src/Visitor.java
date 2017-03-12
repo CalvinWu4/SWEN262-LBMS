@@ -10,10 +10,10 @@ public class Visitor {
     private String lastName;
     private String address;
     private Integer phone;
-    private Integer id;
+    private String id;
     private ArrayList<Visit> visits;
 
-    Visitor(String firstName, String lastName, String address, int phone, int id){
+    Visitor(String firstName, String lastName, String address, int phone, String id){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -34,7 +34,7 @@ public class Visitor {
     public void setPhone(int phone){
         this.phone = phone;
     }
-    public void setId(int id){
+    public void setId(String id){
         this.id = id;
     }
     public void setVisits (ArrayList<Visit> visitArrayList){
@@ -54,7 +54,7 @@ public class Visitor {
     public int getPhone(){
         return this.phone;
     }
-    public int getId(){
+    public String getId(){
         return this.id;
     }
     public ArrayList<Visit> getVisits (){
