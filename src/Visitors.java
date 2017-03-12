@@ -11,12 +11,22 @@ public class Visitors {
     private static int count;
 
     public void register(String firstName, String lastName, String address, Integer phone){
-        Visitor newVisitor = new Visitor(firstName, lastName, address, phone, count++);
-        visitorHash.put(newVisitor.getId(), newVisitor);
+        Visitor visitor = new Visitor(firstName, lastName, address, phone, count++);
+        visitorHash.put(visitor.getId(), visitor);
     }
 
     public void visit(Integer visitorId){
         Visitor visitor = visitorHash.get(visitorId);
-        visitor.addVisit(visitorId, new Date(),null);
+        Visit visit = new Visit(visitorId, new Date(),null);
+        visitor.getVisits().add(visit);
+    }
+
+    public void leave(Integer visitorId){
+        Visitor visitor = visitorHash.get(visitorId);
+        for (Visit v: visitor.getVisits()) {
+            if(v.getDeparture().equals(null)){
+                v.setDeparture(new Date());
+            }
+        }
     }
 }

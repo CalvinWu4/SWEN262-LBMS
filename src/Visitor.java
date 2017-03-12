@@ -21,10 +21,6 @@ public class Visitor {
         this.id = id;
     }
 
-    public void addVisit(int visitorId, Date arrival, Date departure){
-        new Visit(visitorId, arrival, departure);
-    }
-
     // Setters
     public void setFirstName(String firstName){
         this.firstName = firstName;
@@ -40,6 +36,9 @@ public class Visitor {
     }
     public void setId(int id){
         this.id = id;
+    }
+    public void setVisits (ArrayList<Visit> visitArrayList){
+        this.visits = visits;
     }
 
     // Getters
@@ -57,5 +56,8 @@ public class Visitor {
     }
     public int getId(){
         return this.id;
+    }
+    public ArrayList<Visit> getVisits (){
+        return this.visits;
     }
 }

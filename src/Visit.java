@@ -4,31 +4,31 @@ import java.util.Date;
  * Created by Calvin on 3/5/2017.
  */
 public class Visit {
-    private int visitorId;
+    private int visitId;
     private Date arrival;
     private Date departure;
 
 
-    Visit(int visitorId, Date arrival, Date departure){
-        this.visitorId = visitorId;
+    Visit(int visitId, Date arrival, Date departure){
+        this.visitId = visitId;
         this.arrival = arrival;
         this.departure = departure;
     }
 
     // Setters
-    public void setVisitorID(){
-        this.visitorId = visitorId;
+    public void setVisitorID(int visitorID){
+        this.visitId = visitId;
     }
-    public void setArrival(){
+    public void setArrival(Date arrival){
         this.arrival = arrival;
     }
-    public void setDeparture(){
+    public void setDeparture(Date departure){
         this.departure = departure;
     }
 
     // Getters
     public int getVisitorID(){
-        return this.visitorId;
+        return this.visitId;
     }
     public Date getArrival(){
         return this.arrival;
