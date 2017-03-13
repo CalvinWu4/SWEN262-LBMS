@@ -1,31 +1,31 @@
-import java.util.Date;
+import java.time.LocalTime;
 
 /**
  * Created by Calvin on 3/5/2017.
  */
 public class Visit {
-    private Date arrival;
-    private Date departure;
+    private LocalTime arrival;
+    private LocalTime departure;
 
 
-    Visit(int visitId, Date arrival, Date departure){
+    Visit(int visitId, LocalTime arrival, LocalTime departure){
         this.arrival = arrival;
         this.departure = departure;
     }
 
     // Setters
-    public void setArrival(Date arrival){
+    public void setArrival(LocalTime arrival){
         this.arrival = arrival;
     }
-    public void setDeparture(Date departure){
+    public void setDeparture(LocalTime departure){
         this.departure = departure;
     }
 
     // Getters
-    public Date getArrival(){
+    public LocalTime getArrival(){
         return this.arrival;
     }
-    public Date getDeparture(){
+    public LocalTime getDeparture(){
         return this.departure;
     }
 }

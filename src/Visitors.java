@@ -1,7 +1,5 @@
-import javax.lang.model.type.NullType;
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalTime;
 import java.util.HashMap;
 
 /**
@@ -10,10 +8,10 @@ import java.util.HashMap;
 public class Visitors {
     private HashMap<String, Visitor> visitorHash = new HashMap<>();
     private static Integer count;
-    DecimalFormat df = new DecimalFormat("0000000000"); // 10 zeroes
+    DecimalFormat tenDigit = new DecimalFormat("0000000000");
 
     public void register(String firstName, String lastName, String address, Integer phone){
-        String visitorId = df.format(count);
+        String visitorId = tenDigit.format(count);
         Visitor visitor = new Visitor(firstName, lastName, address, phone, visitorId);
         visitorHash.put(visitor.getId(), visitor);
         count++;
@@ -21,15 +19,17 @@ public class Visitors {
 
     public void visit(Integer visitorId){
         Visitor visitor = visitorHash.get(visitorId);
-        Visit visit = new Visit(visitorId, new Date(),null);
+        LocalTime localTime = LocalTime.now();
+        Visit visit = new Visit(visitorId, localTime,null);
         visitor.getVisits().add(visit);
     }
 
     public void leave(Integer visitorId){
         Visitor visitor = visitorHash.get(visitorId);
         for (Visit v: visitor.getVisits()) {
-            if(v.getDeparture().equals(null)){
-                v.setDeparture(new Date());
+            if(v.getDeparture() == null){
+                LocalTime localTime = LocalTime.now();
+                v.setDeparture(localTime);
             }
         }
     }

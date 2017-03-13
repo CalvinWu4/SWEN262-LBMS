@@ -13,9 +13,9 @@ public class VisitorClient extends GenUserInterface {
         System.out.println(getBorder());
         System.out.println("Visitors");
         System.out.println("1) Back");
-        System.out.println("2) Dummy Option"); //TODO: List actual options in menu.
-        System.out.println("3) Dummy Option"); //Do we want to use an array to keep track instead of hard coding?
-        System.out.println("4) Dummy Option");
+        System.out.println("2) Register a New Visitor");
+        System.out.println("3) Record a Visit");
+        System.out.println("4) Record a Departure");
         System.out.println("5) Dummy Option");
         System.out.println(getBorder());
     }

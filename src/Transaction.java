@@ -1,4 +1,4 @@
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Created by Calvin on 3/5/2017.
@@ -6,10 +6,10 @@ import java.util.Date;
 public class Transaction {
     private int isbn;
     private int visitorId;
-    private Date dateBorrowed;
-    private Date dueDate;
+    private LocalDate dateBorrowed;
+    private LocalDate dueDate;
 
-    Transaction(int isbn, int visitorID, Date dateBorrowed, Date dueDate){
+    Transaction(int isbn, int visitorID, LocalDate dateBorrowed, LocalDate dueDate){
         this.isbn = isbn;
         this.visitorId = visitorID;
         this.dateBorrowed = dateBorrowed;
@@ -37,10 +37,10 @@ public class Transaction {
     public int getVisitorID(){
         return this.visitorId;
     }
-    public Date getDateBorrowed(){
+    public LocalDate getDateBorrowed(){
         return this.dateBorrowed;
     }
-    public Date getDueDate(){
+    public LocalDate getDueDate(){
         return this.dueDate;
     }
 }
