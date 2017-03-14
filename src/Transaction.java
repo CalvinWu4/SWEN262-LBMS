@@ -4,24 +4,24 @@ import java.time.LocalDate;
  * Created by Calvin on 3/5/2017.
  */
 public class Transaction {
-    private int isbn;
-    private int visitorId;
+    private Book book;
+    private Visitor visitor;
     private LocalDate dateBorrowed;
     private LocalDate dueDate;
 
-    Transaction(int isbn, int visitorID, LocalDate dateBorrowed, LocalDate dueDate){
-        this.isbn = isbn;
-        this.visitorId = visitorID;
+    Transaction(Book book, Visitor visitor, LocalDate dateBorrowed, LocalDate dueDate){
+        this.book = book;
+        this.visitor = visitor;
         this.dateBorrowed = dateBorrowed;
         this.dueDate = dueDate;
     }
 
     // Setters
     public void setIsbn(){
-        this.isbn = isbn;
+        this.book = book;
     }
     public void setVisitorID(){
-        this.visitorId = visitorId;
+        this.visitor = visitor;
     }
     public void setDateBorrowed(){
         this.dateBorrowed = dateBorrowed;
@@ -31,11 +31,11 @@ public class Transaction {
     }
 
     // Getters
-    public int getIsbn(){
-        return this.isbn;
+    public Book getIsbn(){
+        return this.book;
     }
-    public int getVisitorID(){
-        return this.visitorId;
+    public Visitor getVisitorID(){
+        return this.visitor;
     }
     public LocalDate getDateBorrowed(){
         return this.dateBorrowed;

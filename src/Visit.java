@@ -8,7 +8,7 @@ public class Visit {
     private LocalTime departure;
 
 
-    Visit(int visitId, LocalTime arrival, LocalTime departure){
+    Visit(LocalTime arrival, LocalTime departure){
         this.arrival = arrival;
         this.departure = departure;
     }

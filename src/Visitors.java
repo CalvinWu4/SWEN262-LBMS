@@ -17,15 +17,13 @@ public class Visitors {
         count++;
     }
 
-    public void visit(Integer visitorId){
-        Visitor visitor = visitorHash.get(visitorId);
+    public void visit(Visitor visitor){
         LocalTime localTime = LocalTime.now();
-        Visit visit = new Visit(visitorId, localTime,null);
+        Visit visit = new Visit(localTime, null);
         visitor.getVisits().add(visit);
     }
 
-    public void leave(Integer visitorId){
-        Visitor visitor = visitorHash.get(visitorId);
+    public void leave(Visitor visitor){
         for (Visit v: visitor.getVisits()) {
             if(v.getDeparture() == null){
                 LocalTime localTime = LocalTime.now();
