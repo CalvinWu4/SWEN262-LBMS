@@ -56,7 +56,7 @@ public class View {
         MenuOption back = new MenuOption("1","Go Back",0);
 
         //Dummy option for the other clients
-        MenuOption dummy = new MenuOption("2","Dummy Option",10);
+        MenuOption dummy = new MenuOption("2","Dummy Option",0);
 
         //Books
         TreeMap<String,MenuOption> BookOptions =  new TreeMap<>();

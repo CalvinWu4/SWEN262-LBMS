@@ -99,7 +99,6 @@ public final class Exchange {
     static public void interpret(String request){
         String[] query = request.split(",");
         String mainTrigger = query[0];
-
         if(options.get(mainTrigger) != null){
             options.get(mainTrigger).execute();
             isExecuted = true;
@@ -110,7 +109,7 @@ public final class Exchange {
 
         }
 
-    };
+    }
 
 
 

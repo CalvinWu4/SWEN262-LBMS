@@ -32,8 +32,6 @@ public class Command {
             System.out.println(args[i].getClass());
             argTypes[i] = args[i].getClass();
         }
-        System.out.println(action);
-        System.out.println(objectClass);
         try {
             this.action = objectClass.getMethod(action,View.class);
         } catch (NoSuchMethodException e) {
