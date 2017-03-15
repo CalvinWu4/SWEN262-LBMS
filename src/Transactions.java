@@ -11,5 +11,4 @@ public class Transactions {
         book.setNumAvailableCopies(book.getNumAvailableCopies() + 1);
     }
     // Instantiate fine if overdue
-
 }

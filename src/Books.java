@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,12 +17,17 @@ public class Books {
         ArrayList<String> authors = new ArrayList<>();
         authors.add("testAuthor1");
         authors.add("testAuthor2");
-        Date date = new Date();
-        Book newBook = new Book(1,"Harry Potter and the Deathly Hallows",authors,"publisherName", date,10,5, true);
-        Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,10,5, false);
-        Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors,"publisherName", date,10,5, true);
-        Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName", date,10,5, false);
-        Book newBook3 = new Book(5,"The Hunger Games",authors,"publisherName", date,10,5, true);
+        LocalDate date = LocalDate.now();
+        Book newBook = new Book(1,"Harry Potter and the Deathly Hallows",authors,
+                "publisherName", date,10,5, true);
+        Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,
+                "publisherName", date,10,5, false);
+        Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors,
+                "publisherName", date,10,5, true);
+        Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName",
+                date,10,5, false);
+        Book newBook3 = new Book(5,"The Hunger Games",authors,
+                "publisherName", date,10,5, true);
         //go through file where books for the library are stored and add each book to the "bookHash".\
         bookHash.put(newBook.getIsbn(),newBook);
         bookHash.put(newBook1.getIsbn(),newBook1);
@@ -74,7 +79,7 @@ public class Books {
 
             case "author":
                 for(Book book : bookHash.values()){
-                    String author = book.getAuthors();
+                    String author = book.getAuthors2();
                     Pattern pattern = Pattern.compile(_query);
                     Matcher matcher = pattern.matcher(author);
                     if(matcher.find()){
@@ -107,7 +112,9 @@ public class Books {
             PrintWriter pw = new PrintWriter(fw,true);
 
             for(Book book : bookHash.values()){
-                pw.write(book.getIsbn()+",\""+book.getTitle()+"\",\""+book.getAuthors()+"\",\""+book.getPublisher()+"\","+book.getPublishedDate()+","+book.getTotalNumCopies()+","+book.getNumAvailableCopies()+"\n");
+                pw.write(book.getIsbn()+",\""+book.getTitle()+"\",\""+book.getAuthors()+"\",\""+
+                        book.getPublisher()+"\","+book.getPublishedDate()+","+book.getTotalNumCopies()+
+                        ","+book.getNumAvailableCopies()+"\n");
             }
             fw.flush();
             pw.close();
@@ -147,8 +154,8 @@ public class Books {
             if(book.getTitle().length() > titleLength){
                 titleLength = book.getTitle().length();
             }
-            if(book.getAuthors().length() > authorsLength){
-                authorsLength = book.getAuthors().length();
+            if(book.getAuthors2().length() > authorsLength){
+                authorsLength = book.getAuthors2().length();
             }
             if(book.getPublisher().length() > publisherLength){
                 publisherLength = book.getPublisher().length();
@@ -222,12 +229,16 @@ public class Books {
         }
 
         System.out.println(line);
-        System.out.format("|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+publisherLength+"s|%-"+dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n","ISBN","Book Title", "Author(s)", "Publisher", "Date Published", "Total # Of Copies", "# Of AvailableCopies");
+        System.out.format("|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+publisherLength+"s|%-"+
+                dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n","ISBN","Book Title", "Author(s)",
+                "Publisher", "Date Published", "Total # Of Copies", "# Of AvailableCopies");
         System.out.println(line);
         for(Book book: _books){
-            System.out.format("|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+publisherLength+"s|%-"+dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n",book.getIsbn(),book.getTitle(), book.getAuthors(), book.getPublisher(), book.getPublishedDate(), book.getTotalNumCopies(), book.getNumAvailableCopies());
+            System.out.format("|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+publisherLength+
+                    "s|%-"+dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n",book.getIsbn(),book.getTitle(),
+                    book.getAuthors(), book.getPublisher(), book.getPublishedDate(), book.getTotalNumCopies(),
+                    book.getNumAvailableCopies());
         }
         System.out.println(line);
     }
-
 }

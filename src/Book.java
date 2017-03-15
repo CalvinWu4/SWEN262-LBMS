@@ -1,20 +1,21 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Anthony Perez on 3/5/17.
  */
 public class Book {
-    private int isbn;
+    private Integer isbn;
     private String title;
     private ArrayList<String> authors;
     private String publisher;
-    private Date publishedDate;
-    private int totalNumCopies;
-    private int numAvailableCopies;
+    private LocalDate publishedDate;
+    private Integer totalNumCopies;
+    private Integer numAvailableCopies;
     private boolean availability;
 
-    public Book(int _isbn, String _title, ArrayList<String> _authors, String _publisher, Date _publishedDate, int _totalNumCopies, int _numAvailableCopies, boolean _availability){
+    public Book(Integer _isbn, String _title, ArrayList<String> _authors, String _publisher, LocalDate _publishedDate,
+                Integer _totalNumCopies, Integer _numAvailableCopies, boolean _availability){
         this.isbn = _isbn;
         this.title = _title;
         this.authors = _authors;
@@ -25,13 +26,16 @@ public class Book {
         this.availability = _availability;
     }
 
-    public int getIsbn(){
+    public Integer getIsbn(){
         return isbn;
     }
     public String getTitle(){
         return title;
     }
-    public String getAuthors(){
+    public ArrayList<String> getAuthors(){
+        return authors;
+    }
+    public String getAuthors2(){
         String auths = "";
         for(String author : authors){
             auths += author+", ";
@@ -42,20 +46,20 @@ public class Book {
     public String getPublisher(){
         return publisher;
     }
-    public Date getPublishedDate(){
+    public LocalDate getPublishedDate(){
         return publishedDate;
     }
-    public int getTotalNumCopies(){
+    public Integer getTotalNumCopies(){
         return totalNumCopies;
     }
-    public int getNumAvailableCopies(){
+    public Integer getNumAvailableCopies(){
         return numAvailableCopies;
     }
     public boolean isAvailable() {
         return availability;
     }
 
-    public void setIsbn(int _isbn){
+    public void setIsbn(Integer _isbn){
         this.isbn = _isbn;
     }
     public void setTitle(String _title){
@@ -67,7 +71,7 @@ public class Book {
     public void setPublisher(String _publisher){
         this.publisher = _publisher;
     }
-    public void setPublishedDate(Date _publishedDate){
+    public void setPublishedDate(LocalDate _publishedDate){
         this.publishedDate = _publishedDate;
     }
     public void setTotalNumCopies(int _totalNumCopies){
