@@ -4,24 +4,24 @@ import java.util.HashMap;
 /**
  * Created by cxw7054 on 3/10/2017.
  */
-public class Visitors {
-    private HashMap<String, Visitor> visitorHash = new HashMap<>();
+public final class Visitors {
+    private static HashMap<String, Visitor> visitorHash = new HashMap<>();
     private static Integer count;
-    DecimalFormat tenDigit = new DecimalFormat("0000000000");
+    static DecimalFormat tenDigit = new DecimalFormat("0000000000");
 
-    public void register(String firstName, String lastName, String address, Integer phone){
+    public static void register(String firstName, String lastName, String address, Integer phone){
         String visitorId = tenDigit.format(count);
         Visitor visitor = new Visitor(firstName, lastName, address, phone, visitorId);
         visitorHash.put(visitor.getId(), visitor);
         count++;
     }
 
-    public void visit(Visitor visitor){
+    public static void visit(Visitor visitor){
         Visit visit = new Visit(visitor.getId(), Time.getDate(), Time.getTime(), null);
         visitor.getVisits().add(visit);
     }
 
-    public void leave(Visitor visitor){
+    public static void leave(Visitor visitor){
         for (Visit v: visitor.getVisits()) {
             if(v.getDeparture() == null){
                 v.setDeparture(Time.getTime());
@@ -29,7 +29,7 @@ public class Visitors {
         }
     }
 
-    public HashMap<String, Visitor> getvisitorHash(){
+    public static HashMap<String, Visitor> getVisitorHash(){
         return visitorHash;
     }
 }

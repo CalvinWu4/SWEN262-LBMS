@@ -55,7 +55,7 @@ public class Visitor {
     public String getId(){
         return this.id;
     }
-    public ArrayList<Visit> getVisits (){
+    public ArrayList<Visit> getVisits(){
         return this.visits;
     }
 }
