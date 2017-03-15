@@ -1,5 +1,4 @@
 import java.text.DecimalFormat;
-import java.time.LocalTime;
 import java.util.HashMap;
 
 /**
@@ -18,17 +17,19 @@ public class Visitors {
     }
 
     public void visit(Visitor visitor){
-        LocalTime localTime = LocalTime.now();
-        Visit visit = new Visit(localTime, null);
+        Visit visit = new Visit(visitor.getId(), Time.getDate(), Time.getTime(), null);
         visitor.getVisits().add(visit);
     }
 
     public void leave(Visitor visitor){
         for (Visit v: visitor.getVisits()) {
             if(v.getDeparture() == null){
-                LocalTime localTime = LocalTime.now();
-                v.setDeparture(localTime);
+                v.setDeparture(Time.getTime());
             }
         }
+    }
+
+    public HashMap<String, Visitor> getvisitorHash(){
+        return visitorHash;
     }
 }
