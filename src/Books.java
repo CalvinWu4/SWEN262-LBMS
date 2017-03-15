@@ -18,17 +18,17 @@ public class Books {
         authors.add("testAuthor1");
         authors.add("testAuthor2");
         LocalDate date = LocalDate.now();
-        Book newBook = new Book(1,"Harry Potter and the Deathly Hallows",authors,
-                "publisherName", date,10,5, true);
-        Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,
-                "publisherName", date,10,5, false);
-        Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors,
-                "publisherName", date,10,5, true);
-        Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName",
-                date,10,5, false);
-        Book newBook3 = new Book(5,"The Hunger Games",authors,
-                "publisherName", date,10,5, true);
+        Book newBook = new Book(1,1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,10,5, true, date);
+        Book newBook4 = new Book(2,2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,10,5, false, date);
+        Book newBook1 = new Book(3,3,"Catching Fire (The Second Book of the Hunger Games)",authors,"publisherName", date,10,5, true, date);
+        Book newBook2 = new Book(4,4,"Harry Potter Coloring Book",authors,"publisherName", date,10,5, true, date);
+        Book newBook3 = new Book(5, 5,"The Hunger Games",authors,"publisherName", date,10,5, true, date);
         //go through file where books for the library are stored and add each book to the "bookHash".\
+        LocalDate pastDate = LocalDate.now();
+        //pastDate = pastDate.minusDays(1);
+        pastDate = pastDate.minusWeeks(2);
+        newBook4.setDueDate(pastDate);
+
         bookHash.put(newBook.getIsbn(),newBook);
         bookHash.put(newBook1.getIsbn(),newBook1);
         bookHash.put(newBook2.getIsbn(),newBook2);
@@ -48,8 +48,8 @@ public class Books {
             System.out.println("Error reading the file");
         }
 
-        //display();
-        search("Harry Potter","title");
+        display();
+        //search("Harry Potter","title");
         //saveToFile();
         //displayAvailable();
     }
@@ -58,6 +58,7 @@ public class Books {
         ArrayList<Book> books = new ArrayList<>();
         for(Book book : bookHash.values()){
             books.add(book);
+            System.out.println("Book fee cost: "+book.calculateFee());
         }
         bookPrint(books);
     }
@@ -141,7 +142,7 @@ public class Books {
         int titleLength = 0;
         int authorsLength = 0;
         int publisherLength = 0;
-        int dateLength = 0;
+        int dateLength = 14;
         int numOfCopies = 17;
         int availableCopies = 20;
 
@@ -241,4 +242,5 @@ public class Books {
         }
         System.out.println(line);
     }
+
 }
