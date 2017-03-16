@@ -12,15 +12,8 @@ public class publishedDateQuery implements BookQuery {
         ArrayList<Book> newBooks = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
         for(Book book: books){
-            try {
-                String formattedString = book.getPublishedDate().format(formatter);
-                if(formattedString.equals(searchParam)){
-                    newBooks.add(book);
-                }
-            }
-            catch(DateTimeParseException exc){
-                System.out.printf("%s is not parsable!%n", searchParam);
-                throw exc;
+            if(DateToString.convert(book.getPublishedDate()).equals(searchParam)){
+                newBooks.add(book);
             }
         }
         return newBooks;

@@ -17,16 +17,16 @@ public class Transaction {
     }
 
     // Setters
-    public void setIsbn(){
+    public void setIsbn(Integer isbn){
         this.book = book;
     }
-    public void setVisitorID(){
+    public void setVisitorID(String visitorID){
         this.visitor = visitor;
     }
-    public void setDateBorrowed(){
+    public void setDateBorrowed(LocalDate dateBorrowed){
         this.dateBorrowed = dateBorrowed;
     }
-    public void setDueDate(){
+    public void setDueDate(LocalDate dueDate){
         this.dueDate = dueDate;
     }
 

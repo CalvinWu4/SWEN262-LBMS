@@ -10,21 +10,40 @@ public final class Visitors {
     static DecimalFormat tenDigit = new DecimalFormat("0000000000");
 
     public static void register(String firstName, String lastName, String address, Integer phone){
+        for(Visitor visitor: Visitors.visitorHash.values()) {
+            if (visitor.getFirstName().equals(firstName) && visitor.getLastName().equals(lastName) &&
+                    visitor.getAddress().equals(address) && visitor.getPhone().equals(phone)) {
+                System.out.println("A visitor with the same name, address, and phone number is already registered.\n");
+                break;
+            }
+        }
         String visitorId = tenDigit.format(count);
-        Visitor visitor = new Visitor(firstName, lastName, address, phone, visitorId);
-        visitorHash.put(visitor.getId(), visitor);
+        Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId);
+        visitorHash.put(newVisitor.getId(), newVisitor);
         count++;
+        System.out.println("Visitor ID:"+ visitorId + " has been registered on " + DateToString.convert(Time.getDate()) + ".");
     }
 
-    public static void visit(Visitor visitor){
-        Visit visit = new Visit(visitor.getId(), Time.getDate(), Time.getTime(), null);
-        visitor.getVisits().add(visit);
+    public static void visit(String visitorID){
+        Visitor visitor = visitorHash.get(visitorID);
+        if(visitor == null){
+
+        }
+        for (Visit visit: visitor.getVisits()) {
+            if(visit.getDeparture() == null){
+                System.out.println("A visitor with the id is already visiting the library.");
+                break;
+            }
+        }
+        Visit newVisit = new Visit(visitor.getId(), Time.getDate(), Time.getTime(), null);
+        visitor.getVisits().add(newVisit);
     }
 
-    public static void leave(Visitor visitor){
-        for (Visit v: visitor.getVisits()) {
-            if(v.getDeparture() == null){
-                v.setDeparture(Time.getTime());
+    public static void leave(String visitorID){
+        Visitor visitor = visitorHash.get(visitorID);
+        for (Visit visit: visitor.getVisits()) {
+            if(visit.getDeparture() == null){
+                visit.setDeparture(Time.getTime());
             }
         }
     }

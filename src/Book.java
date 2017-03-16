@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
@@ -14,13 +15,14 @@ public class Book {
     private LocalDate publishedDate;
     private Integer totalNumCopies;
     private Integer numAvailableCopies;
+    private Integer pageCount;
     private boolean availability;
     private LocalDate purchasingDate;
-    private LocalDate borrowedDate;
-    private LocalDate dueDate;
-    private Fine fine;
+    //private Fine fine; Put this in transaction
 
-    public Book(Integer _bookId, Integer _isbn, String _title, ArrayList<String> _authors, String _publisher, LocalDate _publishedDate, Integer _totalNumCopies, int _numAvailableCopies, boolean _availability, LocalDate _purchasingDate){
+    public Book(Integer _bookId, Integer _isbn, String _title, ArrayList<String> _authors, String _publisher,
+                LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies,
+                boolean _availability, LocalDate _purchasingDate){
         this.bookId = _bookId;
         this.isbn = _isbn;
         this.title = _title;
@@ -32,7 +34,7 @@ public class Book {
         this.availability = _availability;
         this.purchasingDate = _purchasingDate;
 
-        fine = new Fine();
+        //fine = new Fine();
     }
 
     public Integer getBookId(){
@@ -47,7 +49,7 @@ public class Book {
     public ArrayList<String> getAuthors(){
         return authors;
     }
-    public String getAuthors2(){
+    public String getAuthorsString(){
         String auths = "";
         for(String author : authors){
             auths += author+", ";
@@ -67,19 +69,15 @@ public class Book {
     public Integer getNumAvailableCopies(){
         return numAvailableCopies;
     }
+    public Integer getPageCount(){
+        return pageCount;
+    }
     public boolean isAvailable() {
         return availability;
     }
     public LocalDate getPurchasingDate(){
         return purchasingDate;
     }
-    public LocalDate getBorrowedDate(){
-        return borrowedDate;
-    }
-    public LocalDate getDueDate(){
-        return dueDate;
-    }
-
     public void setBookId(Integer _bookId){
         this.bookId = _bookId;
     }
@@ -98,6 +96,9 @@ public class Book {
     public void setPublishedDate(LocalDate _publishedDate){
         this.publishedDate = _publishedDate;
     }
+    public void setPageCount(Integer _pageCount){
+        this.pageCount = _pageCount;
+    }
     public void setTotalNumCopies(Integer _totalNumCopies){
         this.totalNumCopies = _totalNumCopies;
     }
@@ -110,25 +111,19 @@ public class Book {
     public void setPurchasingDate(LocalDate _purchasingDate){
         this.purchasingDate = _purchasingDate;
     }
-    public void setDateBorrowed(LocalDate _borrowedDate){
-        this.borrowedDate = _borrowedDate;
-    }
-    public void setDueDate(LocalDate _dueDate){
-        this.dueDate = _dueDate;
-    }
-
-    public Integer calculateFee(){
-        if(!(this.isAvailable())){
-            LocalDate present = LocalDate.now();
-            if((present.isBefore(this.getDueDate()))){
-                return fine.getCost();
-            }
-            else{
-                long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
-                fine.addCost(weeksInYear);
-                return fine.getCost();
-            }
-        }
-        return fine.getCost();
-    }
+    /// Put this in Transaction
+//    public Integer calculateFee(){
+//        if(!(this.isAvailable())){
+//            LocalDate present = LocalDate.now();
+//            if((present.isBefore(this.getDueDate()))){
+//                return fine.getCost();
+//            }
+//            else{
+//                long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
+//                fine.addCost(weeksInYear);
+//                return fine.getCost();
+//            }
+//        }
+//        return fine.getCost();
+//    }
 }

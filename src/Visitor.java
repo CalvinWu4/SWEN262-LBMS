@@ -49,7 +49,7 @@ public class Visitor {
     public String getAddress(){
         return this.address;
     }
-    public int getPhone(){
+    public Integer getPhone(){
         return this.phone;
     }
     public String getId(){
