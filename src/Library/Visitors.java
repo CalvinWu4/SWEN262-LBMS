@@ -9,7 +9,7 @@ import java.util.HashMap;
 public final class Visitors {
     private static HashMap<String, Visitor> visitorHash = new HashMap<>();
     private static Integer count;
-    static DecimalFormat tenDigit = new DecimalFormat("0000000000");
+
 
     public static void register(String firstName, String lastName, String address, Integer phone){
         for(Visitor visitor: Visitors.visitorHash.values()) {
@@ -19,6 +19,7 @@ public final class Visitors {
                 break;
             }
         }
+        DecimalFormat tenDigit = new DecimalFormat("0000000000");
         String visitorId = tenDigit.format(count);
         Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId);
         visitorHash.put(newVisitor.getId(), newVisitor);
