@@ -1,12 +1,11 @@
-/**
+package FrontEnd; /**
  * Created by Brandon and Kevin on 2/27/2017.
  */
 
-import java.util.HashMap;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-/** Exchange class reads the user input, interprets the input and executes the selected action
+/** FrontEnd.Exchange class reads the user input, interprets the input and executes the selected action
  *  Uses state design pattern **/
 
 public final class Exchange {
@@ -29,7 +28,7 @@ public final class Exchange {
 
     /**
      * The Std input exchange from the user, it will select from a list of options in a specific format
-     * @param view: View to show if the exchange ends up being invalid.
+     * @param view: FrontEnd.View to show if the exchange ends up being invalid.
      */
     public Exchange(View view){
         preView = view;

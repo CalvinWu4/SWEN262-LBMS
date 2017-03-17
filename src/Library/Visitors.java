@@ -1,3 +1,5 @@
+package Library;
+
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
@@ -7,7 +9,7 @@ import java.util.HashMap;
 public final class Visitors {
     private static HashMap<String, Visitor> visitorHash = new HashMap<>();
     private static Integer count;
-    static DecimalFormat tenDigit = new DecimalFormat("0000000000");
+
 
     public static void register(String firstName, String lastName, String address, Integer phone){
         for(Visitor visitor: Visitors.visitorHash.values()) {
@@ -17,11 +19,12 @@ public final class Visitors {
                 break;
             }
         }
+        DecimalFormat tenDigit = new DecimalFormat("0000000000");
         String visitorId = tenDigit.format(count);
         Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId);
         visitorHash.put(newVisitor.getId(), newVisitor);
         count++;
-        System.out.println("Visitor ID:"+ visitorId + " has been registered on " + DateToString.convert(Time.getDate()) + ".");
+        System.out.println("Library.Visitor ID:"+ visitorId + " has been registered on " + DateToString.convert(Time.getDate()) + ".");
     }
 
     public static void visit(String visitorID){

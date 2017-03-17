@@ -1,19 +1,16 @@
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
+package FrontEnd;
 
 /**
  * Created by Kevin
  *
- * This class is the representation of a Command class in the Command Design Pattern
+ * This class is the representation of a FrontEnd.Command class in the FrontEnd.Command Design Pattern
  */
 public class MenuOption {
 
     /** Message to display **/
     private String message;
 
-    /** Client/View to go to if option is selected **/
+    /** Client/FrontEnd.View to go to if option is selected **/
     private Class<?> client;
 
     /** Size of the arguments accompanied **/

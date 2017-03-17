@@ -1,3 +1,5 @@
+package Query;
+import Library.Book;
 import java.util.ArrayList;
 
 /**
@@ -6,18 +8,18 @@ import java.util.ArrayList;
 public interface BookQuery {
     public ArrayList<Book> search(ArrayList<Book> books, String searchParam);
 // Sort Function
-// public class TitleQuery{
+// public class Query.TitleQuery{
 //
-//    Comparator<Book> TitleComparator = new Comparator<Book>() {
+//    Comparator<Library.Book> TitleComparator = new Comparator<Library.Book>() {
 //
 //        @Override
-//        public int compare(Book book1, Book book2) {
+//        public int compare(Library.Book book1, Library.Book book2) {
 //            return book1.getTitle().compareTo(book2.getTitle());
 //        }
 //    };
 //
 //    @Override
-//    public void sort(ArrayList<Book> books){
+//    public void sort(ArrayList<Library.Book> books){
 //        Collections.sort(books, TitleComparator);
 //    }
 //}

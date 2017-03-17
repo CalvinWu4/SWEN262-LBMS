@@ -1,3 +1,5 @@
+package FrontEnd;
+
 import java.util.*;
 
 /**
@@ -14,7 +16,7 @@ public class View {
     /** The options currently available for the view **/
     private TreeMap<String,MenuOption> options;
 
-    /** The ID of the View **/
+    /** The ID of the FrontEnd.View **/
     private int id;
 
     /** The message of the view to be displayed **/
@@ -31,16 +33,16 @@ public class View {
      *   or
      * Option format : new Option("Trigger keyword or number" , "Name to display" , [list of commands])
      *
-     * View format : new View(OptionsArray, Id of view (eg: LBMS view is 0, Book is 1, etc.), "Header Message")
+     * FrontEnd.View format : new FrontEnd.View(OptionsArray, Id of view (eg: LBMS view is 0, Library.Book is 1, etc.), "Header Message")
      */
     static public void initalizeViews(){
 
         views = new HashMap<>();
         //LBMS view's options
         TreeMap<String,MenuOption> LBMSoptions =  new TreeMap<>();
-        MenuOption books = new MenuOption("1","Books",1);
+        MenuOption books = new MenuOption("1","Library.Books",1);
         MenuOption stats = new MenuOption("2","Stats for Nerds",2);
-        MenuOption visitors = new MenuOption("3","Visitors" ,3);
+        MenuOption visitors = new MenuOption("3","Library.Visitors" ,3);
         MenuOption date = new MenuOption("4","Edit Date", 4);
 
         //Save LMBS options in Map
@@ -58,13 +60,13 @@ public class View {
         //Dummy option for the other clients
         MenuOption dummy = new MenuOption("2","Dummy Option",0);
 
-        //Books
+        //Library.Books
         TreeMap<String,MenuOption> BookOptions =  new TreeMap<>();
         BookOptions.put("1",back);
         BookOptions.put("2",dummy);
         BookOptions.put("3",dummy);
         BookOptions.put("4",dummy);
-        View Books = new View(BookOptions,1,"Books: ");
+        View Books = new View(BookOptions,1,"Library.Books: ");
 
 
         //Stats
@@ -75,10 +77,10 @@ public class View {
         StatsOptions.put("4",dummy);
         View Stats = new View(StatsOptions,2,"Stats: ");
 
-        //Visitors
+        //Library.Visitors
         //Option to go back to the LBMS view
         //TODO add correct commands, so far they just go to the visitors view
-        MenuOption register = new MenuOption("2","Register a New Visitor",3);
+        MenuOption register = new MenuOption("2","Register a New Library.Visitor",3);
         MenuOption record_visit = new MenuOption("3","Record a visit",3);
         MenuOption record_departure = new MenuOption("4","Record a Departure",3);
         TreeMap<String,MenuOption> VisitorOptions =  new TreeMap<>();
@@ -86,7 +88,7 @@ public class View {
         VisitorOptions.put("2",register);
         VisitorOptions.put("3",record_visit);
         VisitorOptions.put("4",record_departure);
-        View Visitors = new View(VisitorOptions,3,"Visitors: ");
+        View Visitors = new View(VisitorOptions,3,"Library.Visitors: ");
 
         //Dates
         TreeMap<String,MenuOption> DateOptions =  new TreeMap<>();
