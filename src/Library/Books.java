@@ -1,3 +1,5 @@
+package Library;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.time.LocalDate;
@@ -18,16 +20,16 @@ public class Books {
         authors.add("testAuthor1");
         authors.add("testAuthor2");
         LocalDate date = LocalDate.now();
-//        Book newBook = new Book(1,1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,10,5, true, date);
-//        Book newBook4 = new Book(2,2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,10,5, false, date);
-//        Book newBook1 = new Book(3,3,"Catching Fire (The Second Book of the Hunger Games)",authors,"publisherName", date,10,5, true, date);
-//        Book newBook2 = new Book(4,4,"Harry Potter Coloring Book",authors,"publisherName", date,10,5, true, date);
-//        Book newBook3 = new Book(5, 5,"The Hunger Games",authors,"publisherName", date,10,5, true, date);
+//        Library.Book newBook = new Library.Book(1,1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,10,5, true, date);
+//        Library.Book newBook4 = new Library.Book(2,2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,10,5, false, date);
+//        Library.Book newBook1 = new Library.Book(3,3,"Catching Fire (The Second Library.Book of the Hunger Games)",authors,"publisherName", date,10,5, true, date);
+//        Library.Book newBook2 = new Library.Book(4,4,"Harry Potter Coloring Library.Book",authors,"publisherName", date,10,5, true, date);
+//        Library.Book newBook3 = new Library.Book(5, 5,"The Hunger Games",authors,"publisherName", date,10,5, true, date);
         //go through file where books for the library are stored and add each book to the "bookHash".\
         LocalDate pastDate = LocalDate.now();
         //pastDate = pastDate.minusDays(1);
         pastDate = pastDate.minusWeeks(2);
-        //newBook4.setDueDate(pastDate); Transaction
+        //newBook4.setDueDate(pastDate); Library.Transaction
 
 //        bookHash.put(newBook.getIsbn(),newBook);
 //        bookHash.put(newBook1.getIsbn(),newBook1);
@@ -58,7 +60,7 @@ public class Books {
         ArrayList<Book> books = new ArrayList<>();
         for(Book book : bookHash.values()){
             books.add(book);
-            //System.out.println("Book fee cost: "+book.calculateFee()); Transaction
+            //System.out.println("Library.Book fee cost: "+book.calculateFee()); Library.Transaction
         }
         bookPrint(books);
     }
@@ -231,7 +233,7 @@ public class Books {
 
         System.out.println(line);
         System.out.format("|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+publisherLength+"s|%-"+
-                dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n","ISBN","Book Title", "Author(s)",
+                dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n","ISBN","Library.Book Title", "Author(s)",
                 "Publisher", "Date Published", "Total # Of Copies", "# Of AvailableCopies");
         System.out.println(line);
         for(Book book: _books){

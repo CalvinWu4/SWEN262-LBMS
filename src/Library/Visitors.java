@@ -1,3 +1,5 @@
+package Library;
+
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
@@ -21,7 +23,7 @@ public final class Visitors {
         Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId);
         visitorHash.put(newVisitor.getId(), newVisitor);
         count++;
-        System.out.println("Visitor ID:"+ visitorId + " has been registered on " + DateToString.convert(Time.getDate()) + ".");
+        System.out.println("Library.Visitor ID:"+ visitorId + " has been registered on " + DateToString.convert(Time.getDate()) + ".");
     }
 
     public static void visit(String visitorID){

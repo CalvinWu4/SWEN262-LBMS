@@ -1,3 +1,5 @@
+package Library;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -18,7 +20,7 @@ public class Book {
     private Integer pageCount;
     private boolean availability;
     private LocalDate purchasingDate;
-    //private Fine fine; Put this in transaction
+    //private Library.Fine fine; Put this in transaction
 
     public Book(Integer _bookId, Integer _isbn, String _title, ArrayList<String> _authors, String _publisher,
                 LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies,
@@ -34,7 +36,7 @@ public class Book {
         this.availability = _availability;
         this.purchasingDate = _purchasingDate;
 
-        //fine = new Fine();
+        //fine = new Library.Fine();
     }
 
     public Integer getBookId(){
@@ -111,7 +113,7 @@ public class Book {
     public void setPurchasingDate(LocalDate _purchasingDate){
         this.purchasingDate = _purchasingDate;
     }
-    /// Put this in Transaction
+    /// Put this in Library.Transaction
 //    public Integer calculateFee(){
 //        if(!(this.isAvailable())){
 //            LocalDate present = LocalDate.now();
