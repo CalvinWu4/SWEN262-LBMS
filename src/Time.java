@@ -40,10 +40,6 @@ public class Time {
         dateTime.plusHours(Integer.parseInt(hours));
         checkIsOpen();
     }
-    public static void incMin(String hours){
-        dateTime.plusMinutes(Integer.parseInt(hours));
-        checkIsOpen();
-    }
 
     //Setters
     public static void setDate(String _date){
