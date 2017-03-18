@@ -1,13 +1,26 @@
 package Sort;
 
-import Sort.BookSort;
+import Library.Book;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Tyler Lima on 3/5/2017.
  */
 public class TitleSort implements BookSort {
+
+    private Comparator<Book> TitleComparator = new Comparator<Library.Book>() {
+
+        @Override
+        public int compare(Library.Book book1, Library.Book book2) {
+            return book1.getTitle().compareTo(book2.getTitle());
+        }
+    };
+
     @Override
-    public String sort() {
-        return null; //specific algorithm for sorting by Title
+    public void sort(ArrayList<Book> books) {
+        Collections.sort(books, TitleComparator);
     }
 }

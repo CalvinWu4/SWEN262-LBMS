@@ -315,14 +315,16 @@ public class Books {
         }
 
         System.out.println(line);
-        System.out.format("|%-"+idLength+"s|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+publisherLength+"s|%-"+
-                dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n","ID","ISBN","Book Title", "Author(s)",
-                "Publisher", "Date Published", "Total # Of Copies", "# Of AvailableCopies");
+        System.out.format("|%-"+idLength+"s|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+
+                        publisherLength+"s|%-"+dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n",
+                "ID","ISBN","Book Title", "Author(s)", "Publisher", "Date Published", "Total # Of Copies",
+                "# Of AvailableCopies");
         System.out.println(line);
         for(Book book: _books){
-            System.out.format("|%-"+idLength+"s|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+publisherLength+
-                    "s|%-"+dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n",book.getBookId(),book.getIsbn(),book.getTitle(),
-                    book.getAuthorsString(), book.getPublisher(), book.getPublishedDate().format(DateTimeFormatter.ofPattern("uuuu/MM/dd")), book.getTotalNumCopies(),
+            System.out.format("|%-"+idLength+"s|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+
+                            publisherLength+ "s|%-"+dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n",
+                    book.getBookId(),book.getIsbn(),book.getTitle(), book.getAuthorsString(), book.getPublisher(),
+                    book.getPublishedDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), book.getTotalNumCopies(),
                     book.getNumAvailableCopies());
         }
         System.out.println(line);
