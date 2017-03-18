@@ -112,10 +112,19 @@ public class View {
         this.headerMessage = headerMessage;
     }
 
+
     static public void setView(View view){
-        //Select the view from the array
+        //Find view in the hashMap of views, if found, print the UI and start the exchange wit
         view.printUI();
-        Exchange newExchange = new Exchange(view);
+        Response response;
+        //Keep printing the same UI and setting exchange  until the response is not an error
+        while (((response = Exchange.setExchangeView(view)) instanceof ErrorResponse)){
+            System.out.println(response.getResponseMessage());
+            view.printUI();
+        }
+
+
+
     }
 
     static public View findView(int viewId){
@@ -135,6 +144,10 @@ public class View {
 
     }
 
+    public int getId(){
+        return this.id;
+    }
+
     public TreeMap<String, MenuOption> getOptions(){
         return this.options;
     }
@@ -146,6 +159,6 @@ public class View {
 
     public static void main(String[] args){
         initalizeViews();
-        setView(views.get(0));
+        setView(findView(0));
     }
 }

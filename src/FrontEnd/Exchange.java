@@ -11,9 +11,6 @@ import java.util.TreeMap;
 public final class Exchange {
 
 
-    /** The view where the exchange is taking place, used whenever the exchange ends up being invalid **/
-    static private View preView;
-
     /** Is the exchange completed **/
     static private boolean isComplete;
 
@@ -28,17 +25,17 @@ public final class Exchange {
 
     /**
      * The Std input exchange from the user, it will select from a list of options in a specific format
-     * @param view: FrontEnd.View to show if the exchange ends up being invalid.
+     * @param ViewForOptions: View to obtain the options from
      */
-    public Exchange(View view){
-        preView = view;
+
+    static public Response setExchangeView(View ViewForOptions){
         // Options to choose from, each will perform a series of Commands
-        TreeMap<String,MenuOption> theOptions = view.getOptions();
+        TreeMap<String,MenuOption> theOptions = ViewForOptions.getOptions();
         isComplete = false;
         isExecuted = false;
         options = theOptions;
         Scanner userInput = new Scanner(System.in);
-        getRequest(userInput);
+        return getRequest(userInput);
     }
 
     static boolean getIsComplete(){
@@ -53,15 +50,15 @@ public final class Exchange {
      * Retrieves user input and send it to parse().
      * @param userInput: std input received
      */
-    public static void getRequest(Scanner userInput) {
+    static public Response getRequest(Scanner userInput) {
         String userLine = "";
         while (!getIsComplete()) {
             System.out.print("~");
             userLine += userInput.nextLine();
             parse(userLine);
         }
-        //Only interpret
-        interpret(getExchange());
+        // Interpret the userInput
+        return interpret(getExchange());
     }
 
     /**
@@ -85,28 +82,32 @@ public final class Exchange {
                 request = completeUserLine;
             }
         }
-
         StringParser.close();
 
     }
 
 
     /**
-     * Interprets the finished requrest
-     * @param request
+     * Interprets the finished request query from the user.
+     * If the query has a proper format then it executes the selected option's command.
+     * @param query: The finished query typed by the user.
      */
-    static public void interpret(String request){
-        String[] query = request.split(",");
-        String mainTrigger = query[0];
-        if(options.get(mainTrigger) != null){
-            options.get(mainTrigger).execute();
+    static public Response interpret(String query){
+        String[] args = query.split(",");
+        String mainTrigger = args[0];
+        // Check that the query has at least a comma to show that iu
+        MenuOption chosenOption =  options.get(mainTrigger);
+        if(chosenOption != null){
             isExecuted = true;
+            //TODO: Check that the syntax is correct
+            chosenOption.setCommandArgs(query);
+            return options.get(mainTrigger).execute();
         }else{
             isExecuted = false;
-            System.out.println("Invalid command");
-            View.setView(preView);
+            return new ErrorResponse("Invalid command");
 
         }
+
 
     }
 
