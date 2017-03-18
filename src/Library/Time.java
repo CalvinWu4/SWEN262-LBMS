@@ -4,46 +4,52 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Calvin on 3/15/2017.
  */
 public class Time {
-    private static LocalDateTime dateTime;
+    private static LocalDateTime dateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
     private static boolean isOpen;
 
-    public static void checkIsOpen(){
+    /**
+     * Helper function for incTime.
+     */
+    public static void checkIsOpenAndClose(){
         if(dateTime.isAfter(ChronoLocalDateTime.from(LocalTime.of(7,59))) &&
                 dateTime.isBefore(ChronoLocalDateTime.from(LocalTime.of(19,0)))){
             isOpen = true;
         }
         else {
             isOpen = false;
-            for(Visitor v: Visitors.getVisitorHash().values()){
-                for(Visit v2: v.getVisits()){
-                    if(v2.getDeparture().equals(null)){
-                        v2.setDeparture(LocalTime.of(8,0));
+            for(Visitor visitor: Visitors.getVisitorHash().values()){
+                for(Visit visit: visitor.getVisits()){
+                    if(visit.getDeparture() == null){
+                        visit.setDeparture(LocalTime.of(8,0));
                     }
                 }
             }
         }
     }
-    public static void incDate(String days){
-        dateTime.plusDays(Integer.parseInt(days));
-        for(Visitor v: Visitors.getVisitorHash().values()){
-            for(Visit v2: v.getVisits()){
-                if(v2.getDeparture().equals(null)){
-                    v2.setDeparture(LocalTime.of(8,0));
-                }
-            }
+    public static String incTime(Integer days, Integer hours) {
+        if (days < 0 || days > 7) {
+            return ("Error (invalid number of days)");
+        } else if (hours < 0 || hours > 23 || days == 0 && hours == 0) {
+            return ("Error (invalid number of hours)");
+        } else {
+            dateTime.plusDays((days));
+            dateTime.plusHours(hours);
+            checkIsOpenAndClose();
+            return ("Success");
         }
     }
-    public static void incHr(String hours){
-        dateTime.plusHours(Integer.parseInt(hours));
-        checkIsOpen();
+
+    public static String display(){
+        return dateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
     }
 
-    //Setters
+    //Setters (unneeded)
     public static void setDate(String _date){
         String [] dateArray = _date.split("/");
         Integer year = Integer.parseInt(dateArray[2]);
