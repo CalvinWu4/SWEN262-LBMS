@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * Created by Anthony Perez on 3/5/17.
  */
 public class Book {
-    private Integer bookId;
     private Integer isbn;
     private String title;
     private ArrayList<String> authors;
@@ -22,10 +21,9 @@ public class Book {
     private LocalDate purchasingDate;
     //private Fine fine; Put this in transaction
 
-    public Book(Integer _bookId, Integer _isbn, String _title, ArrayList<String> _authors, String _publisher,
+    public Book(Integer _isbn, String _title, ArrayList<String> _authors, String _publisher,
                 LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies,
                 boolean _availability, LocalDate _purchasingDate){
-        this.bookId = _bookId;
         this.isbn = _isbn;
         this.title = _title;
         this.authors = _authors;
@@ -39,9 +37,6 @@ public class Book {
         //fine = new Fine();
     }
 
-    public Integer getBookId(){
-        return bookId;
-    }
     public Integer getIsbn(){
         return isbn;
     }
@@ -79,9 +74,6 @@ public class Book {
     }
     public LocalDate getPurchasingDate(){
         return purchasingDate;
-    }
-    public void setBookId(Integer _bookId){
-        this.bookId = _bookId;
     }
     public void setIsbn(Integer _isbn){
         this.isbn = _isbn;

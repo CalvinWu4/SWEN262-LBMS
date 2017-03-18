@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 /**
  * Created by Anthony Perez on 3/5/17.
  */
-public class Books {
-    private HashMap<Integer, Book> bookHash = new HashMap<>();
+public final class Books {
+    private static HashMap<Integer, Book> bookHash = new HashMap<>();
     private static final String BOOKSFILE = "libraryBooks.csv";
 
     public Books(){
@@ -23,11 +23,11 @@ public class Books {
         ArrayList<String> authors2 = new ArrayList<>();
         authors2.add("testAuthor3");
         LocalDate date = LocalDate.now();
-        Book newBook = new Book(1,1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5, true, date);
-        Book newBook4 = new Book(2,2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5, false, date);
-        Book newBook1 = new Book(3,3,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5, true, date);
-        Book newBook2 = new Book(4,4,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10, true, date);
-        Book newBook3 = new Book(5, 5,"The Hunger Games",authors,"RIT", date,1000,10,5, true, date);
+        Book newBook = new Book(1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5, true, date);
+        Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5, false, date);
+        Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5, true, date);
+        Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10, true, date);
+        Book newBook3 = new Book(5,"The Hunger Games",authors,"RIT", date,1000,10,5, true, date);
         //go through file where books for the library are stored and add each book to the "bookHash".\
         LocalDate pastDate = LocalDate.now();
         //pastDate = pastDate.minusDays(1);
@@ -323,11 +323,15 @@ public class Books {
         for(Book book: _books){
             System.out.format("|%-"+idLength+"s|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+
                             publisherLength+ "s|%-"+dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n",
-                    book.getBookId(),book.getIsbn(),book.getTitle(), book.getAuthorsString(), book.getPublisher(),
+                    book.getIsbn(),book.getTitle(), book.getAuthorsString(), book.getPublisher(),
                     book.getPublishedDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), book.getTotalNumCopies(),
                     book.getNumAvailableCopies());
         }
         System.out.println(line);
+    }
+
+    public static HashMap<Integer, Book> getBookHash(){
+        return bookHash;
     }
 
 }

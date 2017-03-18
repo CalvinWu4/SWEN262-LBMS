@@ -25,14 +25,15 @@ public final class Visitors {
         Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId);
         visitorHash.put(newVisitor.getId(), newVisitor);
         count++;
-        System.out.println("Library.Visitor ID:"+ visitorId + " has been registered on " +
+        System.out.println("Visitor ID:"+ visitorId + " has been registered on " +
                 Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + ".");
     }
 
     public static void visit(String visitorID){
         Visitor visitor = visitorHash.get(visitorID);
         if(visitor == null){
-
+            System.out.println("The specified visitor ID is not a valid ID or has not been assigned to any " +
+                    "registered visitor.");
         }
         for (Visit visit: visitor.getVisits()) {
             if(visit.getDeparture() == null){

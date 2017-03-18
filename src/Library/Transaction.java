@@ -6,23 +6,24 @@ import java.time.LocalDate;
  * Created by Calvin on 3/5/2017.
  */
 public class Transaction {
-    //we need a transaction id
-    private Integer transactionID;
-    private Integer bookID;
-    private Visitor visitor;
+    private Integer isbn;
+    private Integer visitorId;
     private LocalDate dateBorrowed;
     private LocalDate dueDate;
 
-    Transaction(Integer book, Visitor visitor, LocalDate dateBorrowed){
-        this.bookID = book;
-        this.visitor = visitor;
+    Transaction(Integer isbn, Integer visitor, LocalDate dateBorrowed, LocalDate dueDate){
+        this.isbn = isbn;
+        this.visitorId = visitorId;
         this.dateBorrowed = dateBorrowed;
         this.dueDate = dateBorrowed.plusDays(7);
     }
 
     // Setters
-    public void setVisitorID(String visitorID){
-        this.visitor = visitor;
+    public void setIsbn(Integer isbn){
+        this.isbn = isbn;
+    }
+    public void setVisitorID(Integer visitorID){
+        this.visitorId = visitorId;
     }
     public void setDateBorrowed(LocalDate dateBorrowed){
         this.dateBorrowed = dateBorrowed;
@@ -32,14 +33,11 @@ public class Transaction {
     }
 
     // Getters
-    public Integer getTransactionID(){
-        return this.transactionID;
+    public Integer getIsbn(){
+        return this.isbn;
     }
-    public Integer getBookID(){
-        return this.bookID;
-    }
-    public Visitor getVisitorID(){
-        return this.visitor;
+    public Integer getVisitorID(){
+        return this.visitorId;
     }
     public LocalDate getDateBorrowed(){
         return this.dateBorrowed;
