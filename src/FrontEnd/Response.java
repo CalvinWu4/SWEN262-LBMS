@@ -18,11 +18,19 @@ public class Response {
     private Boolean endResponse = false;
 
 
+    /**
+     * Construct a response with a message to output
+     * @param message The message to be outputted
+     */
     public Response(String message){
         this.message = message;
     }
+
+    /**
+     * Construct a response with no message
+     */
     public Response(){
-        this.message = "Empty response";
+        this.message = "";
     }
 
 

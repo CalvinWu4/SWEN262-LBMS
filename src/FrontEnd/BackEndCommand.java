@@ -15,7 +15,7 @@ public class BackEndCommand implements Command {
     /** The args for the method **/
     private String args;
 
-    private Boolean debugMode = true;
+    private static Boolean debugMode = false;
 
 
     /**
@@ -34,6 +34,13 @@ public class BackEndCommand implements Command {
         this.args = args;
     }
 
+    public static void setDebugMode(){
+        debugMode = true;
+    }
+
+    public static Boolean isDebugMode(){
+        return debugMode;
+    }
     /**
      * Execute the method upton the receiver and return the response generated form the BackEnd
      * @return Response generated, either an error or a success response.
@@ -46,9 +53,11 @@ public class BackEndCommand implements Command {
             return (Response) action.invoke(null,args);
         } catch (IllegalAccessException | InvocationTargetException e) {
             if(debugMode) {
-                e.printStackTrace();                
+                e.printStackTrace();
+                return new Response("Debug error: 405 BackEnd Method not found");
             }
-            return new Response("Debug error: 405 BackEnd Method not found");
+            return new Response("");
+
 
         }
 

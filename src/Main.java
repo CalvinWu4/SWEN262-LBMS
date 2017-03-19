@@ -1,6 +1,7 @@
 /**
  * Created by kevin on 3/18/2017.
  */
+import FrontEnd.BackEndCommand;
 import FrontEnd.Exchange;
 import FrontEnd.Response;
 import FrontEnd.View;
@@ -16,10 +17,15 @@ public class Main {
         while (true){
             actual_view.printUI();
             Response response = Exchange.setExchangeView(actual_view);
+            // If there is a problem with the response just loop again
             if(response!=null){
                 System.out.println(response.getResponseMessage());
-                if(!response.isEndResponse()) {
-                    actual_view = response.getResponseView();
+                //Check that the response is not an end response
+                if(!response.isEndResponse()){
+                    // Only if there is a view attached to the response we assign a new view.
+                    if(response.getResponseView() != null ){
+                        actual_view = response.getResponseView();
+                    }
                 }else{
                     System.exit(0);
                 }
@@ -28,7 +34,7 @@ public class Main {
     }
 
     static public void main(String[] args){
-
+        //BackEndCommand.setDebugMode();
         View.initMenuOptions();
         MainLoop();
     }

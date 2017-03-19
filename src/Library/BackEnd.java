@@ -3,6 +3,7 @@ package Library;
 import FrontEnd.*;
 import javafx.scene.shape.TriangleMesh;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -26,7 +27,26 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response LibraryBookSearch(String query){
-        return null;
+        //TODO: It needs actual implementation
+        //Test
+        ArrayList<String> authors = new ArrayList<>();
+        authors.add("testAuthor1");
+        authors.add("testAuthor2");
+
+        ArrayList<String> authors2 = new ArrayList<>();
+        authors2.add("testAuthor3");
+        LocalDate date = LocalDate.now();
+        Book newBook = new Book(1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
+        Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
+        Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
+        Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
+        Book newBook3 = new Book(5,"The Hunger Games",authors,"RIT", date,1000,10,5);
+
+        ArrayList<Book> books = new ArrayList<>();
+        books.add(newBook);books.add(newBook4);books.add(newBook1);books.add(newBook2);books.add(newBook3);
+
+        Books.bookPrint(books);
+        return new Response();
     }
 
     /**
@@ -35,7 +55,7 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response BookStoreSearch(String query){
-        return null;
+        return null;//TODO
     }
 
     /**
@@ -44,7 +64,7 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response BookPurchase(String query){
-        return null;
+        return null;//TODO
     }
 
 
@@ -59,7 +79,7 @@ public final class BackEnd {
      * @return The response of whether the registration was successful or not
      */
     static public Response RegisterVisitor(String query){
-        return null;
+        return null;//TODO
     }
 
     /**
@@ -68,7 +88,7 @@ public final class BackEnd {
      * @return The response of whether the visit was created successfully
      */
     static public Response BeginVisit(String query){
-        return null;
+        return null;//TODO
     }
 
     /**
@@ -78,7 +98,7 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response EndVisit(String query){
-        return null;
+        return null;//TODO
     }
 
     /////
@@ -93,7 +113,9 @@ public final class BackEnd {
      * @return The response of whether the book was able to be borrowed
      */
     static public Response BorrowBook(String query){
-        return null;
+        //TODO
+        String[] params = query.split(",");
+        return new Response("Borrowed book! (not really)");
     }
 
     /**
@@ -102,7 +124,7 @@ public final class BackEnd {
      * @return The response list of borrowed books.
      */
     static public Response FindBorrowedBooks(String query){
-        return null;
+        return null;//TODO
     }
 
     /**
@@ -112,7 +134,7 @@ public final class BackEnd {
      * @return The response of whether the book was successfully returned and a fee message if it exists.
      */
     static public Response ReturnBook(String query){
-        return null;
+        return null;//TODO
     }
 
     /**
@@ -121,7 +143,7 @@ public final class BackEnd {
      * @return The response of whether amount paid was enough to pay the fine.
      */
     static public Response PayFine(String query){
-        return null;
+        return null;//TODO
     }
 
     /////
@@ -135,8 +157,7 @@ public final class BackEnd {
      * @return The response of whether the change was made or not
      */
     static public Response AdvanceTime(String query){
-        System.out.println("Advanced time");
-        return null;
+        return new Response("Advanced time (Not really)");//TODO
     }
 
     /**
@@ -145,8 +166,8 @@ public final class BackEnd {
      * @return The response with the current date and time
      */
     static public Response CurrentDateTime(String query){
-        System.out.println(Time.getDate());
-        return new Response(Time.getDate() + " " + Time.getTime());
+        String[] args = query.split(",");
+        return new Response(args[0] + "," + Time.getDate() + "," + Time.getTime());
     }
 
     /////
@@ -161,7 +182,7 @@ public final class BackEnd {
      * @return The response of stats
      */
     static public Response LibraryStatsReport(String query){
-        return null;
+        return null;//TODO
     }
 
 

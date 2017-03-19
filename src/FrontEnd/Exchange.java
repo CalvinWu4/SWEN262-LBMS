@@ -108,7 +108,19 @@ public final class Exchange {
             //TODO: Check that the syntax is correct
             chosenOption.setCommandArgs(query);
             //First call to execute command
-            return options.get(mainTrigger).execute();
+            Response response = chosenOption.execute();
+            //Only if the command is for the back end and has no view attached we assign the same view that this
+            // exchange is taking place on.
+            if(chosenOption.getCommand() instanceof BackEndCommand && response == null){
+
+                if(BackEndCommand.isDebugMode()) {
+                    return new Response("Backend method not implemented");
+                }else {
+                    return new Response("Something went wrong");
+                }
+
+            }
+            return response;
         }else{
             isExecuted = false;
             return new Response("Invalid command").setResponseView(viewAfterResponse);
