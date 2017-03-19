@@ -14,6 +14,7 @@ public final class Books {
     private static HashMap<Integer, Book> bookHash = new HashMap<>();
     private static final String BOOKSFILE = "libraryBooks.csv";
 
+
     public Books(){
         //test for class to work
         ArrayList<String> authors = new ArrayList<>();
@@ -23,11 +24,11 @@ public final class Books {
         ArrayList<String> authors2 = new ArrayList<>();
         authors2.add("testAuthor3");
         LocalDate date = LocalDate.now();
-        Book newBook = new Book(1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5, true, date);
-        Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5, false, date);
-        Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5, true, date);
-        Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10, true, date);
-        Book newBook3 = new Book(5,"The Hunger Games",authors,"RIT", date,1000,10,5, true, date);
+        Book newBook = new Book(1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
+        Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
+        Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
+        Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
+        Book newBook3 = new Book(5,"The Hunger Games",authors,"RIT", date,1000,10,5);
         //go through file where books for the library are stored and add each book to the "bookHash".\
         LocalDate pastDate = LocalDate.now();
         //pastDate = pastDate.minusDays(1);
@@ -206,7 +207,7 @@ public final class Books {
         //loop through the "bookHash" and display all books that are available.
         ArrayList<Book> availableBooks = new ArrayList<>();
         for(Book book : bookHash.values()){
-            if(book.isAvailable()){
+            if(book.getTotalNumCopies() > 0){
                availableBooks.add(book);
             }
         }

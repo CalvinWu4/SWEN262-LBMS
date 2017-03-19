@@ -14,16 +14,13 @@ public class Book {
     private ArrayList<String> authors;
     private String publisher;
     private LocalDate publishedDate;
+    private Integer pageCount;
     private Integer totalNumCopies;
     private Integer numAvailableCopies;
-    private Integer pageCount;
-    private boolean availability;
-    private LocalDate purchasingDate;
     //private Fine fine; Put this in transaction
 
     public Book(Integer _isbn, String _title, ArrayList<String> _authors, String _publisher,
-                LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies,
-                boolean _availability, LocalDate _purchasingDate){
+                LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies){
         this.isbn = _isbn;
         this.title = _title;
         this.authors = _authors;
@@ -31,10 +28,6 @@ public class Book {
         this.publishedDate = _publishedDate;
         this.totalNumCopies = _totalNumCopies;
         this.numAvailableCopies = _numAvailableCopies;
-        this.availability = _availability;
-        this.purchasingDate = _purchasingDate;
-
-        //fine = new Fine();
     }
 
     public Integer getIsbn(){
@@ -69,12 +62,6 @@ public class Book {
     public Integer getPageCount(){
         return pageCount;
     }
-    public boolean isAvailable() {
-        return availability;
-    }
-    public LocalDate getPurchasingDate(){
-        return purchasingDate;
-    }
     public void setIsbn(Integer _isbn){
         this.isbn = _isbn;
     }
@@ -98,12 +85,6 @@ public class Book {
     }
     public void setNumAvailableCopies(Integer _numAvailableCopies){
         this.numAvailableCopies = _numAvailableCopies;
-    }
-    public void setAvailability(boolean _availability) {
-        this.availability = _availability;
-    }
-    public void setPurchasingDate(LocalDate _purchasingDate){
-        this.purchasingDate = _purchasingDate;
     }
 
 

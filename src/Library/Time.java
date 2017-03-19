@@ -9,9 +9,10 @@ import java.time.format.DateTimeFormatter;
 /**
  * Created by Calvin on 3/15/2017.
  */
-public class Time {
+public final class Time {
     private static LocalDateTime dateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
     private static boolean isOpen;
+
 
     /**
      * Helper function for incTime.
