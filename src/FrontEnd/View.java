@@ -51,7 +51,7 @@ public class View {
         MenuOption back = new MenuOption("1","Go Back",0);
 
         //Option to exit the program
-        MenuOption exit = new MenuOption("quit","Exit program",new BackEndCommand("exit"));
+        MenuOption exit = new MenuOption("quit","Exit program",new BackEndCommand("exit"),0);
         //Dummy option for the other clients
         MenuOption dummy = new MenuOption("2","Dummy Option",0);
 
@@ -74,9 +74,9 @@ public class View {
 
         /** Books **/
         TreeMap<String,MenuOption> BookOptions =  new TreeMap<>();
-        MenuOption BookSearch = new MenuOption("info","Find a Book",new BackEndCommand("LibraryBookSearch"));
-        MenuOption BookStoreSearch  = new MenuOption("search","Search for Books in the store",new BackEndCommand("BookStoreSearch"));
-        MenuOption BookPurchase  = new MenuOption("buy","Purchase a book",new BackEndCommand("BookPurchase"));
+        MenuOption BookSearch = new MenuOption("info","Find a Book",new BackEndCommand("LibraryBookSearch"),2);
+        MenuOption BookStoreSearch  = new MenuOption("search","Search for Books in the store",new BackEndCommand("BookStoreSearch"),1);
+        MenuOption BookPurchase  = new MenuOption("buy","Purchase a book",new BackEndCommand("BookPurchase"),2);
         BookOptions.put(back.getKeyWord(),back);
         BookOptions.put(BookSearch.getKeyWord(),BookSearch);
         BookOptions.put(BookStoreSearch.getKeyWord(),BookStoreSearch);
@@ -85,7 +85,7 @@ public class View {
 
         /** Stats **/
         TreeMap<String,MenuOption> StatsOptions =  new TreeMap<>();
-        MenuOption LibraryStats = new MenuOption("report","Stats from the last n days",new BackEndCommand("LibraryStatsReport"));
+        MenuOption LibraryStats = new MenuOption("report","Stats from the last n days",new BackEndCommand("LibraryStatsReport"),0);
         StatsOptions.put(back.getKeyWord(),back);
         StatsOptions.put(LibraryStats.getKeyWord(),LibraryStats);
         StatsOptions.put(exit.getKeyWord(),exit);
@@ -93,9 +93,9 @@ public class View {
         /** Visitors **/
 
         TreeMap<String,MenuOption> VisitorOptions =  new TreeMap<>();
-        MenuOption RegisterVisitor = new MenuOption("register","Register a New Visitor",new BackEndCommand("RegisterVisitor"));
-        MenuOption BeginVisit = new MenuOption("arrive","Record a visit",new BackEndCommand("BeginVisit"));
-        MenuOption EndVisit = new MenuOption("depart","Record a Departure",new BackEndCommand("EndVisit"));
+        MenuOption RegisterVisitor = new MenuOption("register","Register a New Visitor",new BackEndCommand("RegisterVisitor"),4);
+        MenuOption BeginVisit = new MenuOption("arrive","Record a visit",new BackEndCommand("BeginVisit"),1);
+        MenuOption EndVisit = new MenuOption("depart","Record a Departure",new BackEndCommand("EndVisit"),1);
 
         VisitorOptions.put(back.getKeyWord(),back);
         VisitorOptions.put(RegisterVisitor.getKeyWord(),RegisterVisitor);
@@ -105,10 +105,10 @@ public class View {
 
         /** Transactions **/
         TreeMap<String,MenuOption> Transactions =  new TreeMap<>();
-        MenuOption ReturnBook = new MenuOption("return","Return a book",new BackEndCommand("ReturnBook"));
-        MenuOption BorrowBook = new MenuOption("borrow","Borrow a book",new BackEndCommand("BorrowBook"));
-        MenuOption FindBorrowedBooks = new MenuOption("borrowed","List borrowed books",new BackEndCommand("FindBorrowedBooks"));
-        MenuOption PayFine = new MenuOption("pay","Pay all or part of a fine",new BackEndCommand("PayFine"));
+        MenuOption ReturnBook = new MenuOption("return","Return a book",new BackEndCommand("ReturnBook"),2);
+        MenuOption BorrowBook = new MenuOption("borrow","Borrow a book",new BackEndCommand("BorrowBook"),2);
+        MenuOption FindBorrowedBooks = new MenuOption("borrowed","List borrowed books",new BackEndCommand("FindBorrowedBooks"),1);
+        MenuOption PayFine = new MenuOption("pay","Pay all or part of a fine",new BackEndCommand("PayFine"),2);
 
         Transactions.put(back.getKeyWord(),back);
         Transactions.put(ReturnBook.getKeyWord(),ReturnBook);
@@ -119,8 +119,8 @@ public class View {
 
         /** Time options **/
         TreeMap<String,MenuOption> TimeOptions =  new TreeMap<>();
-        MenuOption AdvanceTime = new MenuOption("advance","Advice time",new BackEndCommand("AdvanceTime"));
-        MenuOption CurrentDateTime = new MenuOption("datetime","Get current Date and Time",new BackEndCommand("CurrentDateTime"));
+        MenuOption AdvanceTime = new MenuOption("advance","Advice time",new BackEndCommand("AdvanceTime"),1);
+        MenuOption CurrentDateTime = new MenuOption("datetime","Get current Date and Time",new BackEndCommand("CurrentDateTime"),0);
         TimeOptions.put(back.getKeyWord(),back);
         TimeOptions.put(AdvanceTime.getKeyWord(),AdvanceTime);
         TimeOptions.put(CurrentDateTime.getKeyWord(),CurrentDateTime);

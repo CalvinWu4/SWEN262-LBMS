@@ -1,5 +1,7 @@
 package FrontEnd;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kevin on 3/18/2017.
  *
@@ -31,5 +33,5 @@ public class ViewCommand implements Command {
      * view to change to.
      */
     @Override
-    public void setArgs(String dummy){}
+    public void setArgs(ArrayList<Parameter> params){}
 }

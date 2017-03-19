@@ -1,5 +1,10 @@
 package Library;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -11,6 +16,7 @@ public class Visitor {
     private String address;
     private Integer phone;
     private String id;
+    private Visit activeVisit;
 
     Visitor(String firstName, String lastName, String address, int phone, String id){
         this.firstName = firstName;
@@ -18,6 +24,32 @@ public class Visitor {
         this.address = address;
         this.phone = phone;
         this.id = id;
+    }
+
+
+    public void startVisit(){
+        if(this.activeVisit == null){
+            this.activeVisit = new Visit(this.id, Time.getDateTime());
+        }else{
+            System.out.println("The given user already has an active visit");
+        }
+
+    }
+
+    public void endVisit(){
+        if(this.activeVisit != null){
+            if(Visits.getVisitHash().get(Time.getDate()).isEmpty()){
+                ArrayList<Visit> visits = new ArrayList<>();
+                visits.add(this.activeVisit);
+                Visits.getVisitHash().put(Time.getDate(),visits);
+
+            }else{
+                Visits.getVisitHash().get(Time.getDate()).add(this.activeVisit);
+            }
+        }else{
+            System.out.println("The given user already has an active visit");
+        }
+
     }
 
     // Setters
@@ -52,5 +84,8 @@ public class Visitor {
     }
     public String getId(){
         return this.id;
+    }
+    public Visit getActiveVisit(){
+        return this.activeVisit;
     }
 }

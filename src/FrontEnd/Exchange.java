@@ -5,6 +5,7 @@ package FrontEnd;
 
 import Library.BackEnd;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -107,20 +108,35 @@ public final class Exchange {
         MenuOption chosenOption =  options.get(mainTrigger);
         if(chosenOption != null){
             isExecuted = true;
-            //TODO: Check that the syntax is correct
-            chosenOption.setCommandArgs(query);
-            //First call to execute command
-            Response response = chosenOption.execute();
-            //Only if the command is for the back end and has no view attached we assign the same view that this
-            // exchange is taking place on.
-            if(chosenOption.getCommand() instanceof BackEndCommand && response == null){
-                if(BackEnd.isDebugMode()) {
-                    return new Response("Backend method not implemented").setResponseView(viewAfterResponse);
-                }else {
-                    return new Response("Something went wrong").setResponseView(viewAfterResponse);
+            //Check that the number of parameters is at least the number of parameters needed
+            if(args.length >= chosenOption.getMinArgsSize() + 1){
+                //Set the arguments for the commands
+                if(chosenOption.getCommand() instanceof ViewCommand){
+                    //Empty arrayList if the command is to just change views
+                    chosenOption.setCommandArgs(new ArrayList<>());
+                }else{
+                    chosenOption.setCommandArgs(getParmsFromRequest(query));
                 }
+
+                //First call to execute command
+                Response response = chosenOption.execute();
+                //Only if the command is for the back end and has no view attached we assign the same view that this
+                // exchange is taking place on.
+                if(chosenOption.getCommand() instanceof BackEndCommand && response == null){
+                    if(BackEnd.isDebugMode()) {
+                        return new Response("Backend method not implemented").setResponseView(viewAfterResponse);
+                    }else {
+                        return new Response("Something went wrong").setResponseView(viewAfterResponse);
+                    }
+                }
+                return response;
+
+            }else{
+                int numMissing = chosenOption.getMinArgsSize() + 1 - args.length;
+                return new Response("Incorrect number of arguments. Missing: " + numMissing + " arguments");
             }
-            return response;
+
+
         }else{
             isExecuted = false;
             return new Response("Invalid command").setResponseView(viewAfterResponse);
@@ -134,4 +150,31 @@ public final class Exchange {
         return request;
     }
 
+
+    static ArrayList<Parameter> getParmsFromRequest(String query){
+        String[] args = query.split(",");
+        ArrayList<Parameter> parameters = new ArrayList<>();
+        if(args.length <= 1){
+            return new ArrayList<>(); //return an empty arrayList of parameters if there are no parameters in the query
+        }
+        Boolean braketChecker = false;
+        ArrayList<String> multiparam = new ArrayList<>();
+        for(int i=0; i<args.length;i++) {
+
+            if (args[i].contains("{")) {
+                braketChecker = true;
+
+            } else if (args[i].contains("}")) {
+                braketChecker = false;
+                parameters.add(new Parameter<>(multiparam));
+            }
+            if (braketChecker){
+                multiparam.add(args[i]);
+            }else {
+                parameters.add(new Parameter<>(args[i]));
+            }
+        }
+        return parameters;
+
+    }
 }

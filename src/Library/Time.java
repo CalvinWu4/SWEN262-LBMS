@@ -21,17 +21,17 @@ public final class Time {
         if(dateTime.isAfter(ChronoLocalDateTime.from(LocalTime.of(7,59))) &&
                 dateTime.isBefore(ChronoLocalDateTime.from(LocalTime.of(19,0)))){
             isOpen = true;
-        }
-        else {
+            System.out.println("The library is open");
+        }else {
             isOpen = false;
             for(Visitor visitor: Visitors.getVisitorHash().values()){
-                for(Visit visit: visitor.getVisits()){
-                    if(visit.getDeparture() == null){
-                        visit.setDeparture(LocalTime.of(8,0));
-                    }
+                if(visitor.getActiveVisit() != null) {
+                    visitor.getActiveVisit().setDeparture(LocalDateTime.now());
                 }
             }
+            System.out.println("The library has now closed");
         }
+
     }
     public static String incTime(Integer days, Integer hours) {
         if (days < 0 || days > 7) {
@@ -71,11 +71,14 @@ public final class Time {
     public static LocalDate getDate(){
         return dateTime.toLocalDate();
     }
-
-
     public static LocalTime getTime(){
         return dateTime.toLocalTime();
     }
+    public static LocalDateTime getDateTime(){
+        return dateTime;
+    }
+
+
     public static boolean getIsOpen(){
         return isOpen;
     }

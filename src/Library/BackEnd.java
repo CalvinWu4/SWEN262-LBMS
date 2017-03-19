@@ -1,9 +1,12 @@
 package Library;
 
 import FrontEnd.*;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.scene.shape.TriangleMesh;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -33,10 +36,10 @@ public final class BackEnd {
     ///
     /**
      * Searches in books for the all the books that match the query
-     * @param query The params of search
+     * @param params The params of search
      * @return The response of results
      */
-    static public Response LibraryBookSearch(String query){
+    static public Response LibraryBookSearch(ArrayList<Parameter> params){
         //TODO: It needs actual implementation, this is just a dummy example
         //Test
         ArrayList<String> authors = new ArrayList<>();
@@ -64,19 +67,19 @@ public final class BackEnd {
 
     /**
      * Searches in books store for the all the books that match the query
-     * @param query The params of search
+     * @param params The params of search
      * @return The response of results
      */
-    static public Response BookStoreSearch(String query){
+    static public Response BookStoreSearch(ArrayList<Parameter> params){
         return null;//TODO
     }
 
     /**
      * Buys an specific book given by an id in the query
-     * @param query The params of search
+     * @param params The params of search
      * @return The response of results
      */
-    static public Response BookPurchase(String query){
+    static public Response BookPurchase(ArrayList<Parameter> params){
         return null;//TODO
     }
 
@@ -88,29 +91,32 @@ public final class BackEnd {
     /////
     /**
      * Registers a visitor by adding a new Visitor to Visitors
-     * @param query The info of the visitor to be registered
+     * @param params The info of the visitor to be registered
      * @return The response of whether the registration was successful or not
      */
-    static public Response RegisterVisitor(String query){
-        return null;//TODO
+    static public Response RegisterVisitor(ArrayList<Parameter> params){
+
+        return null;
+
+
     }
 
     /**
      * Begins an active visit given a visitor id and sets such visit as the visitor active visit
-     * @param query The visitor id
+     * @param params The visitor id
      * @return The response of whether the visit was created successfully
      */
-    static public Response BeginVisit(String query){
+    static public Response BeginVisit(ArrayList<Parameter> params){
         return null;//TODO
     }
 
     /**
      * End an active visit by getting the visitor's active visit and setting it to non-active. Finally it adds it
      * to the visitor past visits hash.
-     * @param query The visitor id
+     * @param params The visitor id
      * @return The response of results
      */
-    static public Response EndVisit(String query){
+    static public Response EndVisit(ArrayList<Parameter> params){
         return null;//TODO
     }
 
@@ -122,40 +128,39 @@ public final class BackEnd {
     /**
      * Creates a new Transaction, modifies the given book's availability and finally adds the book to the
      * Visitor's borrowed books (or list of transactions)
-     * @param query The book id to be borrowed
+     * @param params The book id to be borrowed
      * @return The response of whether the book was able to be borrowed
      */
-    static public Response BorrowBook(String query){
+    static public Response BorrowBook(ArrayList<Parameter> params){
         //TODO
-        String[] params = query.split(",");
         return new Response("Borrowed book! (not really)");
     }
 
     /**
      * Gets given user's transactions books
-     * @param query The visitor id
+     * @param params The visitor id
      * @return The response list of borrowed books.
      */
-    static public Response FindBorrowedBooks(String query){
+    static public Response FindBorrowedBooks(ArrayList<Parameter> params){
         return null;//TODO
     }
 
     /**
      * Gets the user's transactions, finds the transaction that matches the given id, and finally calculates the fee
      * if applicable
-     * @param query The visitor id and the book id to be returned
+     * @param params The visitor id and the book id to be returned
      * @return The response of whether the book was successfully returned and a fee message if it exists.
      */
-    static public Response ReturnBook(String query){
+    static public Response ReturnBook(ArrayList<Parameter> params){
         return null;//TODO
     }
 
     /**
      * Gets a given user transactions and reset the fine if payment is bigger than cost
-     * @param query The visitor id and the amount to be paid
+     * @param params The visitor id and the amount to be paid
      * @return The response of whether amount paid was enough to pay the fine.
      */
-    static public Response PayFine(String query){
+    static public Response PayFine(ArrayList<Parameter> params){
         return null;//TODO
     }
 
@@ -166,21 +171,20 @@ public final class BackEnd {
     /////
     /**
      * Advances current time by a given amount
-     * @param query The amount of time to be changed
+     * @param params The amount of time to be changed
      * @return The response of whether the change was made or not
      */
-    static public Response AdvanceTime(String query){
+    static public Response AdvanceTime(ArrayList<Parameter> params){
         return new Response("Advanced time (Not really)");//TODO
     }
 
     /**
      * Gets the current date and time from the Time class
-     * @param query empty query
+     * @param params empty query
      * @return The response with the current date and time
      */
-    static public Response CurrentDateTime(String query){
-        String[] args = query.split(",");
-        return new Response(args[0] + "," + Time.getDate() + "," + Time.getTime());
+    static public Response CurrentDateTime(ArrayList<Parameter> params){
+        return new Response(params.get(0) + "," + Time.getDate() + "," + Time.getTime());
     }
 
     /////
@@ -191,10 +195,10 @@ public final class BackEnd {
 
     /**
      * Returns the stats for the last given days
-     * @param query The amount of days from today and before
+     * @param params The amount of days from today and before
      * @return The response of stats
      */
-    static public Response LibraryStatsReport(String query){
+    static public Response LibraryStatsReport(ArrayList<Parameter> params){
         return null;//TODO
     }
 
@@ -202,7 +206,9 @@ public final class BackEnd {
 
     /// UTILITY METHODS ///
 
-    static public Response exit(String query){
+    static public Response exit(ArrayList<Parameter> params){
         return new Response("Good bye!").toggleEndResponse();
     }
+
+
 }

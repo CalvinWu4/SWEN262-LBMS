@@ -2,12 +2,16 @@ package Library;
 
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
+ * A Database for the visitor Object
  * Created by cxw7054 on 3/10/2017.
+ *
+ *
  */
-public final class Visitors {
+public final class Visitors implements DB<String,Visitor> {
     private static HashMap<String, Visitor> visitorHash = new HashMap<>(); // visitorId, Visitor
     private static Integer count;
 
@@ -29,7 +33,28 @@ public final class Visitors {
                 Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + ".");
     }
 
+
     public static HashMap<String, Visitor> getVisitorHash(){
         return visitorHash;
+    }
+
+    @Override
+    public Visitor addValue(Visitor value) {
+        return null;
+    }
+
+    @Override
+    public Visitor getValue(String key) {
+        return null;
+    }
+
+    @Override
+    public boolean hasKey(String key) {
+        return false;
+    }
+
+    @Override
+    public Collection<Visitor> getAllValues() {
+        return null;
     }
 }

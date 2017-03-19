@@ -4,6 +4,7 @@ import Library.BackEnd;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
  * Created by Kevin Bastian
@@ -13,7 +14,7 @@ public class BackEndCommand implements Command {
     private Method action;
 
     /** The args for the method **/
-    private String args;
+    private ArrayList<Parameter> args;
 
 
     /**
@@ -22,13 +23,13 @@ public class BackEndCommand implements Command {
      */
     public BackEndCommand(String action) {
         try{
-            this.action = BackEnd.class.getMethod(action,String.class);
+            this.action = BackEnd.class.getMethod(action,ArrayList.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
     }
 
-    public void setArgs(String args){
+    public void setArgs(ArrayList<Parameter> args){
         this.args = args;
     }
 
@@ -48,8 +49,8 @@ public class BackEndCommand implements Command {
                 return new Response("Debug error: 405 BackEnd Method not found");
             }
             return new Response("");
-
-
+        } catch (Exception e){
+            return new Response("There was a problem in the query ");
         }
 
 

@@ -1,48 +1,49 @@
 package Library;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * Created by Calvin on 3/5/2017.
+ * Created by Calvin and Kevin on 3/5/2017.
+ *
+ * The Visit class for all visitors. It creates one visit every time a visitor visits the Library.
+ *
  */
 public class Visit {
     private String visitorID;
-    private LocalDate date;
-    private LocalTime arrival;
-    private LocalTime departure;
+    private Boolean isActive;
+    private LocalDateTime arrival;
+    private LocalDateTime departure;
 
 
-    Visit(String visitorID, LocalDate date, LocalTime arrival, LocalTime departure){
+
+
+    Visit(String visitorID, LocalDateTime arrival){
+        this.visitorID = visitorID;
         this.arrival = arrival;
-        this.departure = departure;
+        this.isActive = true;
     }
 
     // Setters
-    public void setVisitorID(String visitorID){
-        this.visitorID = visitorID;
-    }
-    public void setDate(LocalDate date){
-        this.date = date;
-    }
-    public void setArrival(LocalTime arrival){
+    public void setArrival(LocalDateTime arrival) {
         this.arrival = arrival;
     }
-    public void setDeparture(LocalTime departure){
+
+
+    public void setDeparture(LocalDateTime departure){
         this.departure = departure;
+        this.isActive = false;
     }
 
     // Getters
     public String getVisitorID(){
         return this.visitorID;
     }
-    public LocalDate getDate(){
-        return this.date;
-    }
-    public LocalTime getArrival(){
+    public LocalDateTime getArrival(){
         return this.arrival;
     }
-    public LocalTime getDeparture(){
+    public LocalDateTime getDeparture(){
         return this.departure;
     }
 }

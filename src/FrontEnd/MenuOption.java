@@ -1,5 +1,7 @@
 package FrontEnd;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kevin
  *
@@ -10,8 +12,8 @@ public class MenuOption {
     /** Message to display **/
     private String message;
 
-    /** Arguments to be provided**/
-    private Object[] args;
+    /** Size of Arguments to be provided**/
+    private int min_args_size;
 
     /** KeyWord that will trigger the option as selected**/
     private String keyWord;
@@ -29,10 +31,11 @@ public class MenuOption {
      * @param message: The Message that identifies the option to be displayed to the user
      * @param command: The command to be executed if the option is selected
      */
-    public MenuOption(String keyWord, String message, BackEndCommand command){
+    public MenuOption(String keyWord, String message, BackEndCommand command, int min_args_size){
         this.keyWord = keyWord;
         this.message = message;
         this.command = command;
+        this.min_args_size = min_args_size;
     }
 
     /**
@@ -47,6 +50,7 @@ public class MenuOption {
         this.keyWord = keyWord;
         this.message = message;
         this.futureViewId = futureViewId;
+        this.min_args_size = 0;
     }
 
     /**
@@ -65,7 +69,7 @@ public class MenuOption {
      * Set's up the command arguments only if the command is a BackEndCommand, Views command don't need arguments
      * @param args: Args to be set to the command.
      */
-    public void setCommandArgs(String args){
+    public void setCommandArgs(ArrayList<Parameter> args){
         if(this.command instanceof BackEndCommand){
             this.command.setArgs(args);
         }
@@ -90,8 +94,8 @@ public class MenuOption {
         return this.message;
     }
 
-    public Object[] getArgs() {
-        return this.args;
+    public int getMinArgsSize() {
+        return this.min_args_size;
     }
 
     public String getKeyWord() {
