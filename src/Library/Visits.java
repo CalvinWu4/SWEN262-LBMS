@@ -30,19 +30,20 @@ public class Visits {
                 visits.add(newVisit);
             }
             else{
-                //add visit
+                visitHash.get(Time.getDate()).add(newVisit);
             }
         }
     }
 
-//    public static void leave(String visitorID){
-//        Visit visit = visitHash.get(visitorID);
-//        for (Visit visit: visitor.getVisits()) {
-//            if(visit.getDeparture() == null){
-//                visit.setDeparture(Time.getTime());
-//            }
-//        }
-//    }
+    public static void leave(String visitorID) {
+        for (ArrayList<Visit> visits : visitHash.values()) {
+            for (Visit visit : visits) {
+                if (visit.getDeparture() == null) {
+                    visit.setDeparture(Time.getTime());
+                }
+            }
+        }
+    }
 
     public static HashMap<LocalDate, ArrayList<Visit>> getVisitHash(){
         return visitHash;
