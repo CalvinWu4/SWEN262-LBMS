@@ -7,11 +7,11 @@ import java.util.HashMap;
 /**
  * Created by Calvin on 3/18/2017.
  */
-public final class Purchase {
+public final class Purchases {
     private static HashMap<LocalDate, Integer> purchaseHash = new HashMap<>();
+    // Date, NumBooksPurchased
 
 
-    // Date and NumBooksPurchased
     public static String purchase(Integer quantity, ArrayList<Integer> isbns) {
         for (Integer isbn : isbns) {
             if (!Books.getBookHash().containsKey(isbn)) {
@@ -30,5 +30,9 @@ public final class Purchase {
             }
         }
         return ("Success");
+    }
+
+    public static HashMap<LocalDate, Integer> getPurchaseHash(){
+        return purchaseHash;
     }
 }
