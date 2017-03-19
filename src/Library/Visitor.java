@@ -11,7 +11,6 @@ public class Visitor {
     private String address;
     private Integer phone;
     private String id;
-    private ArrayList<Visit> visits;
 
     Visitor(String firstName, String lastName, String address, int phone, String id){
         this.firstName = firstName;
@@ -37,9 +36,6 @@ public class Visitor {
     public void setId(String id){
         this.id = id;
     }
-    public void setVisits (ArrayList<Visit> visitArrayList){
-        this.visits = visits;
-    }
 
     // Getters
     public String getFirstName(){
@@ -56,8 +52,5 @@ public class Visitor {
     }
     public String getId(){
         return this.id;
-    }
-    public ArrayList<Visit> getVisits(){
-        return this.visits;
     }
 }

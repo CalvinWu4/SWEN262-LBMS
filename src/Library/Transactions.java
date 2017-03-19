@@ -9,11 +9,11 @@ import java.util.HashMap;
  * Created by Calvin on 3/13/2017.
  */
 public final class Transactions {
-    private static HashMap<Integer, ArrayList<Transaction>> transactionHash = new HashMap<>();
+    private static HashMap<String, ArrayList<Transaction>> transactionHash = new HashMap<>();
     // visitorId, borrowed books list
 
 
-    public static String borrow(Integer visitorId, ArrayList<Integer> isbns) {
+    public static String borrow(String visitorId, ArrayList<Integer> isbns) {
         if (!Visitors.getVisitorHash().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
         } else if (transactionHash.get(visitorId).size() + isbns.size() > 5) {
@@ -80,11 +80,15 @@ public final class Transactions {
                         transactionHash.get(visitorId).remove(book);
                         return("FINE TO BE ADDED " + book.getIsbn());
                     } else {
-                        return("One or more of the books are not currently borrowed by you.");
+                        return("One or more of the books are not currently borrowed the visitor.");
                     }
                 }
             }
         }
         return null;
+    }
+
+    public static HashMap<String, ArrayList<Transaction>> getTransactionHash(){
+        return transactionHash;
     }
 }
