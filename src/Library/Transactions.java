@@ -12,6 +12,7 @@ public final class Transactions {
     private static HashMap<Integer, ArrayList<Transaction>> transactionHash = new HashMap<>();
     // visitorId, borrowed books list
 
+
     public static void borrow(Integer visitorId, ArrayList<Integer> isbns) {
         if (!Visitors.getVisitorHash().containsKey(visitorId)) {
             System.out.println("The visitor ID does not match a registered visitor.");
