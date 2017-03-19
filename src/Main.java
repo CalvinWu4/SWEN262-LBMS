@@ -17,25 +17,25 @@ public class Main {
         while (true){
             actual_view.printUI();
             Response response = Exchange.setExchangeView(actual_view);
-            // If there is a problem with the response just loop again
-            if(response!=null){
-                System.out.println(response.getResponseMessage());
-                //Check that the response is not an end response
-                if(!response.isEndResponse()){
-                    // Only if there is a view attached to the response we assign a new view.
-                    if(response.getResponseView() != null ){
-                        actual_view = response.getResponseView();
-                    }
-                }else{
-                    System.exit(0);
+            System.out.println(response.getResponseMessage());
+            //Check that the response is not an end response
+            if(!response.isEndResponse()){
+                // Only if there is a view attached to the response we assign a new view, otherwise just loop with
+                // the same view as before, so that if there is a problem with the response just loop again
+                if(response.getResponseView() != null ){
+                    actual_view = response.getResponseView();
                 }
+            }else{
+                System.exit(0);
             }
+
         }
     }
 
     static public void main(String[] args){
         //BackEndCommand.setDebugMode();
         View.initMenuOptions();
+        BackEndCommand.setDebugMode(true);
         MainLoop();
     }
 }

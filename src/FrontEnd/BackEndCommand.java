@@ -34,8 +34,8 @@ public class BackEndCommand implements Command {
         this.args = args;
     }
 
-    public static void setDebugMode(){
-        debugMode = true;
+    public static void setDebugMode(Boolean onOrOff){
+        debugMode = onOrOff;
     }
 
     public static Boolean isDebugMode(){
