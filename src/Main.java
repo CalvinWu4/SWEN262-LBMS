@@ -5,6 +5,7 @@ import FrontEnd.BackEndCommand;
 import FrontEnd.Exchange;
 import FrontEnd.Response;
 import FrontEnd.View;
+import Library.BackEnd;
 
 public class Main {
 
@@ -24,6 +25,8 @@ public class Main {
                 // the same view as before, so that if there is a problem with the response just loop again
                 if(response.getResponseView() != null ){
                     actual_view = response.getResponseView();
+                }else if(BackEnd.isDebugMode()){
+                    System.out.println("The view specified for the back end method was not found");
                 }
             }else{
                 System.exit(0);
@@ -35,7 +38,7 @@ public class Main {
     static public void main(String[] args){
         //BackEndCommand.setDebugMode();
         View.initMenuOptions();
-        BackEndCommand.setDebugMode(true);
+        BackEnd.setDebugMode(true);
         MainLoop();
     }
 }

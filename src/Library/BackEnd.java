@@ -15,6 +15,16 @@ import java.util.TreeMap;
 public final class BackEnd {
 
 
+    private static Boolean debugMode = false;
+
+
+    public static void setDebugMode(Boolean onOrOff){
+        debugMode = onOrOff;
+    }
+
+    public static Boolean isDebugMode(){
+        return debugMode;
+    }
 
     ///
 
@@ -27,7 +37,7 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response LibraryBookSearch(String query){
-        //TODO: It needs actual implementation
+        //TODO: It needs actual implementation, this is just a dummy example
         //Test
         ArrayList<String> authors = new ArrayList<>();
         authors.add("testAuthor1");
@@ -45,8 +55,11 @@ public final class BackEnd {
         ArrayList<Book> books = new ArrayList<>();
         books.add(newBook);books.add(newBook4);books.add(newBook1);books.add(newBook2);books.add(newBook3);
 
+        //This is cheating, it should actually pass the string of BookPrint to a response, instead what I am doing is
+        // printing the books and passing and empty response
         Books.bookPrint(books);
-        return new Response();
+        // Example of a response with a view to be changed to, only necessary when the response needs to take the user to a different view
+        return new Response("",4);
     }
 
     /**

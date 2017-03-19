@@ -27,6 +27,15 @@ public class Response {
     }
 
     /**
+     * Construct a response with a message to output and a viewId to set a view to
+     * @param message The message to be outputted
+     */
+    public Response(String message, int viewId){
+        this.message = message;
+        this.responseView = View.findView(viewId);
+    }
+
+    /**
      * Construct a response with no message
      */
     public Response(){

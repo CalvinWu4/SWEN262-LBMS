@@ -3,6 +3,8 @@ package FrontEnd;
  * Created by Brandon and Kevin on 2/27/2017.
  */
 
+import Library.BackEnd;
+
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -112,13 +114,11 @@ public final class Exchange {
             //Only if the command is for the back end and has no view attached we assign the same view that this
             // exchange is taking place on.
             if(chosenOption.getCommand() instanceof BackEndCommand && response == null){
-
-                if(BackEndCommand.isDebugMode()) {
-                    return new Response("Backend method not implemented");
+                if(BackEnd.isDebugMode()) {
+                    return new Response("Backend method not implemented").setResponseView(viewAfterResponse);
                 }else {
-                    return new Response("Something went wrong");
+                    return new Response("Something went wrong").setResponseView(viewAfterResponse);
                 }
-
             }
             return response;
         }else{
@@ -129,9 +129,6 @@ public final class Exchange {
 
 
     }
-
-
-
     //Checks to see if the current command has been completed or not, then returns the command.
     static String getExchange(){
         return request;
