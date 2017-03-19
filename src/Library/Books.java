@@ -161,17 +161,20 @@ public final class Books {
             sorter.sort(searchResults);
             return searchResults;
         }
-        else{
+        else if(sortOrder.equals("book-status")){
             NumAvailSort sorter = new NumAvailSort();
             sorter.sort(searchResults);
-            for(Book book: searchResults){
-                if(book.getNumAvailableCopies() < 1){
+            for (Book book : searchResults) {
+                if (book.getNumAvailableCopies() < 1) {
                     searchResults.remove(book);
                 }
             }
             return searchResults;
         }
-        // Check if The specified sort order doesn't match one of the expected values. in front end
+        else{
+            System.out.println("The specified sort order doesn't match one of the expected values.");
+            return null;
+        }
     }
 
 //    public void search(String _query){
