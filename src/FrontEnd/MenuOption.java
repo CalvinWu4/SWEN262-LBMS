@@ -62,13 +62,14 @@ public class MenuOption {
     }
 
     /**
-     * Set's up the command arguments, but first it checks that the command is already created, in case this option
-     * is a change of View option
+     * Set's up the command arguments only if the command is a BackEndCommand, Views command don't need arguments
      * @param args: Args to be set to the command.
      */
     public void setCommandArgs(String args){
-        this.setCommandIfView();
-        this.command.setArgs(args);
+        if(this.command instanceof BackEndCommand){
+            this.command.setArgs(args);
+        }
+
     }
 
     /**
@@ -79,6 +80,10 @@ public class MenuOption {
         if(this.futureViewId != null && this.command == null){
             this.command = new ViewCommand(this.futureViewId);
         }
+    }
+
+    public Command getCommand(){
+        return this.command;
     }
 
     public String getMessage(){

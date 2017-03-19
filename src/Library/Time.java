@@ -70,6 +70,8 @@ public class Time {
     public static LocalDate getDate(){
         return dateTime.toLocalDate();
     }
+
+
     public static LocalTime getTime(){
         return dateTime.toLocalTime();
     }

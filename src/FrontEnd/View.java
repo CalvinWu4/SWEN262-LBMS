@@ -1,5 +1,8 @@
 package FrontEnd;
 
+import Library.BackEnd;
+
+import java.awt.*;
 import java.util.*;
 
 /**
@@ -31,79 +34,114 @@ public class View {
      *
      * Option format : new Option("Trigger keyword or number" , "Name to display" , Id of view to display)
      *   or
-     * Option format : new Option("Trigger keyword or number" , "Name to display" , [list of commands])
+     * Option format : new Option("Trigger keyword or number" , "Name to display" , Command)
      *
-     * FrontEnd.View format : new FrontEnd.View(OptionsArray, Id of view (eg: LBMS view is 0, Library.Book is 1, etc.), "Header Message")
+     *  View IDs:
+     *
+     *  Main menu: 0
+     *  Book menu: 1
+     *  Visits menu: 2
+     *  Transaction menu: 3
+     *  Stats menu: 4
+     *  Time menu: 5
+     *
      */
-    static public void initalizeViews(){
-
-        views = new HashMap<>();
-        //LBMS view's options
-        TreeMap<String,MenuOption> LBMSoptions =  new TreeMap<>();
-        MenuOption books = new MenuOption("1","Library.Books",1);
-        MenuOption stats = new MenuOption("2","Stats for Nerds",2);
-        MenuOption visitors = new MenuOption("3","Library.Visitors" ,3);
-        MenuOption date = new MenuOption("4","Edit Date", 4);
-
-        //Save LMBS options in Map
-        LBMSoptions.put("1",books);
-        LBMSoptions.put("2",stats);
-        LBMSoptions.put("3",visitors);
-        LBMSoptions.put("4",date);
-
-
-        View LBMS = new View(LBMSoptions,0,"Welcome to the LBMS System!");
-
-        //Option to go back to the LBMS view
+    static public void initMenuOptions(){
+        //Option to go back to the LBMS menu
         MenuOption back = new MenuOption("1","Go Back",0);
 
+        //Option to exit the program
+        MenuOption exit = new MenuOption("quit","Exit program",new BackEndCommand("exit"));
         //Dummy option for the other clients
         MenuOption dummy = new MenuOption("2","Dummy Option",0);
 
-        //Library.Books
+        //LBMS view's options
+        TreeMap<String,MenuOption> LBMSoptions =  new TreeMap<>();
+        MenuOption books = new MenuOption("1","Books",1);
+        MenuOption visitors = new MenuOption("2","Visitors" ,2);
+        MenuOption transactions = new MenuOption("3","Transactions" ,3);
+        MenuOption stats = new MenuOption("4","Stats for Nerds",4);
+        MenuOption time = new MenuOption("5","Edit Date or Time", 5);
+
+        //Save LMBS options in Map
+        LBMSoptions.put(books.getKeyWord(),books);
+        LBMSoptions.put(visitors.getKeyWord(),visitors);
+        LBMSoptions.put(transactions.getKeyWord(),transactions);
+        LBMSoptions.put(stats.getKeyWord(),stats);
+        LBMSoptions.put(time.getKeyWord(),time);
+        LBMSoptions.put(exit.getKeyWord(),exit);
+
+
+        /** Books **/
         TreeMap<String,MenuOption> BookOptions =  new TreeMap<>();
-        BookOptions.put("1",back);
-        BookOptions.put("2",dummy);
-        BookOptions.put("3",dummy);
-        BookOptions.put("4",dummy);
-        View Books = new View(BookOptions,1,"Library.Books: ");
+        MenuOption BookSearch = new MenuOption("info","Find a Book",new BackEndCommand("LibraryBookSearch"));
+        MenuOption BookStoreSearch  = new MenuOption("search","Search for Books in the store",new BackEndCommand("BookStoreSearch"));
+        MenuOption BookPurchase  = new MenuOption("buy","Purchase a book",new BackEndCommand("BookPurchase"));
+        BookOptions.put(back.getKeyWord(),back);
+        BookOptions.put(BookSearch.getKeyWord(),BookSearch);
+        BookOptions.put(BookStoreSearch.getKeyWord(),BookStoreSearch);
+        BookOptions.put(BookPurchase.getKeyWord(),BookPurchase);
+        BookOptions.put(exit.getKeyWord(),exit);
 
-
-        //Stats
+        /** Stats **/
         TreeMap<String,MenuOption> StatsOptions =  new TreeMap<>();
-        StatsOptions.put("1",back);
-        StatsOptions.put("2",dummy);
-        StatsOptions.put("3",dummy);
-        StatsOptions.put("4",dummy);
-        View Stats = new View(StatsOptions,2,"Stats: ");
+        MenuOption LibraryStats = new MenuOption("report","Stats from the last n days",new BackEndCommand("LibraryStatsReport"));
+        StatsOptions.put(back.getKeyWord(),back);
+        StatsOptions.put(LibraryStats.getKeyWord(),LibraryStats);
+        StatsOptions.put(exit.getKeyWord(),exit);
 
-        //Library.Visitors
-        //Option to go back to the LBMS view
-        //TODO add correct commands, so far they just go to the visitors view
-        MenuOption register = new MenuOption("2","Register a New Library.Visitor",3);
-        MenuOption record_visit = new MenuOption("3","Record a visit",3);
-        MenuOption record_departure = new MenuOption("4","Record a Departure",3);
+        /** Visitors **/
+
         TreeMap<String,MenuOption> VisitorOptions =  new TreeMap<>();
-        VisitorOptions.put("1",back);
-        VisitorOptions.put("2",register);
-        VisitorOptions.put("3",record_visit);
-        VisitorOptions.put("4",record_departure);
-        View Visitors = new View(VisitorOptions,3,"Library.Visitors: ");
+        MenuOption RegisterVisitor = new MenuOption("register","Register a New Visitor",new BackEndCommand("RegisterVisitor"));
+        MenuOption BeginVisit = new MenuOption("arrive","Record a visit",new BackEndCommand("BeginVisit"));
+        MenuOption EndVisit = new MenuOption("depart","Record a Departure",new BackEndCommand("EndVisit"));
 
-        //Dates
-        TreeMap<String,MenuOption> DateOptions =  new TreeMap<>();
-        DateOptions.put("1",back);
-        DateOptions.put("2",dummy);
-        DateOptions.put("3",dummy);
-        DateOptions.put("4",dummy);
-        View Dates = new View(DateOptions,4,"Dates: ");
+        VisitorOptions.put(back.getKeyWord(),back);
+        VisitorOptions.put(RegisterVisitor.getKeyWord(),RegisterVisitor);
+        VisitorOptions.put(BeginVisit.getKeyWord(),BeginVisit);
+        VisitorOptions.put(EndVisit.getKeyWord(),EndVisit);
+        VisitorOptions.put(exit.getKeyWord(),exit);
 
-        //Finally add views to the HashMap
-        views.put(LBMS.id,LBMS);
-        views.put(Books.id,Books);
-        views.put(Stats.id,Stats);
-        views.put(Visitors.id,Visitors);
-        views.put(Dates.id,Dates);
+        /** Transactions **/
+        TreeMap<String,MenuOption> Transactions =  new TreeMap<>();
+        MenuOption ReturnBook = new MenuOption("return","Return a book",new BackEndCommand("ReturnBook"));
+        MenuOption BorrowBook = new MenuOption("borrow","Borrow a book",new BackEndCommand("BorrowBook"));
+        MenuOption FindBorrowedBooks = new MenuOption("borrowed","List borrowed books",new BackEndCommand("FindBorrowedBooks"));
+        MenuOption PayFine = new MenuOption("pay","Pay all or part of a fine",new BackEndCommand("PayFine"));
+
+        Transactions.put(back.getKeyWord(),back);
+        Transactions.put(ReturnBook.getKeyWord(),ReturnBook);
+        Transactions.put(BorrowBook.getKeyWord(),BorrowBook);
+        Transactions.put(FindBorrowedBooks.getKeyWord(),FindBorrowedBooks);
+        Transactions.put(PayFine.getKeyWord(),PayFine);
+        Transactions.put(exit.getKeyWord(),exit);
+
+        /** Time options **/
+        TreeMap<String,MenuOption> TimeOptions =  new TreeMap<>();
+        MenuOption AdvanceTime = new MenuOption("advance","Advice time",new BackEndCommand("AdvanceTime"));
+        MenuOption CurrentDateTime = new MenuOption("datetime","Get current Date and Time",new BackEndCommand("CurrentDateTime"));
+        TimeOptions.put(back.getKeyWord(),back);
+        TimeOptions.put(AdvanceTime.getKeyWord(),AdvanceTime);
+        TimeOptions.put(CurrentDateTime.getKeyWord(),CurrentDateTime);
+        TimeOptions.put(exit.getKeyWord(),exit);
+
+
+        View LBMSView = new View(LBMSoptions,0,"LBMS main menu");
+        View BooksView = new View(BookOptions,1,"Books Menu: ");
+        View VisitsView = new View(VisitorOptions,2,"Visits Menu: ");
+        View TransactionsView = new View(Transactions,3,"Transactions Menu: ");
+        View StatsView = new View(StatsOptions,4,"Stats Menu: ");
+        View TimeView = new View(TimeOptions,5,"Date and Time Menu: ");
+
+        views = new HashMap<>();
+        views.put(LBMSView.id,LBMSView);
+        views.put(BooksView.id,BooksView);
+        views.put(VisitsView.id,VisitsView);
+        views.put(TransactionsView.id,TransactionsView);
+        views.put(StatsView.id,StatsView);
+        views.put(TimeView.id,TimeView);
+
     }
 
     public View(TreeMap<String,MenuOption> options, int id, String headerMessage){
@@ -113,18 +151,15 @@ public class View {
     }
 
 
+
+
+    /**
+     * The client main loop. Receives a view to be displayed and starts an exchange
+     * @param view
+     */
     static public void setView(View view){
         //Find view in the hashMap of views, if found, print the UI and start the exchange wit
         view.printUI();
-        Response response;
-        //Keep printing the same UI and setting exchange  until the response is not an error
-        while (((response = Exchange.setExchangeView(view)) instanceof ErrorResponse)){
-            System.out.println(response.getResponseMessage());
-            view.printUI();
-        }
-
-
-
     }
 
     static public View findView(int viewId){
@@ -156,9 +191,4 @@ public class View {
         this.options = options;
     }
 
-
-    public static void main(String[] args){
-        initalizeViews();
-        setView(findView(0));
-    }
 }

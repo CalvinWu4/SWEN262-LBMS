@@ -15,16 +15,16 @@ public class BackEndCommand implements Command {
     /** The args for the method **/
     private String args;
 
+    private Boolean debugMode = true;
+
 
     /**
      * Construct a command to be attached to an object by setting the method according to the type of args given
      * @param action: Action to be executed
-     * @param args: Predefined args
      */
-    public BackEndCommand(String action, String args) {
-        this.args = args;
+    public BackEndCommand(String action) {
         try{
-            this.action = BackEnd.class.getMethod(action);
+            this.action = BackEnd.class.getMethod(action,String.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -40,12 +40,19 @@ public class BackEndCommand implements Command {
      */
     @Override
     public Response execute(){
+
         try {
-            return (Response) action.invoke(args);
-        } catch (IllegalAccessException | InvocationTargetException e)  {
-            e.printStackTrace();
+            Object[] args = {this.args};
+            return (Response) action.invoke(null,args);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            if(debugMode) {
+                e.printStackTrace();                
+            }
+            return new Response("Debug error: 405 BackEnd Method not found");
+
         }
-        return new ErrorResponse("Debug error: 405 BackEnd Method not found");
+
+
     }
 
 

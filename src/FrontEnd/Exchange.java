@@ -1,4 +1,5 @@
-package FrontEnd; /**
+package FrontEnd;
+/**
  * Created by Brandon and Kevin on 2/27/2017.
  */
 
@@ -23,12 +24,16 @@ public final class Exchange {
     /** The available options for the exchange **/
     static private TreeMap<String,MenuOption> options;
 
+    static private View viewAfterResponse;
+
+
     /**
      * The Std input exchange from the user, it will select from a list of options in a specific format
      * @param ViewForOptions: View to obtain the options from
      */
 
     static public Response setExchangeView(View ViewForOptions){
+        viewAfterResponse = ViewForOptions;
         // Options to choose from, each will perform a series of Commands
         TreeMap<String,MenuOption> theOptions = ViewForOptions.getOptions();
         isComplete = false;
@@ -90,6 +95,7 @@ public final class Exchange {
     /**
      * Interprets the finished request query from the user.
      * If the query has a proper format then it executes the selected option's command.
+     * Upon execution set the response view to be the actual view.
      * @param query: The finished query typed by the user.
      */
     static public Response interpret(String query){
@@ -101,10 +107,11 @@ public final class Exchange {
             isExecuted = true;
             //TODO: Check that the syntax is correct
             chosenOption.setCommandArgs(query);
+            //First call to execute command
             return options.get(mainTrigger).execute();
         }else{
             isExecuted = false;
-            return new ErrorResponse("Invalid command");
+            return new Response("Invalid command").setResponseView(viewAfterResponse);
 
         }
 

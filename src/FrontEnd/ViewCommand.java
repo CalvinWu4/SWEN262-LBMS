@@ -20,10 +20,9 @@ public class ViewCommand implements Command {
     public Response execute() {
         View nextView = View.findView(this.viewToGo);
         if (nextView != null) {
-            View.setView(nextView);
-            return new SuccessResponse("");
+            return new Response().setResponseView(nextView);
         } else {
-            return new ErrorResponse("404 view not found");
+            return new Response("404 view not found");
         }
     }
 
