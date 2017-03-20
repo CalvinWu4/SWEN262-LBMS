@@ -8,48 +8,30 @@ import java.util.HashMap;
 /**
  * Created by Calvin on 3/19/2017.
  */
-public final class Visits implements DB{
+public final class Visits {
     private static HashMap<LocalDate, ArrayList<Visit>> visitHash = new HashMap<>();
 
-    public static void visit(String visitorID){
+    public static String visit(String visitorID){
         if(!Visitors.getVisitorHash().containsKey(visitorID)){
-            System.out.println("The specified visitor ID is not a valid ID or has not been assigned to any " +
+            return("The specified visitor ID is not a valid ID or has not been assigned to any " +
                     "registered visitor.");
         }else{
             Visitors.getVisitorHash().get(visitorID).startVisit();
+            return("Success");
         }
     }
 
-    public static void leave(String visitorID) {
+    public static String leave(String visitorID) {
         if(!Visitors.getVisitorHash().containsKey(visitorID)){
-            System.out.println("The specified visitor ID is not a valid ID or has not been assigned to any " +
+            return("The specified visitor ID is not a valid ID or has not been assigned to any " +
                     "registered visitor.");
         }else{
             Visitors.getVisitorHash().get(visitorID).endVisit();
+            return("Success");
         }
     }
 
     public static HashMap<LocalDate, ArrayList<Visit>> getVisitHash(){
         return visitHash;
-    }
-
-    @Override
-    public Object addValue(Object value) {
-        return null;
-    }
-
-    @Override
-    public Object getValue(Object key) {
-        return null;
-    }
-
-    @Override
-    public boolean hasKey(Object key) {
-        return false;
-    }
-
-    @Override
-    public Collection getAllValues() {
-        return null;
     }
 }
