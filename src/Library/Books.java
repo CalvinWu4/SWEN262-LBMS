@@ -4,15 +4,18 @@ import Query.*;
 import Sort.*;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Anthony Perez on 3/5/17.
  */
 public final class Books {
-    private static HashMap<Long, Book> bookHash = new HashMap<>(); // ISBN, Book
+    private static HashMap<Long, Book> bookHash = new HashMap<>();
     private static final String BOOKSFILE = "libraryBooks.csv";
 
 
@@ -25,22 +28,22 @@ public final class Books {
         ArrayList<String> authors2 = new ArrayList<>();
         authors2.add("testAuthor3");
         LocalDate date = LocalDate.now();
-        Book newBook = new Book(1L, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
-        Book newBook4 = new Book(2L,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
-        Book newBook1 = new Book(3L,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
-        Book newBook2 = new Book(4L,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
-        Book newBook3 = new Book(5L,"The Hunger Games",authors,"RIT", date,1000,10,5);
+        //Book newBook = new Book(1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
+       // Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
+     //   Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
+      //  Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
+     //   Book newBook3 = new Book(5,"The Hunger Games",authors,"RIT", date,1000,10,5);
         //go through file where books for the library are stored and add each book to the "bookHash".\
         LocalDate pastDate = LocalDate.now();
         //pastDate = pastDate.minusDays(1);
         pastDate = pastDate.minusWeeks(2);
         //newBook4.setDueDate(pastDate); Transaction
 
-        bookHash.put(newBook.getIsbn(),newBook);
+/*        bookHash.put(newBook.getIsbn(),newBook);
         bookHash.put(newBook1.getIsbn(),newBook1);
         bookHash.put(newBook2.getIsbn(),newBook2);
         bookHash.put(newBook3.getIsbn(),newBook3);
-        bookHash.put(newBook4.getIsbn(),newBook4);
+        bookHash.put(newBook4.getIsbn(),newBook4);*/
 
         try{
             BufferedReader br = new BufferedReader(new FileReader(BOOKSFILE));
@@ -70,18 +73,51 @@ public final class Books {
         bookPrint(books);
     }
 
-    // Search Library
-    public static ArrayList<Book> info(String title, String authors, String isbn, String publisher,
+    //check class diagram for missing parameter
+//    public void search(String _query, String _field){
+//        ArrayList<Book> books = new ArrayList<>();
+//        switch (_field) {
+//            case "title":
+//                for(Book book : bookHash.values()){
+//                    String title = book.getTitle();
+//                    Pattern pattern = Pattern.compile(_query);
+//                    Matcher matcher = pattern.matcher(title);
+//                    if(matcher.find()){
+//                        books.add(book);
+//                    }
+//                }
+//                break;
+//
+//            case "author":
+//                for(Book book : bookHash.values()){
+//                    String author = book.getAuthorsString();
+//                    Pattern pattern = Pattern.compile(_query);
+//                    Matcher matcher = pattern.matcher(author);
+//                    if(matcher.find()){
+//                        books.add(book);
+//                    }
+//                }
+//                break;
+//
+//            case "publisher":for(Book book : bookHash.values()){
+//                    String publisher = book.getPublisher();
+//                    Pattern pattern = Pattern.compile(_query);
+//                    Matcher matcher = pattern.matcher(publisher);
+//                    if(matcher.find()){
+//                        books.add(book);
+//                    }
+//                }
+//
+//                break;
+//        }
+//        bookPrint(books);
+//    }
+    public ArrayList<Book> search(String title, String authors, String isbn, String publisher,
                                   String sortOrder){
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
         Collection<Book> bookCollection = bookHash.values();
         ArrayList<Book> bookList = new ArrayList<Book>(bookCollection);
-        for(Book book: bookList){
-            if(book.getNumAvailableCopies() < 1){
-                bookList.remove(book);
-            }
-        }
 
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
@@ -141,61 +177,64 @@ public final class Books {
         }
     }
 
-    // Search Book Store
-    public static ArrayList<Book> search(String title, String authors, String isbn, String publisher,
-                                  String sortOrder){
-
-        ArrayList<Book> searchResults = new ArrayList<Book>();
-        Collection<Book> bookCollection = bookHash.values();
-        ArrayList<Book> bookList = new ArrayList<Book>(bookCollection);
-
-        if(!title.equals("*")){
-            TitleQuery query = new TitleQuery();
-            searchResults = new ArrayList<Book>(query.search(bookList, title));
-        }
-        if(!authors.equals("*")){
-            AuthorsQuery query = new AuthorsQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, authors));
-            }
-            else{
-                searchResults.retainAll(query.search(bookList, authors));
-            }
-        }
-        if(!isbn.equals("*")){
-            IsbnQuery query = new IsbnQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, isbn));
-            }
-            else{
-                searchResults.retainAll(query.search(bookList, isbn));
-            }
-
-        }
-        if(!publisher.equals("*")){
-            PublisherQuery query = new PublisherQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, publisher));
-            }
-            else{
-                searchResults.retainAll(query.search(bookList, publisher));
-            }
-        }
-        if(sortOrder.equals("title")){
-            TitleSort sorter = new TitleSort();
-            sorter.sort(searchResults);
-            return searchResults;
-        }
-        else if(sortOrder.equals("publish-date")){
-            PubDateSort sorter = new PubDateSort();
-            sorter.sort(searchResults);
-            return searchResults;
-        }
-        else{
-            System.out.println("The specified sort order doesn't match one of the expected values.");
-            return null;
-        }
-    }
+//    public void search(String _query){
+//        List<String> queryList = new ArrayList<>(Arrays.asList(_query.split(",")));
+//        ArrayList<Book> searchResults = new ArrayList<>();
+//
+//        for(String arg : queryList){
+//            if(!arg.equals("*")){
+//                switch(queryList.indexOf(arg)){
+//                    case 0:
+//                        //BookQuery query = new TitleQuery(;
+//                        //Collection c = query.search(bookHash,queryList.get(0));
+//                        break;
+//                    case 1:
+//                        for(Book book : bookHash.values()){
+//                            String author = book.getAuthorsString();
+//                            Pattern pattern = Pattern.compile(queryList.get(1));
+//                            Matcher matcher = pattern.matcher(author);
+//                            if(matcher.find()){
+//                                searchResults.add(book);
+//                            }
+//                        }
+//                        break;
+//                    case 2:
+//                        for(Book book : bookHash.values()){
+//                            Integer isbn = book.getIsbn();
+//                            Pattern pattern = Pattern.compile(queryList.get(3));
+//                            Matcher matcher = pattern.matcher(isbn.toString());
+//                            if(matcher.find()){
+//                                searchResults.add(book);
+//                            }
+//                        }
+//                        break;
+//                    case 3:
+//                        for(Book book : bookHash.values()){
+//                            String publisher = book.getPublisher();
+//                            Pattern pattern = Pattern.compile(queryList.get(3));
+//                            Matcher matcher = pattern.matcher(publisher);
+//                            if(matcher.find()){
+//                                searchResults.add(book);
+//                            }
+//                        }
+//                        break;
+//                    case 4:
+//                        System.out.println("Sorting by _");
+//                        break;
+//                }
+//            }
+//        }
+//
+//        ArrayList<Book> books = removeDuplicates(searchResults);
+//
+//        if(books.isEmpty()){
+//            System.out.println("No results matches your search of: "+_query);
+//        }
+//        else {
+//            System.out.println("Number of Books found in search: "+books.size());
+//            bookPrint(books);
+//        }
+//    }
 
     public void add(Book _book){
         bookHash.put(_book.getIsbn(),_book);

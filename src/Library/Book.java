@@ -17,6 +17,7 @@ public class Book {
     private Integer pageCount;
     private Integer totalNumCopies;
     private Integer numAvailableCopies;
+    //private Fine fine; Put this in transaction
 
     public Book(Long _isbn, String _title, ArrayList<String> _authors, String _publisher,
                 LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies){
@@ -61,7 +62,6 @@ public class Book {
     public Integer getPageCount(){
         return pageCount;
     }
-
     public void setIsbn(Long _isbn){
         this.isbn = _isbn;
     }
@@ -86,4 +86,22 @@ public class Book {
     public void setNumAvailableCopies(Integer _numAvailableCopies){
         this.numAvailableCopies = _numAvailableCopies;
     }
+
+
+
+    /// Put this in Transaction
+//    public Integer calculateFee(){
+//        if(!(this.isAvailable())){
+//            LocalDate present = LocalDate.now();
+//            if((present.isBefore(this.getDueDate()))){
+//                return fine.getCost();
+//            }
+//            else{
+//                long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
+//                fine.addCost(weeksInYear);
+//                return fine.getCost();
+//            }
+//        }
+//        return fine.getCost();
+//    }
 }
