@@ -95,21 +95,4 @@ public class Book {
         Books.bookPrint(booky);
         return "";
     }
-
-
-    /// Put this in Transaction
-//    public Integer calculateFee(){
-//        if(!(this.isAvailable())){
-//            LocalDate present = LocalDate.now();
-//            if((present.isBefore(this.getDueDate()))){
-//                return fine.getCost();
-//            }
-//            else{
-//                long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
-//                fine.addCost(weeksInYear);
-//                return fine.getCost();
-//            }
-//        }
-//        return fine.getCost();
-//    }
 }

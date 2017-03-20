@@ -33,16 +33,16 @@ public class Transaction {
     }
 
     public Integer calculateFee(Book book){
-
-            LocalDate present = LocalDate.now();
-            if((present.isBefore(this.getDueDate()))){
-                return fine.getCost();
-            }
-            else{
-                long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
-                fine.addCost(weeksInYear);
-                return fine.getCost();
-            }
+        fine = new Fine();
+        LocalDate present = LocalDate.now();
+        if((present.isBefore(this.getDueDate()))){
+            return fine.getCost();
+        }
+        else{
+            long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
+            fine.addCost(weeksInYear);
+            return fine.getCost();
+        }
     }
 
     // Getters
@@ -54,5 +54,8 @@ public class Transaction {
     }
     public LocalDate getDueDate(){
         return this.dueDate;
+    }
+    public Fine getFine(){
+        return this.fine;
     }
 }

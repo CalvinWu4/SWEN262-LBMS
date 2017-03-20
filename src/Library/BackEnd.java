@@ -136,7 +136,7 @@ public final class BackEnd {
      * @return The response of whether the book was able to be borrowed
      */
     static public Response BorrowBook(ArrayList<Parameter> params){
-        //TODO
+
         return new Response("Borrowed book! (not really)");
     }
 
@@ -156,6 +156,16 @@ public final class BackEnd {
      * @return The response of whether the book was successfully returned and a fee message if it exists.
      */
     static public Response ReturnBook(ArrayList<Parameter> params){
+
+
+        ArrayList<String> returnBookParams = new ArrayList<>();
+        for(Parameter parameter : params){
+            System.out.println((String) parameter.getParam());
+            returnBookParams.add((String) parameter.getParam());
+        }
+
+        //return new Response("return,"+Transactions._return(Integer.parseInt(returnBookParams.get(0)),returnBookParams.get(1)));
+
         return null;//TODO
     }
 
@@ -165,6 +175,14 @@ public final class BackEnd {
      * @return The response of whether amount paid was enough to pay the fine.
      */
     static public Response PayFine(ArrayList<Parameter> params){
+
+        ArrayList<String> payFineParams = new ArrayList<>();
+        for(Parameter parameter : params){
+            System.out.println((String) parameter.getParam());
+            payFineParams.add((String)parameter.getParam());
+        }
+
+
         return null;//TODO
     }
 

@@ -40,7 +40,7 @@ public class Main {
     static public void main(String[] args){
         //BackEndCommand.setDebugMode();
         View.initMenuOptions();
-        new Parser();
+        new Books();
 
         BackEnd.setDebugMode(true);
         MainLoop();

@@ -17,48 +17,8 @@ public final class Books {
 
 
     public Books(){
-        //test for class to work
-        ArrayList<String> authors = new ArrayList<>();
-        authors.add("testAuthor1");
-        authors.add("testAuthor2");
-
-        ArrayList<String> authors2 = new ArrayList<>();
-        authors2.add("testAuthor3");
-        LocalDate date = LocalDate.now();
-        Book newBook = new Book(1L, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
-        Book newBook4 = new Book(2L,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
-        Book newBook1 = new Book(3L,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
-        Book newBook2 = new Book(4L,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
-        Book newBook3 = new Book(5L,"The Hunger Games",authors,"RIT", date,1000,10,5);
-//        go through file where books for the library are stored and add each book to the "bookHash".\
-        //LocalDate pastDate = LocalDate.now();
-        //pastDate = pastDate.minusDays(1);
-        //pastDate = pastDate.minusWeeks(2);
-        //newBook4.setDueDate(pastDate); Transaction
-
-        bookHash.put(newBook.getIsbn(),newBook);
-        bookHash.put(newBook1.getIsbn(),newBook1);
-        bookHash.put(newBook2.getIsbn(),newBook2);
-        bookHash.put(newBook3.getIsbn(),newBook3);
-        bookHash.put(newBook4.getIsbn(),newBook4);
-
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(BOOKSFILE));
-
-            String tempLine = "";
-
-            while ((tempLine = br.readLine()) != null){
-                //TODO: Parse file with library books and add them to the bookHash.
-            }
-        }
-        catch (IOException ioe){
-            System.out.println("Error reading the file");
-        }
-
-        //display();
-        //search("Harry,*,*,*");
-        saveToFile();
-        //displayAvailable();
+        new Parser();
+        this.saveToFile();
     }
 
     public void display(){
@@ -199,6 +159,7 @@ public final class Books {
 
     public void add(Book _book){
         bookHash.put(_book.getIsbn(),_book);
+        this.saveToFile();
     }
 
     public void saveToFile(){

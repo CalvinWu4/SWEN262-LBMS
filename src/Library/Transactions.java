@@ -77,21 +77,20 @@ public final class Transactions {
                 } else {
                     if (transactionHash.containsValue(isbn)){
                         Integer cost = 0;
-                        String costString = "";
+                        String response = "";
                         ArrayList<Transaction> tr = transactionHash.get(visitorId);
                         for (Transaction t : tr){
                             cost = cost + t.calculateFee(book);
                             if(cost > 0){
-                                costString += "Book: "+isbn+" is overdue. Cost = $"+cost+"\n";
+                                response += "Book: "+isbn+" is overdue. Cost = $"+cost+"\n";
                             }
                             else{
-                                costString = "Success";
+                                response = "Success";
                             }
                         }
-
                         book.setNumAvailableCopies(book.getNumAvailableCopies() + 1);
                         transactionHash.get(visitorId).remove(book);
-                        return costString;
+                        return response;
                     } else {
                         return("One or more of the books are not currently borrowed the visitor.");
                     }
@@ -99,6 +98,26 @@ public final class Transactions {
             }
         }
         return null;
+    }
+
+    public static String _pay(Integer visitorId,Integer amount){
+        ArrayList<Transaction> tr = transactionHash.get(visitorId);
+        Integer balance = 0;
+        String response = "";
+        for(Transaction t : tr){
+            Fine f = t.getFine();
+            balance = balance + f.getCost();
+        }
+
+        if(amount <= balance){
+            balance = balance - amount;
+            response = "success,"+balance;
+        }
+        else{
+            response = "invalid-amount,"+amount+","+balance;
+        }
+
+        return response;
     }
 
     public static HashMap<String, ArrayList<Transaction>> getTransactionHash(){
