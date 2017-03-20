@@ -40,6 +40,8 @@ public class Main {
         //BackEndCommand.setDebugMode();
         View.initMenuOptions();
         new Parser();
+
+
         BackEnd.setDebugMode(true);
         MainLoop();
     }

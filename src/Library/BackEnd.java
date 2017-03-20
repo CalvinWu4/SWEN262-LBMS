@@ -69,7 +69,7 @@ public final class BackEnd {
 
         String finished_authors = authors.substring(1);
         System.out.println(bookSearchParams[5]);
-        ArrayList<Book> results = Books.find(bookSearchParams[1],finished_authors,bookSearchParams[3],bookSearchParams[4],bookSearchParams[5]);
+        ArrayList<Book> results = Books.info(bookSearchParams[1],finished_authors,bookSearchParams[3],bookSearchParams[4],bookSearchParams[5]);
         if(results == null ||  results.size() == 0 ){
             System.out.println("The search returned an empty result");
         }else {
