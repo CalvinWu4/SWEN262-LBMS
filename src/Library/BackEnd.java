@@ -145,7 +145,7 @@ public final class BackEnd {
      * @return The response list of borrowed books.
      */
     static public Response FindBorrowedBooks(ArrayList<Parameter> params){
-        return new Response("borrowed," + Transactions.findBooks((String)params.get(0).getParam())
+        return new Response("borrowed," + Transactions.findBooks((String)params.get(0).getParam()));
     }
 
     /**
