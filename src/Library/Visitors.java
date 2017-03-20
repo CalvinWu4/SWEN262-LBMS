@@ -26,7 +26,7 @@ public final class Visitors implements DB<String,Visitor> {
         }
         DecimalFormat tenDigit = new DecimalFormat("0000000000");
         String visitorId = tenDigit.format(count);
-        Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId);
+        Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId, Time.getDate());
         visitorHash.put(newVisitor.getId(), newVisitor);
         count++;
         System.out.println("Visitor ID:"+ visitorId + " has been registered on " +

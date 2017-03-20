@@ -16,9 +16,10 @@ public class Visitor {
     private String address;
     private Integer phone;
     private String id;
+    private LocalDate regDate;
     private Visit activeVisit;
 
-    Visitor(String firstName, String lastName, String address, int phone, String id){
+    Visitor(String firstName, String lastName, String address, int phone, String id, LocalDate regDate){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -68,6 +69,9 @@ public class Visitor {
     public void setId(String id){
         this.id = id;
     }
+    public void setRegDate(LocalDate date) {
+        this.regDate = regDate;
+    }
 
     // Getters
     public String getFirstName(){
@@ -88,4 +92,8 @@ public class Visitor {
     public Visit getActiveVisit(){
         return this.activeVisit;
     }
+    public LocalDate getRegDate(){
+        return this.regDate;
+    }
+
 }
