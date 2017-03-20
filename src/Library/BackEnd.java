@@ -135,8 +135,21 @@ public final class BackEnd {
      * @return The response of whether the book was able to be borrowed
      */
     static public Response BorrowBook(ArrayList<Parameter> params){
-        return new Response("Borrowed book! (not really)");
-
+        ArrayList<String> borrowBookParams = new ArrayList<>();
+        ArrayList<Long> booksIds = new ArrayList<>();
+        int i = 0;
+        for(Parameter parameter : params){
+            if(parameter.getParam() instanceof Collection){
+                for (String id : (ArrayList<String>)parameter.getParam()){
+                    booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
+                }
+            }
+            if(i <= 1){
+                borrowBookParams.add((String) parameter.getParam());
+            }
+            i++;
+        }
+        return new Response("borrow,"+Transactions.borrow(borrowBookParams.get(0),booksIds));
     }
 
     /**
@@ -156,7 +169,6 @@ public final class BackEnd {
      */
     static public Response ReturnBook(ArrayList<Parameter> params){
 
-
         ArrayList<String> returnBookParams = new ArrayList<>();
         ArrayList<Long> booksIds = new ArrayList<>();
         int i = 0;
@@ -172,7 +184,6 @@ public final class BackEnd {
             i++;
         }
         return new Response("return,"+Transactions._return(Integer.parseInt(returnBookParams.get(0)),booksIds));
-
     }
 
     /**
@@ -184,12 +195,9 @@ public final class BackEnd {
 
         ArrayList<String> payFineParams = new ArrayList<>();
         for(Parameter parameter : params){
-            System.out.println((String) parameter.getParam());
             payFineParams.add((String)parameter.getParam());
         }
-
-
-        return null;//TODO
+        return new Response("pay,"+Transactions._pay(Integer.parseInt(payFineParams.get(0)),Integer.parseInt(payFineParams.get(1))));
     }
 
     /////
