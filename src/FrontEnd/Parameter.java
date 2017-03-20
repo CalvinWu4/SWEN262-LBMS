@@ -19,6 +19,10 @@ public class Parameter<E> {
         this.isList = (field instanceof Collection);
     }
 
+    public E getParam(){
+        return this.field;
+    }
+
 
 
 }

@@ -184,7 +184,8 @@ public final class BackEnd {
      * @return The response with the current date and time
      */
     static public Response CurrentDateTime(ArrayList<Parameter> params){
-        return new Response(params.get(0) + "," + Time.getDate() + "," + Time.getTime());
+        return new Response(params.get(0).getParam() + "," + Time.getDate() + "," + Time.getTime());
+        //return new Response(Time.getDate() + "," + Time.getTime());
     }
 
     /////

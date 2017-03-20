@@ -115,7 +115,7 @@ public final class Exchange {
                     //Empty arrayList if the command is to just change views
                     chosenOption.setCommandArgs(new ArrayList<>());
                 }else{
-                    chosenOption.setCommandArgs(getParmsFromRequest(query));
+                    chosenOption.setCommandArgs(getParamsFromRequest(query));
                 }
 
                 //First call to execute command
@@ -151,29 +151,34 @@ public final class Exchange {
     }
 
 
-    static ArrayList<Parameter> getParmsFromRequest(String query){
+    static ArrayList<Parameter> getParamsFromRequest(String query){
         String[] args = query.split(",");
         ArrayList<Parameter> parameters = new ArrayList<>();
         if(args.length <= 1){
-            return new ArrayList<>(); //return an empty arrayList of parameters if there are no parameters in the query
-        }
-        Boolean braketChecker = false;
-        ArrayList<String> multiparam = new ArrayList<>();
-        for(int i=0; i<args.length;i++) {
+            //return an arrayList with just the query as the only parameter
+            parameters.add(new Parameter<>(query));
+        }else{
+            Boolean braketChecker = false;
+            ArrayList<String> multiparam = new ArrayList<>();
+            for(int i=0; i<args.length;i++) {
 
-            if (args[i].contains("{")) {
-                braketChecker = true;
+                if (args[i].contains("{")) {
+                    braketChecker = true;
 
-            } else if (args[i].contains("}")) {
-                braketChecker = false;
-                parameters.add(new Parameter<>(multiparam));
+                } else if (args[i].contains("}")) {
+                    braketChecker = false;
+                    parameters.add(new Parameter<>(multiparam));
+                }
+                if (braketChecker){
+                    multiparam.add(args[i]);
+                }else {
+                    parameters.add(new Parameter<>(args[i]));
+                }
             }
-            if (braketChecker){
-                multiparam.add(args[i]);
-            }else {
-                parameters.add(new Parameter<>(args[i]));
-            }
+
         }
+
+        System.out.println(parameters);
         return parameters;
 
     }
