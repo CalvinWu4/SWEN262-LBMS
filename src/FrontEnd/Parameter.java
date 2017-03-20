@@ -23,6 +23,11 @@ public class Parameter<E> {
         return this.field;
     }
 
+    @Override
+    public String toString(){
+        return this.getParam().toString();
+    }
+
 
 
 }

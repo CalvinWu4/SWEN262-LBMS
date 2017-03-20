@@ -38,18 +38,7 @@ public class Visitor {
     }
 
     public void endVisit(){
-        if(this.activeVisit != null){
-            if(Visits.getVisitHash().get(Time.getDate()).isEmpty()){
-                ArrayList<Visit> visits = new ArrayList<>();
-                visits.add(this.activeVisit);
-                Visits.getVisitHash().put(Time.getDate(),visits);
 
-            }else{
-                Visits.getVisitHash().get(Time.getDate()).add(this.activeVisit);
-            }
-        }else{
-            System.out.println("The given user already has an active visit");
-        }
 
     }
 

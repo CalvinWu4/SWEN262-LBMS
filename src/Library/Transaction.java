@@ -1,9 +1,11 @@
 package Library;
 
 import java.time.LocalDate;
+import Library.*;
 
 /**
  * Created by Calvin on 3/5/2017.
+ *
  */
 public class Transaction {
     private Long isbn;

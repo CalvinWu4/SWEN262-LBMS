@@ -119,7 +119,7 @@ public class View {
 
         /** Time options **/
         TreeMap<String,MenuOption> TimeOptions =  new TreeMap<>();
-        MenuOption AdvanceTime = new MenuOption("advance","Advice time",new BackEndCommand("AdvanceTime"),1);
+        MenuOption AdvanceTime = new MenuOption("advance","Advance time",new BackEndCommand("AdvanceTime"),1);
         MenuOption CurrentDateTime = new MenuOption("datetime","Get current Date and Time",new BackEndCommand("CurrentDateTime"),0);
         TimeOptions.put(back.getKeyWord(),back);
         TimeOptions.put(AdvanceTime.getKeyWord(),AdvanceTime);

@@ -124,7 +124,7 @@ public final class Exchange {
                 // exchange is taking place on.
                 if(chosenOption.getCommand() instanceof BackEndCommand && response == null){
                     if(BackEnd.isDebugMode()) {
-                        return new Response("Backend method not implemented").setResponseView(viewAfterResponse);
+                        return new Response("Backend method not implemented or something went wrong").setResponseView(viewAfterResponse);
                     }else {
                         return new Response("Something went wrong").setResponseView(viewAfterResponse);
                     }
@@ -160,26 +160,29 @@ public final class Exchange {
         }else{
             Boolean braketChecker = false;
             ArrayList<String> multiparam = new ArrayList<>();
+            String subparam = "";
             for(int i=0; i<args.length;i++) {
 
                 if (args[i].contains("{")) {
                     braketChecker = true;
-
                 } else if (args[i].contains("}")) {
                     braketChecker = false;
+                    multiparam.add(args[i]);
                     parameters.add(new Parameter<>(multiparam));
+                    continue;
                 }
                 if (braketChecker){
                     multiparam.add(args[i]);
                 }else {
                     parameters.add(new Parameter<>(args[i]));
                 }
+
             }
 
         }
-
-        System.out.println(parameters);
+        if(BackEnd.isDebugMode()){
+            System.out.println(parameters);
+        }
         return parameters;
-
     }
 }

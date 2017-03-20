@@ -1,5 +1,7 @@
 package Library;
 
+import Query.*;
+
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -14,7 +16,6 @@ import java.util.HashMap;
 public final class Visitors implements DB<String,Visitor> {
     private static HashMap<String, Visitor> visitorHash = new HashMap<>(); // visitorId, Visitor
     private static Integer count;
-
 
     public static void register(String firstName, String lastName, String address, Integer phone){
         for(Visitor visitor: visitorHash.values()) {

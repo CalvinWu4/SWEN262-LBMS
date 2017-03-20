@@ -46,7 +46,7 @@ public class BackEndCommand implements Command {
         } catch (IllegalAccessException | InvocationTargetException e) {
             if(BackEnd.isDebugMode()) {
                 e.printStackTrace();
-                return new Response("Debug error: 405 BackEnd Method not found");
+                return new Response("Debug error: 405 Error in the Back End");
             }
             return new Response("");
         } catch (Exception e){
