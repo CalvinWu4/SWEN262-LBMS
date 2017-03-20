@@ -80,7 +80,7 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response BookPurchase(ArrayList<Parameter> params){
-        System.out.println(params);
+
         ArrayList<Long> booksIds = new ArrayList<>();
             for (String id : (ArrayList<String>)params.get(1).getParam()){
                 booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
