@@ -62,8 +62,6 @@ public class Parser {
             Book nextBook = new Book(_isbn,_title,_authors, _publisher,_pubDate,_pageCount, 0, 0);
             bookHash.put(_isbn, nextBook);
         }
-
-        System.out.println(bookHash.get(Long.valueOf("9781416620198")).getAuthors());
     }
 
 }
