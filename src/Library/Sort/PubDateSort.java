@@ -1,4 +1,4 @@
-package Sort;
+package Library.Sort;
 
 import Library.Book;
 

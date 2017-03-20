@@ -1,5 +1,7 @@
-package FrontEnd;
+package FrontEnd.Command;
 
+import FrontEnd.Parameter;
+import FrontEnd.Response;
 import Library.BackEnd;
 
 import java.lang.reflect.InvocationTargetException;

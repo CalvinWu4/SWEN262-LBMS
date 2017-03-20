@@ -1,8 +1,5 @@
-package FrontEnd;
+package FrontEnd.Command;
 
-import Library.BackEnd;
-
-import java.awt.*;
 import java.util.*;
 
 /**
@@ -19,7 +16,7 @@ public class View {
     /** The options currently available for the view **/
     private TreeMap<String,MenuOption> options;
 
-    /** The ID of the FrontEnd.View **/
+    /** The ID of the FrontEnd.Command.View **/
     private int id;
 
     /** The message of the view to be displayed **/

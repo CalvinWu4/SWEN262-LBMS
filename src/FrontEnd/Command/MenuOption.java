@@ -1,11 +1,14 @@
-package FrontEnd;
+package FrontEnd.Command;
+
+import FrontEnd.Parameter;
+import FrontEnd.Response;
 
 import java.util.ArrayList;
 
 /**
  * Created by Kevin
  *
- * This class is the representation of a FrontEnd.BackEndCommand class in the FrontEnd.BackEndCommand Design Pattern
+ * This class is the representation of a FrontEnd.Command.BackEndCommand class in the FrontEnd.Command.BackEndCommand Design Pattern
  */
 public class MenuOption {
 

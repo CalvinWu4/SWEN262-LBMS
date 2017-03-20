@@ -1,8 +1,6 @@
 package FrontEnd;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
-import java.util.Collection;
+import FrontEnd.Command.View;
 
 /**
  * Created by kevin on 3/17/2017.

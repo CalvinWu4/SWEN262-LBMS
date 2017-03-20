@@ -1,12 +1,11 @@
 package Library;
 
-import Query.*;
-import Sort.*;
+import Library.Query.*;
+import Library.Sort.*;
 
 import java.io.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.time.LocalDate;
 
 /**
  * Created by Anthony Perez on 3/5/17.

@@ -1,13 +1,11 @@
 /**
  * Created by kevin on 3/18/2017.
  */
-import FrontEnd.BackEndCommand;
 import FrontEnd.Exchange;
 import FrontEnd.Response;
-import FrontEnd.View;
+import FrontEnd.Command.View;
 import Library.BackEnd;
 import Library.Books;
-import Library.Parser;
 
 public class Main {
 

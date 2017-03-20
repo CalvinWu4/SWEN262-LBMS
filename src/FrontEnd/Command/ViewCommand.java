@@ -1,4 +1,7 @@
-package FrontEnd;
+package FrontEnd.Command;
+
+import FrontEnd.Parameter;
+import FrontEnd.Response;
 
 import java.util.ArrayList;
 

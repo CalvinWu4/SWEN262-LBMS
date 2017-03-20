@@ -1,4 +1,4 @@
-package Query;
+package Library.Query;
 
 import Library.Book;
 

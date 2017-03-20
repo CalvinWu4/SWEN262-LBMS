@@ -1,21 +1,19 @@
-package Query;
+package Library.Query;
 
 import Library.Book;
+import Library.Books;
 
 import java.util.ArrayList;
 
 /**
  * Created by Calvin Wu on 3/14/2017.
  */
-public class PublisherQuery implements BookQuery {
+public class IsbnQuery implements BookQuery {
     @Override
     public ArrayList<Book> search(ArrayList<Book> books, String searchParam){
         ArrayList<Book> newBooks = new ArrayList<>();
-        for(Book book: books){
-            if(book.getPublisher().equals(searchParam)){
-                newBooks.add(book);
-            }
-        }
+        newBooks.add(Books.getBookHash().get(Long.parseLong(searchParam)));
         return newBooks;
     }
 }
+
