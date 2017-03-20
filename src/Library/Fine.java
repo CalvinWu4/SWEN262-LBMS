@@ -21,7 +21,7 @@ public class Fine {
         this.cost = 0;
     }
 
-    public void addCost(Integer weeks){
+    public void addCost(long weeks){
         if(this.getCost() == 0){
             this.cost += INITIALFEE;
         }

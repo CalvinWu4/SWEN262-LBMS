@@ -75,10 +75,23 @@ public final class Transactions {
                 if (book == null) {
                     return("One or more of the book IDs are not valid.");
                 } else {
-                    if (transactionHash.containsValue(isbn)) {
+                    if (transactionHash.containsValue(isbn)){
+                        Integer cost = 0;
+                        String costString = "";
+                        ArrayList<Transaction> tr = transactionHash.get(visitorId);
+                        for (Transaction t : tr){
+                            cost = cost + t.calculateFee(book);
+                            if(cost > 0){
+                                costString += "Book: "+isbn+" is overdue. Cost = $"+cost+"\n";
+                            }
+                            else{
+                                costString = "Success";
+                            }
+                        }
+
                         book.setNumAvailableCopies(book.getNumAvailableCopies() + 1);
                         transactionHash.get(visitorId).remove(book);
-                        return("FINE TO BE ADDED " + book.getIsbn());
+                        return costString;
                     } else {
                         return("One or more of the books are not currently borrowed the visitor.");
                     }

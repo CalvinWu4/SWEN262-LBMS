@@ -25,22 +25,22 @@ public final class Books {
         ArrayList<String> authors2 = new ArrayList<>();
         authors2.add("testAuthor3");
         LocalDate date = LocalDate.now();
-        //Book newBook = new Book(1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
-       // Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
-     //   Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
-      //  Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
-     //   Book newBook3 = new Book(5,"The Hunger Games",authors,"RIT", date,1000,10,5);
-        //go through file where books for the library are stored and add each book to the "bookHash".\
-        LocalDate pastDate = LocalDate.now();
+        Book newBook = new Book(1L, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
+        Book newBook4 = new Book(2L,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
+        Book newBook1 = new Book(3L,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
+        Book newBook2 = new Book(4L,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
+        Book newBook3 = new Book(5L,"The Hunger Games",authors,"RIT", date,1000,10,5);
+//        go through file where books for the library are stored and add each book to the "bookHash".\
+        //LocalDate pastDate = LocalDate.now();
         //pastDate = pastDate.minusDays(1);
-        pastDate = pastDate.minusWeeks(2);
+        //pastDate = pastDate.minusWeeks(2);
         //newBook4.setDueDate(pastDate); Transaction
 
-/*        bookHash.put(newBook.getIsbn(),newBook);
+        bookHash.put(newBook.getIsbn(),newBook);
         bookHash.put(newBook1.getIsbn(),newBook1);
         bookHash.put(newBook2.getIsbn(),newBook2);
         bookHash.put(newBook3.getIsbn(),newBook3);
-        bookHash.put(newBook4.getIsbn(),newBook4);*/
+        bookHash.put(newBook4.getIsbn(),newBook4);
 
         try{
             BufferedReader br = new BufferedReader(new FileReader(BOOKSFILE));
@@ -55,9 +55,9 @@ public final class Books {
             System.out.println("Error reading the file");
         }
 
-        display();
+        //display();
         //search("Harry,*,*,*");
-        //saveToFile();
+        saveToFile();
         //displayAvailable();
     }
 
@@ -207,9 +207,9 @@ public final class Books {
             PrintWriter pw = new PrintWriter(fw,true);
 
             for(Book book : bookHash.values()){
-                pw.write(book.getIsbn()+",\""+book.getTitle()+"\",\""+book.getAuthors()+"\",\""+
-                        book.getPublisher()+"\","+book.getPublishedDate()+","+book.getTotalNumCopies()+
-                        ","+book.getNumAvailableCopies()+"\n");
+                pw.write(book.getIsbn()+",\""+book.getTitle()+"\",\""+book.getAuthorsString()+"\",\""+
+                        book.getPublisher()+"\","+book.getPublishedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))+
+                        ","+book.getPageCount()+","+book.getTotalNumCopies()+ ","+book.getNumAvailableCopies()+"\n");
             }
             fw.flush();
             pw.close();
