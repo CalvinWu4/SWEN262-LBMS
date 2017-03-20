@@ -3,7 +3,7 @@
  */
 import FrontEnd.Exchange;
 import FrontEnd.Response;
-import FrontEnd.Command.View;
+import FrontEnd.View;
 import Library.BackEnd;
 import Library.Books;
 

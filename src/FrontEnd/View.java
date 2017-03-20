@@ -1,4 +1,7 @@
-package FrontEnd.Command;
+package FrontEnd;
+
+import FrontEnd.Command.BackEndCommand;
+import FrontEnd.Command.MenuOption;
 
 import java.util.*;
 
@@ -16,7 +19,7 @@ public class View {
     /** The options currently available for the view **/
     private TreeMap<String,MenuOption> options;
 
-    /** The ID of the FrontEnd.Command.View **/
+    /** The ID of the FrontEnd.View **/
     private int id;
 
     /** The message of the view to be displayed **/
@@ -57,8 +60,8 @@ public class View {
         MenuOption books = new MenuOption("1","Books",1);
         MenuOption visitors = new MenuOption("2","Visitors" ,2);
         MenuOption transactions = new MenuOption("3","Transactions" ,3);
-        MenuOption stats = new MenuOption("4","Stats for Nerds",4);
-        MenuOption time = new MenuOption("5","Edit Date or Time", 5);
+        MenuOption stats = new MenuOption("4","Stats",4);
+        MenuOption time = new MenuOption("5","Date and Time", 5);
 
         //Save LMBS options in Map
         LBMSoptions.put(books.getKeyWord(),books);

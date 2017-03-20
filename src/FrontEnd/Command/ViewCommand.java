@@ -2,6 +2,7 @@ package FrontEnd.Command;
 
 import FrontEnd.Parameter;
 import FrontEnd.Response;
+import FrontEnd.View;
 
 import java.util.ArrayList;
 
