@@ -49,18 +49,18 @@ public final class BackEnd {
         ArrayList<String> authors2 = new ArrayList<>();
         authors2.add("testAuthor3");
         LocalDate date = LocalDate.now();
-        Book newBook = new Book(1L, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
-        Book newBook4 = new Book(2L,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
-        Book newBook1 = new Book(3L,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
-        Book newBook2 = new Book(4L,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
-        Book newBook3 = new Book(5L,"The Hunger Games",authors,"RIT", date,1000,10,5);
+/*        Book newBook = new Book(1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
+        Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
+        Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
+        Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
+        Book newBook3 = new Book(5,"The Hunger Games",authors,"RIT", date,1000,10,5);*/
 
-        ArrayList<Book> books = new ArrayList<>();
-        books.add(newBook);books.add(newBook4);books.add(newBook1);books.add(newBook2);books.add(newBook3);
+/*        ArrayList<Book> books = new ArrayList<>();
+        books.add(newBook);books.add(newBook4);books.add(newBook1);books.add(newBook2);books.add(newBook3);*/
 
         //This is cheating, it should actually pass the string of BookPrint to a response, instead what I am doing is
         // printing the books and passing and empty response
-        Books.bookPrint(books);
+       // Books.bookPrint(books);
         // Example of a response with a view to be changed to, only necessary when the response needs to take the user to a different view
         return new Response("",4);
     }
