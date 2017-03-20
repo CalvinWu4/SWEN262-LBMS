@@ -216,7 +216,7 @@ public final class Books {
             fw.close();
         }
         catch (IOException ioe){
-            System.out.println("Error writting to file.");
+            System.out.println("Error writing to file.");
         }
     }
     public void displayAvailable(){
