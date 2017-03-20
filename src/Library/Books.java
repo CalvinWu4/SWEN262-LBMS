@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * Created by Anthony Perez on 3/5/17.
  */
 public final class Books {
-    private static HashMap<Integer, Book> bookHash = new HashMap<>();
+    private static HashMap<Integer, Book> bookHash = new HashMap<>(); // ISBN, Book
     private static final String BOOKSFILE = "libraryBooks.csv";
 
 
@@ -70,12 +70,18 @@ public final class Books {
         bookPrint(books);
     }
 
-    public ArrayList<Book> info(String title, String authors, String isbn, String publisher,
+    // Search Library
+    public static ArrayList<Book> info(String title, String authors, String isbn, String publisher,
                                   String sortOrder){
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
         Collection<Book> bookCollection = bookHash.values();
         ArrayList<Book> bookList = new ArrayList<Book>(bookCollection);
+        for(Book book: bookList){
+            if(book.getNumAvailableCopies() < 1){
+                bookList.remove(book);
+            }
+        }
 
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
@@ -134,7 +140,9 @@ public final class Books {
             return null;
         }
     }
-    public ArrayList<Book> search(String title, String authors, String isbn, String publisher,
+
+    // Search Book Store
+    public static ArrayList<Book> search(String title, String authors, String isbn, String publisher,
                                   String sortOrder){
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
