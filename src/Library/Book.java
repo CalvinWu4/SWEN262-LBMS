@@ -26,6 +26,7 @@ public class Book {
         this.authors = _authors;
         this.publisher = _publisher;
         this.publishedDate = _publishedDate;
+        this.pageCount = _pageCount;
         this.totalNumCopies = _totalNumCopies;
         this.numAvailableCopies = _numAvailableCopies;
     }

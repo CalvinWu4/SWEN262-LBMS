@@ -1,6 +1,8 @@
 package Library;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import Library.*;
 
 /**
@@ -19,21 +21,6 @@ public class Transaction {
         this.dueDate = dateBorrowed.plusDays(7);
     }
 
-//    public Integer calculateFee(){
-//        if(!(this.isAvailable())){
-//            LocalDate present = LocalDate.now();
-//            if((present.isBefore(this.getDueDate()))){
-//                return fine.getCost();
-//            }
-//            else{
-//                long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
-//                fine.addCost(weeksInYear);
-//                return fine.getCost();
-//            }
-//        }
-//        return fine.getCost();
-//    }
-
     // Setters
     public void setIsbn(Long isbn){
         this.isbn = isbn;
@@ -43,6 +30,19 @@ public class Transaction {
     }
     public void setDueDate(LocalDate dueDate){
         this.dueDate = dueDate;
+    }
+
+    public Integer calculateFee(Book book){
+
+            LocalDate present = LocalDate.now();
+            if((present.isBefore(this.getDueDate()))){
+                return fine.getCost();
+            }
+            else{
+                long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
+                fine.addCost(weeksInYear);
+                return fine.getCost();
+            }
     }
 
     // Getters
