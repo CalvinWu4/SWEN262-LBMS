@@ -122,11 +122,17 @@ public final class Exchange {
                 Response response = chosenOption.execute();
                 //Only if the command is for the back end and has no view attached we assign the same view that this
                 // exchange is taking place on.
-                if(chosenOption.getCommand() instanceof BackEndCommand && response == null){
-                    if(BackEnd.isDebugMode()) {
-                        return new Response("Backend method not implemented or something went wrong").setResponseView(viewAfterResponse);
-                    }else {
-                        return new Response("Something went wrong").setResponseView(viewAfterResponse);
+                if(chosenOption.getCommand() instanceof BackEndCommand){
+                    if(response == null) {
+                        if (BackEnd.isDebugMode()) {
+                            return new Response("Backend method not implemented or something went wrong").setResponseView(viewAfterResponse);
+                        } else {
+                            return new Response("Something went wrong").setResponseView(viewAfterResponse);
+                        }
+                    }else{
+                        if(response.getResponseView() ==  null){
+                            response.setResponseView(viewAfterResponse);
+                        }
                     }
                 }
                 return response;
@@ -157,11 +163,12 @@ public final class Exchange {
         if(args.length <= 1){
             //return an arrayList with just the query as the only parameter
             parameters.add(new Parameter<>(query));
+            return parameters;
         }else{
             Boolean braketChecker = false;
             ArrayList<String> multiparam = new ArrayList<>();
             String subparam = "";
-            for(int i=0; i<args.length;i++){
+            for(int i=1; i<args.length;i++){
                 if (args[i].contains("{")) {
                     braketChecker = true;
                 } else if (args[i].contains("}")) {
@@ -180,7 +187,6 @@ public final class Exchange {
                 }
 
             }
-
         }
         return parameters;
     }

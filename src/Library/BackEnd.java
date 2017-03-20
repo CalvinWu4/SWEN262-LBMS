@@ -6,6 +6,9 @@ import javafx.scene.shape.TriangleMesh;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -41,7 +44,7 @@ public final class BackEnd {
      */
     static public Response LibraryBookSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        ArrayList<Book> results = Books.info(bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],bookSearchParams[5]);
+        ArrayList<Book> results = Books.info(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4]);
         if(results == null ||  results.size() == 0 || (results.get(0) == null)){
 
             System.out.println("The search returned an empty result");
@@ -59,7 +62,7 @@ public final class BackEnd {
      */
     static public Response BookStoreSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        ArrayList<Book> results = Books.search(bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],bookSearchParams[5]);
+        ArrayList<Book> results = Books.search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4]);
         if(results == null ||  results.size() == 0 || (results.get(0) == null)){
             System.out.println("The search returned an empty result");
         }else {
@@ -171,16 +174,26 @@ public final class BackEnd {
      * @return The response of whether the change was made or not
      */
     static public Response AdvanceTime(ArrayList<Parameter> params){
-        return new Response("Advanced time (Not really)");//TODO
+        Integer[] daysAndHours = new Integer[2]; //Index 0 holds days, Index 1 holds hours
+        int i = 0;
+        for (Parameter param : params){
+            daysAndHours[i] = Integer.parseInt((String)param.getParam());
+        }
+        if (daysAndHours[1] == null){
+            daysAndHours[1] = 0;
+        }
+
+        return new Response(Time.incTime(daysAndHours[0],daysAndHours[1]));
     }
 
     /**
-     * Gets the current date and time from the Time class
+     * Gets the current date and time from
+     * the Time class
      * @param params empty query
      * @return The response with the current date and time
      */
     static public Response CurrentDateTime(ArrayList<Parameter> params){
-        return new Response(params.get(0).getParam() + "," + Time.getDate() + "," + Time.getTime());
+        return new Response("datetime," +  Time.getDate() + "," + Time.getTime());
     }
 
     /////
@@ -203,15 +216,20 @@ public final class BackEnd {
     /// UTILITY METHODS ///
 
     static public Response exit(ArrayList<Parameter> params){
+        for(Visitor visitor: Visitors.getVisitorHash().values()){
+            if(visitor.getActiveVisit() != null) {
+                visitor.getActiveVisit().setDeparture(Time.getDateTime());
+            }
+        }
         return new Response("Good bye!").toggleEndResponse();
     }
 
     static public String[] getBookSearchParams(ArrayList<Parameter> params){
         // A list of strings with the parameters without including the authors
-        String[] bookSearchParams = new String[6];
+        String[] bookSearchParams = new String[5];
         String authors = "";//Initial authors string, it will stay like that if there are no authors
 
-        for(int i = 1; i<bookSearchParams.length; i++){
+        for(int i = 0; i<bookSearchParams.length; i++){
 
             if(i < params.size()) {
                 Parameter param = params.get(i);
@@ -224,7 +242,7 @@ public final class BackEnd {
                     bookSearchParams[i] = (String) param.getParam();
                 }
             }else{
-                if(i==5){
+                if(i==4){
                     bookSearchParams[i] = "title";
                 }else{
                     bookSearchParams[i] = "*";
@@ -239,8 +257,9 @@ public final class BackEnd {
         }else{
             finished_authors = authors;
         }
-
-        bookSearchParams[2] = finished_authors;
+        if(!bookSearchParams[1].equals("*")){
+            bookSearchParams[1] = finished_authors;
+        }
         return bookSearchParams;
     }
 
