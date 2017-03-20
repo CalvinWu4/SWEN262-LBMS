@@ -18,8 +18,8 @@ public final class Time {
      * Helper function for incTime.
      */
     public static String checkIsOpenAndClose(){
-        if(dateTime.isAfter(ChronoLocalDateTime.from(LocalTime.of(7,59))) &&
-                dateTime.isBefore(ChronoLocalDateTime.from(LocalTime.of(19,0)))){
+        if(dateTime.isAfter(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),7,59)) &&
+                dateTime.isBefore(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),19,0))){
             isOpen = true;
             return("The library is open");
         }else {
@@ -40,8 +40,8 @@ public final class Time {
         } else if (hours < 0 || hours > 23 || days == 0 && hours == 0) {
             return ("Invalid number of hours entered.");
         } else {
-            dateTime.plusDays((days));
-            dateTime.plusHours(hours);
+            dateTime = dateTime.plusDays(days);
+            dateTime = dateTime.plusHours(hours);
             checkIsOpenAndClose();
             return ("Success");
         }

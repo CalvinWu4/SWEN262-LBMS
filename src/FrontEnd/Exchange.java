@@ -139,7 +139,7 @@ public final class Exchange {
 
             }else{
                 int numMissing = chosenOption.getMinArgsSize() + 1 - args.length;
-                return new Response("Incorrect number of arguments. Missing: " + numMissing + " arguments");
+                return new Response("Incorrect number of arguments. Missing: " + numMissing + " arguments").setResponseView(viewAfterResponse);
             }
 
 

@@ -178,12 +178,13 @@ public final class BackEnd {
         int i = 0;
         for (Parameter param : params){
             daysAndHours[i] = Integer.parseInt((String)param.getParam());
+            i++;
         }
         if (daysAndHours[1] == null){
             daysAndHours[1] = 0;
         }
 
-        return new Response(Time.incTime(daysAndHours[0],daysAndHours[1]));
+        return new Response("advance,"+Time.incTime(daysAndHours[0],daysAndHours[1]));
     }
 
     /**
