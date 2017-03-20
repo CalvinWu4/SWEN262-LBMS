@@ -49,7 +49,7 @@ public final class Transactions {
         return null;
     }
 
-    public static String findBooks(Integer visitorId) {
+    public static String findBooks(String visitorId) {
         if (transactionHash.containsKey(visitorId)) {
             ArrayList<Transaction> transactions = transactionHash.get(visitorId);
             String result = transactions.size() + " books borrowed";

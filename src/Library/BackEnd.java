@@ -11,6 +11,7 @@ import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.TreeMap;
 
 /**
@@ -134,8 +135,8 @@ public final class BackEnd {
      * @return The response of whether the book was able to be borrowed
      */
     static public Response BorrowBook(ArrayList<Parameter> params){
-
         return new Response("Borrowed book! (not really)");
+
     }
 
     /**
@@ -144,7 +145,7 @@ public final class BackEnd {
      * @return The response list of borrowed books.
      */
     static public Response FindBorrowedBooks(ArrayList<Parameter> params){
-        return null;//TODO
+        return new Response("borrowed," + Transactions.findBooks((String)params.get(0).getParam())
     }
 
     /**
@@ -157,14 +158,21 @@ public final class BackEnd {
 
 
         ArrayList<String> returnBookParams = new ArrayList<>();
+        ArrayList<Long> booksIds = new ArrayList<>();
+        int i = 0;
         for(Parameter parameter : params){
-            System.out.println((String) parameter.getParam());
-            returnBookParams.add((String) parameter.getParam());
+            if(parameter.getParam() instanceof Collection){
+                for (String id : (ArrayList<String>)parameter.getParam()){
+                    booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
+                }
+            }
+            if(i <= 1){
+                returnBookParams.add((String) parameter.getParam());
+            }
+            i++;
         }
+        return new Response("return,"+Transactions._return(Integer.parseInt(returnBookParams.get(0)),booksIds));
 
-        //return new Response("return,"+Transactions._return(Integer.parseInt(returnBookParams.get(0)),returnBookParams.get(1)));
-
-        return null;//TODO
     }
 
     /**
