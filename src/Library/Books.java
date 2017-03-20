@@ -35,8 +35,15 @@ public final class Books {
                                        String sortOrder){
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
+
         Collection<Book> bookCollection = bookHash.values();
-        ArrayList<Book> bookList = new ArrayList<Book>(bookCollection);
+        ArrayList<Book> bookList = new ArrayList<>();
+
+        for(Book book: bookCollection){
+            if(book.getTotalNumCopies() >= 1){
+                bookList.add(book);
+            }
+        }
 
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
@@ -83,12 +90,13 @@ public final class Books {
         else if(sortOrder.equals("book-status")){
             NumAvailSort sorter = new NumAvailSort();
             sorter.sort(searchResults);
+            ArrayList<Book> FinalSearchResults = new ArrayList<>();
             for (Book book : searchResults) {
-                if (book.getNumAvailableCopies() < 1) {
-                    searchResults.remove(book);
+                if (book.getNumAvailableCopies() >= 1) {
+                    FinalSearchResults.add(book);
                 }
             }
-            return searchResults;
+            return FinalSearchResults;
         }
         else{
             System.out.println("The specified sort order doesn't match one of the expected values.");
@@ -102,7 +110,14 @@ public final class Books {
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
         Collection<Book> bookCollection = bookHash.values();
-        ArrayList<Book> bookList = new ArrayList<Book>(bookCollection);
+
+        ArrayList<Book> bookList = new ArrayList<>();
+
+        for(Book book: bookCollection){
+            if(book.getTotalNumCopies() == 0){
+                bookList.add(book);
+            }
+        }
 
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();

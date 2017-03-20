@@ -21,7 +21,7 @@ public final class Purchases {
                 Integer prevNumAvailableCopies = Books.getBookHash().get(isbn).getNumAvailableCopies();
                 Books.getBookHash().get(isbn).setTotalNumCopies(prevTotalNumCopies + quantity);
                 Books.getBookHash().get(isbn).setNumAvailableCopies(prevNumAvailableCopies + quantity);
-                if (purchaseHash.containsKey(Time.getDate())) {
+                if (!purchaseHash.containsKey(Time.getDate())) {
                     purchaseHash.put(Time.getDate(), quantity);
                 } else {
                     Integer oldQuantity = purchaseHash.get(Time.getDate());

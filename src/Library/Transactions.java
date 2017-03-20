@@ -14,9 +14,10 @@ public final class Transactions {
 
 
     public static String borrow(String visitorId, ArrayList<Long> isbns) {
+
         if (!Visitors.getVisitorHash().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
-        } else if (transactionHash.get(visitorId).size() + isbns.size() > 5) {
+        } else if (transactionHash.get(visitorId) != null &&  transactionHash.get(visitorId).size() + isbns.size() > 5) {
             return("The borrow request would cause the visitor to exceed 5 borrowed books.");
         }
         // else if The visitor owes the library a fine for books that were previously not returned or returned late.

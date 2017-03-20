@@ -3,6 +3,7 @@ package Library;
 import FrontEnd.*;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.scene.shape.TriangleMesh;
+import org.omg.CORBA.INTERNAL;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -79,7 +80,12 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response BookPurchase(ArrayList<Parameter> params){
-        return null;//TODO
+        System.out.println(params);
+        ArrayList<Long> booksIds = new ArrayList<>();
+            for (String id : (ArrayList<String>)params.get(1).getParam()){
+                booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
+            }
+        return new Response("buy,"+Purchases.purchase(Integer.parseInt((String)params.get(0).getParam()),booksIds));
     }
 
 
@@ -144,7 +150,7 @@ public final class BackEnd {
                     booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
                 }
             }
-            if(i <= 1){
+            if(i == 0){
                 borrowBookParams.add((String) parameter.getParam());
             }
             i++;
@@ -246,7 +252,14 @@ public final class BackEnd {
      * @return The response of stats
      */
     static public Response LibraryStatsReport(ArrayList<Parameter> params){
-        return null;//TODO
+
+        int days =0;
+        if((params.get(0).getParam()).equals("report")){
+            days = Integer.MAX_VALUE;
+        }else{
+            days = Integer.parseInt((String)params.get(0).getParam());
+        }
+        return new Response("report,\n"+Stats.report(days));
     }
 
 

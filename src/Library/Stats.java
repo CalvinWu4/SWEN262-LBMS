@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class Stats {
 
 
-    public String report(Integer days) {
+    static public String report(Integer days) {
         int daysPassed = (int)Duration.between(Time.getDateTime(), Time.getStartDateTime()).toDays();
         if (days <= 0) {
             return("Invalid number of days.");
