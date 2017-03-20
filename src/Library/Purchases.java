@@ -12,8 +12,8 @@ public final class Purchases {
     // Date, NumBooksPurchased
 
 
-    public static String purchase(Integer quantity, ArrayList<Integer> isbns) {
-        for (Integer isbn : isbns) {
+    public static String purchase(Integer quantity, ArrayList<Long> isbns) {
+        for (Long isbn : isbns) {
             if (!Books.getBookHash().containsKey(isbn)) {
                 return ("One or more of the book ISBNs are not valid.");
             } else {

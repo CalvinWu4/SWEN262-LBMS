@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Anthony Perez on 3/5/17.
  */
 public class Book {
-    private Integer isbn;
+    private Long isbn;
     private String title;
     private ArrayList<String> authors;
     private String publisher;
@@ -17,9 +17,8 @@ public class Book {
     private Integer pageCount;
     private Integer totalNumCopies;
     private Integer numAvailableCopies;
-    //private Fine fine; Put this in transaction
 
-    public Book(Integer _isbn, String _title, ArrayList<String> _authors, String _publisher,
+    public Book(Long _isbn, String _title, ArrayList<String> _authors, String _publisher,
                 LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies){
         this.isbn = _isbn;
         this.title = _title;
@@ -30,7 +29,7 @@ public class Book {
         this.numAvailableCopies = _numAvailableCopies;
     }
 
-    public Integer getIsbn(){
+    public Long getIsbn(){
         return isbn;
     }
     public String getTitle(){
@@ -62,7 +61,8 @@ public class Book {
     public Integer getPageCount(){
         return pageCount;
     }
-    public void setIsbn(Integer _isbn){
+
+    public void setIsbn(Long _isbn){
         this.isbn = _isbn;
     }
     public void setTitle(String _title){
@@ -86,22 +86,4 @@ public class Book {
     public void setNumAvailableCopies(Integer _numAvailableCopies){
         this.numAvailableCopies = _numAvailableCopies;
     }
-
-
-
-    /// Put this in Transaction
-//    public Integer calculateFee(){
-//        if(!(this.isAvailable())){
-//            LocalDate present = LocalDate.now();
-//            if((present.isBefore(this.getDueDate()))){
-//                return fine.getCost();
-//            }
-//            else{
-//                long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
-//                fine.addCost(weeksInYear);
-//                return fine.getCost();
-//            }
-//        }
-//        return fine.getCost();
-//    }
 }

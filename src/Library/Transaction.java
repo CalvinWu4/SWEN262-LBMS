@@ -6,18 +6,34 @@ import java.time.LocalDate;
  * Created by Calvin on 3/5/2017.
  */
 public class Transaction {
-    private Integer isbn;
+    private Long isbn;
     private LocalDate dateBorrowed;
     private LocalDate dueDate;
+    private Fine fine;
 
-    Transaction(Integer isbn, LocalDate dateBorrowed, LocalDate dueDate){
+    Transaction(Long isbn, LocalDate dateBorrowed, LocalDate dueDate){
         this.isbn = isbn;
         this.dateBorrowed = dateBorrowed;
         this.dueDate = dateBorrowed.plusDays(7);
     }
 
+//    public Integer calculateFee(){
+//        if(!(this.isAvailable())){
+//            LocalDate present = LocalDate.now();
+//            if((present.isBefore(this.getDueDate()))){
+//                return fine.getCost();
+//            }
+//            else{
+//                long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
+//                fine.addCost(weeksInYear);
+//                return fine.getCost();
+//            }
+//        }
+//        return fine.getCost();
+//    }
+
     // Setters
-    public void setIsbn(Integer isbn){
+    public void setIsbn(Long isbn){
         this.isbn = isbn;
     }
     public void setDateBorrowed(LocalDate dateBorrowed){
@@ -28,7 +44,7 @@ public class Transaction {
     }
 
     // Getters
-    public Integer getIsbn(){
+    public Long getIsbn(){
         return this.isbn;
     }
     public LocalDate getDateBorrowed(){

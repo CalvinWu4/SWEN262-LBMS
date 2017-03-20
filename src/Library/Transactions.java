@@ -13,7 +13,7 @@ public final class Transactions {
     // visitorId, borrowed books list
 
 
-    public static String borrow(String visitorId, ArrayList<Integer> isbns) {
+    public static String borrow(String visitorId, ArrayList<Long> isbns) {
         if (!Visitors.getVisitorHash().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
         } else if (transactionHash.get(visitorId).size() + isbns.size() > 5) {
@@ -21,7 +21,7 @@ public final class Transactions {
         }
         // else if The visitor owes the library a fine for books that were previously not returned or returned late.
         else {
-            for (Integer isbn : isbns) {
+            for (Long isbn : isbns) {
                 Book book = Books.getBookHash().get(isbn);
                 if (book == null) {
                     return("One or more of the book IDs specified do not match the IDs for the most" +
@@ -66,11 +66,11 @@ public final class Transactions {
         }
     }
 
-    public static String _return(Integer visitorId, ArrayList<Integer> isbns) {
+    public static String _return(Integer visitorId, ArrayList<Long> isbns) {
         if (!Visitors.getVisitorHash().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
         } else {
-            for (Integer isbn : isbns) {
+            for (Long isbn : isbns) {
                 Book book = Books.getBookHash().get(isbn);
                 if (book == null) {
                     return("One or more of the book IDs are not valid.");
