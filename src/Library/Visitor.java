@@ -14,12 +14,12 @@ public class Visitor {
     private String firstName;
     private String lastName;
     private String address;
-    private Integer phone;
+    private String phone;
     private String id;
     private LocalDate regDate;
     private Visit activeVisit;
 
-    Visitor(String firstName, String lastName, String address, int phone, String id, LocalDate regDate){
+    Visitor(String firstName, String lastName, String address, String phone, String id, LocalDate regDate){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -65,7 +65,7 @@ public class Visitor {
     public void setAddress(String address) {
         this.address = address;
     }
-    public void setPhone(int phone){
+    public void setPhone(String phone){
         this.phone = phone;
     }
     public void setId(String id){
@@ -85,7 +85,7 @@ public class Visitor {
     public String getAddress(){
         return this.address;
     }
-    public Integer getPhone(){
+    public String getPhone(){
         return this.phone;
     }
     public String getId(){

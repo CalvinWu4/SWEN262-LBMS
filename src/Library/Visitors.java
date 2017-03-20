@@ -13,10 +13,10 @@ import java.util.HashMap;
  */
 public final class Visitors {
     private static HashMap<String, Visitor> visitorHash = new HashMap<>(); // visitorId, Visitor
-    private static Integer count;
+    private static Integer count = 1;
 
 
-    public static String register(String firstName, String lastName, String address, Integer phone){
+    public static String register(String firstName, String lastName, String address, String phone){
         for(Visitor visitor: visitorHash.values()) {
             if (visitor.getFirstName().equals(firstName) && visitor.getLastName().equals(lastName) &&
                     visitor.getAddress().equals(address) && visitor.getPhone().equals(phone)) {
