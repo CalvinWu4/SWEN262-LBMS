@@ -53,7 +53,9 @@ public class Stats {
                 numPurchasedTotal += numPurchased;
             }
             // Fines Collected
+            finesCollectedTotal = Transactions.getFinesCollected();
             // Fines Outstanding
+            finesOutstandingTotal = Transactions.getFinesOutstanding();
         }
         String reportString = "Number of Books:" + numBooksTotal + "\n" +
                 "Number of Visitors:" + numVisitorsTotal + "\n" +

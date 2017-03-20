@@ -11,16 +11,20 @@ import java.util.HashMap;
 public final class Transactions {
     private static HashMap<String, ArrayList<Transaction>> transactionHash = new HashMap<>();
     // visitorId, borrowed books list
+    private static Integer finesCollected = 0;
+    private static Integer finesOutstanding = 0;
 
 
     public static String borrow(String visitorId, ArrayList<Long> isbns) {
-
+        LocalDate dueDate = null;
         if (!Visitors.getVisitorHash().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
         } else if (transactionHash.get(visitorId) != null &&  transactionHash.get(visitorId).size() + isbns.size() > 5) {
             return("The borrow request would cause the visitor to exceed 5 borrowed books.");
         }
-        // else if The visitor owes the library a fine for books that were previously not returned or returned late.
+        else if(finesOutstanding > 0){
+            return("The visitor owes the library a fine for books that were previously not returned or returned late.");
+        }
         else {
             for (Long isbn : isbns) {
                 Book book = Books.getBookHash().get(isbn);
@@ -32,7 +36,7 @@ public final class Transactions {
                         return("There no available copies of this book");
                     } else {
                         book.setNumAvailableCopies(book.getNumAvailableCopies() - 1);
-                        LocalDate dueDate = Time.getDate().plusDays(7);
+                        dueDate = Time.getDate().plusDays(7);
                         Transaction transaction = new Transaction(isbn, Time.getDate(), dueDate);
                         if (transactionHash.get(visitorId) == null) {
                             ArrayList<Transaction> transactionsList = new ArrayList<Transaction>();
@@ -41,13 +45,12 @@ public final class Transactions {
                         } else {
                             transactionHash.get(visitorId).add(transaction);
                         }
-                        return("Books have been borrowed and are due " +
-                                dueDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
                     }
                 }
             }
         }
-        return null;
+        return("Books have been borrowed and are due " +
+                dueDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
     }
 
     public static String findBooks(String visitorId) {
@@ -103,25 +106,33 @@ public final class Transactions {
 
     public static String _pay(Integer visitorId,Integer amount){
         ArrayList<Transaction> tr = transactionHash.get(visitorId);
-        Integer balance = 0;
-        String response = "";
+        String response;
+
         for(Transaction t : tr){
             Fine f = t.getFine();
-            balance = balance + f.getCost();
+            finesOutstanding = finesOutstanding + f.getCost();
         }
-
-        if(amount <= balance){
-            balance = balance - amount;
-            response = "success,"+balance;
+        
+        if(amount <= finesOutstanding){
+            finesOutstanding = finesOutstanding - amount;
+            response = "success,"+finesOutstanding;
+            finesCollected += amount;
         }
         else{
-            response = "invalid-amount,"+amount+","+balance;
+            response = "invalid-amount,"+amount+","+finesOutstanding;
         }
-
+        
         return response;
     }
 
     public static HashMap<String, ArrayList<Transaction>> getTransactionHash(){
         return transactionHash;
     }
+    public static Integer getFinesCollected(){
+        return finesCollected;
+    }
+    public static Integer getFinesOutstanding(){
+        return finesOutstanding;
+    }
+
 }
