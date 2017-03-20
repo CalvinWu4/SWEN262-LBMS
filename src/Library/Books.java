@@ -37,11 +37,6 @@ public final class Books {
         ArrayList<Book> searchResults = new ArrayList<Book>();
         Collection<Book> bookCollection = bookHash.values();
         ArrayList<Book> bookList = new ArrayList<Book>(bookCollection);
-        for(Book book: bookList){
-            if(book.getNumAvailableCopies() < 1){
-                bookList.remove(book);
-            }
-        }
 
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();

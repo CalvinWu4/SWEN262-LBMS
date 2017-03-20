@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
  * Created by Calvin on 3/15/2017.
  */
 public final class Time {
+    private final static LocalDateTime startDateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
     private static LocalDateTime dateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
     private static boolean isOpen;
 
@@ -61,8 +62,9 @@ public final class Time {
     public static LocalDateTime getDateTime(){
         return dateTime;
     }
-
-
+    public static LocalDateTime getStartDateTime(){
+        return startDateTime;
+    }
     public static boolean getIsOpen(){
         return isOpen;
     }
