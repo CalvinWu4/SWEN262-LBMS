@@ -6,6 +6,7 @@ import FrontEnd.Exchange;
 import FrontEnd.Response;
 import FrontEnd.View;
 import Library.BackEnd;
+import Library.Parser;
 
 public class Main {
 
@@ -38,6 +39,7 @@ public class Main {
     static public void main(String[] args){
         //BackEndCommand.setDebugMode();
         View.initMenuOptions();
+        new Parser();
         BackEnd.setDebugMode(true);
         MainLoop();
     }
