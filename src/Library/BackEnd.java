@@ -40,29 +40,47 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response LibraryBookSearch(ArrayList<Parameter> params){
-        //TODO: It needs actual implementation, this is just a dummy example
-        //Test
-        ArrayList<String> authors = new ArrayList<>();
-        authors.add("testAuthor1");
-        authors.add("testAuthor2");
+        // A list of strings with the parameters without including the authors
+        String[] bookSearchParams = new String[6];
+        String authors = "";
 
-        ArrayList<String> authors2 = new ArrayList<>();
-        authors2.add("testAuthor3");
-        LocalDate date = LocalDate.now();
-/*        Book newBook = new Book(1, "Harry Potter and the Deathly Hallows",authors,"publisherName", date,1000,10,5);
-        Book newBook4 = new Book(2,"Harry Potter and the Prisoner of Azkaban",authors,"publisherName", date,1000,10,5);
-        Book newBook1 = new Book(3,"Catching Fire (The Second Book of the Hunger Games)",authors2,"publisherName", date,1000,10,5);
-        Book newBook2 = new Book(4,"Harry Potter Coloring Book",authors,"publisherName", date,1000,5,10);
-        Book newBook3 = new Book(5,"The Hunger Games",authors,"RIT", date,1000,10,5);*/
+        for(int i = 1; i<bookSearchParams.length; i++){
 
-/*        ArrayList<Book> books = new ArrayList<>();
-        books.add(newBook);books.add(newBook4);books.add(newBook1);books.add(newBook2);books.add(newBook3);*/
+            if(i < params.size()) {
+                Parameter param = params.get(i);
+                //If the parameter is an author then add it to authors array
+                if (param.getParam() instanceof ArrayList) {
+                    for (String author : (ArrayList<String>) param.getParam()) {
+                        authors = authors.concat("," + author);
+                    }
+                } else {
+                    bookSearchParams[i] = (String) param.getParam();
+                }
+            }else{
+                if(i==5){
+                    bookSearchParams[i] = "title";
+                }else{
+                    bookSearchParams[i] = "*";
+                }
 
-        //This is cheating, it should actually pass the string of BookPrint to a response, instead what I am doing is
-        // printing the books and passing and empty response
-       // Books.bookPrint(books);
+            }
+        }
+        //Remove the first comma
+
+        String finished_authors = authors.substring(1);
+        System.out.println(bookSearchParams[5]);
+        ArrayList<Book> results = Books.find(bookSearchParams[1],finished_authors,bookSearchParams[3],bookSearchParams[4],bookSearchParams[5]);
+        if(results == null ||  results.size() == 0 ){
+            System.out.println("The search returned an empty result");
+        }else {
+            for (Book booktest: results){
+                System.out.println(results.size());
+                System.out.println(booktest);
+            }
+            Books.bookPrint(results);
+        }
         // Example of a response with a view to be changed to, only necessary when the response needs to take the user to a different view
-        return new Response("",4);
+        return new Response("");
     }
 
     /**
@@ -117,7 +135,8 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response EndVisit(ArrayList<Parameter> params){
-        return null;//TODO
+
+        return null;
     }
 
     /////
@@ -185,7 +204,6 @@ public final class BackEnd {
      */
     static public Response CurrentDateTime(ArrayList<Parameter> params){
         return new Response(params.get(0).getParam() + "," + Time.getDate() + "," + Time.getTime());
-        //return new Response(Time.getDate() + "," + Time.getTime());
     }
 
     /////

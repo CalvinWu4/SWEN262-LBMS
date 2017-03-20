@@ -112,7 +112,7 @@ public final class Books {
 //        }
 //        bookPrint(books);
 //    }
-    public ArrayList<Book> search(String title, String authors, String isbn, String publisher,
+    public static ArrayList<Book> search(String title, String authors, String isbn, String publisher,
                                   String sortOrder){
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
@@ -176,65 +176,6 @@ public final class Books {
             return null;
         }
     }
-
-//    public void search(String _query){
-//        List<String> queryList = new ArrayList<>(Arrays.asList(_query.split(",")));
-//        ArrayList<Book> searchResults = new ArrayList<>();
-//
-//        for(String arg : queryList){
-//            if(!arg.equals("*")){
-//                switch(queryList.indexOf(arg)){
-//                    case 0:
-//                        //BookQuery query = new TitleQuery(;
-//                        //Collection c = query.search(bookHash,queryList.get(0));
-//                        break;
-//                    case 1:
-//                        for(Book book : bookHash.values()){
-//                            String author = book.getAuthorsString();
-//                            Pattern pattern = Pattern.compile(queryList.get(1));
-//                            Matcher matcher = pattern.matcher(author);
-//                            if(matcher.find()){
-//                                searchResults.add(book);
-//                            }
-//                        }
-//                        break;
-//                    case 2:
-//                        for(Book book : bookHash.values()){
-//                            Integer isbn = book.getIsbn();
-//                            Pattern pattern = Pattern.compile(queryList.get(3));
-//                            Matcher matcher = pattern.matcher(isbn.toString());
-//                            if(matcher.find()){
-//                                searchResults.add(book);
-//                            }
-//                        }
-//                        break;
-//                    case 3:
-//                        for(Book book : bookHash.values()){
-//                            String publisher = book.getPublisher();
-//                            Pattern pattern = Pattern.compile(queryList.get(3));
-//                            Matcher matcher = pattern.matcher(publisher);
-//                            if(matcher.find()){
-//                                searchResults.add(book);
-//                            }
-//                        }
-//                        break;
-//                    case 4:
-//                        System.out.println("Sorting by _");
-//                        break;
-//                }
-//            }
-//        }
-//
-//        ArrayList<Book> books = removeDuplicates(searchResults);
-//
-//        if(books.isEmpty()){
-//            System.out.println("No results matches your search of: "+_query);
-//        }
-//        else {
-//            System.out.println("Number of Books found in search: "+books.size());
-//            bookPrint(books);
-//        }
-//    }
 
     public void add(Book _book){
         bookHash.put(_book.getIsbn(),_book);
