@@ -16,8 +16,8 @@ public final class Visits {
             return("The specified visitor ID is not a valid ID or has not been assigned to any " +
                     "registered visitor.");
         }else{
-            Visitors.getVisitorHash().get(visitorID).startVisit();
-            return("Success");
+            return Visitors.getVisitorHash().get(visitorID).startVisit();
+
         }
     }
 
@@ -26,8 +26,7 @@ public final class Visits {
             return("The specified visitor ID is not a valid ID or has not been assigned to any " +
                     "registered visitor.");
         }else{
-            Visitors.getVisitorHash().get(visitorID).endVisit();
-            return("Success");
+            return Visitors.getVisitorHash().get(visitorID).endVisit();
         }
     }
 

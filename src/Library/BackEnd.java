@@ -95,7 +95,6 @@ public final class BackEnd {
     static public Response RegisterVisitor(ArrayList<Parameter> params){
         ArrayList<String> registerParams = new ArrayList<>();
         for(Parameter parameter : params){
-            System.out.println((String) parameter.getParam());
             registerParams.add((String) parameter.getParam());
         }
         return new Response("register,"+Visitors.register(registerParams.get(0),registerParams.get(1),registerParams.get(2),registerParams.get(3)));
@@ -110,7 +109,7 @@ public final class BackEnd {
      * @return The response of whether the visit was created successfully
      */
     static public Response BeginVisit(ArrayList<Parameter> params){
-        return null;//TODO
+        return new Response("arrive," + Visits.visit((String) params.get(0).getParam()));
     }
 
     /**
@@ -120,8 +119,7 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response EndVisit(ArrayList<Parameter> params){
-
-        return null;
+        return new Response("depart," + Visits.leave((String) params.get(0).getParam()));
     }
 
     /////

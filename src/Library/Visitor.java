@@ -28,11 +28,12 @@ public class Visitor {
     }
 
 
-    public void startVisit(){
+    public String startVisit(){
         if(this.activeVisit == null){
             this.activeVisit = new Visit(this.id, Time.getDateTime());
+            return "Success";
         }else{
-            System.out.println("The given user already has an active visit");
+            return "The given user already has an active visit";
         }
 
     }
@@ -40,17 +41,18 @@ public class Visitor {
     /**
      * Ends the active visit for the visitor
      */
-    public void endVisit(){
+    public String endVisit(){
         if(this.activeVisit != null){
             if(Visits.getVisitHash().get(this.activeVisit.getArrival()) == null){
                 ArrayList<Visit> newVisits = new ArrayList<>();
                 newVisits.add(this.activeVisit);
                 Visits.getVisitHash().put(this.activeVisit.getArrival().toLocalDate(),newVisits);
             }
-
             this.activeVisit = new Visit(this.id, Time.getDateTime());
+            return "Success";
+
         }else{
-            System.out.println("The given user already has an active visit");
+            return "The given user doesn't have an active visit";
         }
 
     }
