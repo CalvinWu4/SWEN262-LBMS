@@ -40,43 +40,12 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response LibraryBookSearch(ArrayList<Parameter> params){
-        // A list of strings with the parameters without including the authors
-        String[] bookSearchParams = new String[6];
-        String authors = "";
+        String[] bookSearchParams = getBookSearchParams(params);
+        ArrayList<Book> results = Books.info(bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],bookSearchParams[5]);
+        if(results == null ||  results.size() == 0 || (results.get(0) == null)){
 
-        for(int i = 1; i<bookSearchParams.length; i++){
-
-            if(i < params.size()) {
-                Parameter param = params.get(i);
-                //If the parameter is an author then add it to authors array
-                if (param.getParam() instanceof ArrayList) {
-                    for (String author : (ArrayList<String>) param.getParam()) {
-                        authors = authors.concat("," + author);
-                    }
-                } else {
-                    bookSearchParams[i] = (String) param.getParam();
-                }
-            }else{
-                if(i==5){
-                    bookSearchParams[i] = "title";
-                }else{
-                    bookSearchParams[i] = "*";
-                }
-
-            }
-        }
-        //Remove the first comma
-
-        String finished_authors = authors.substring(1);
-        System.out.println(bookSearchParams[5]);
-        ArrayList<Book> results = Books.info(bookSearchParams[1],finished_authors,bookSearchParams[3],bookSearchParams[4],bookSearchParams[5]);
-        if(results == null ||  results.size() == 0 ){
             System.out.println("The search returned an empty result");
         }else {
-            for (Book booktest: results){
-                System.out.println(results.size());
-                System.out.println(booktest);
-            }
             Books.bookPrint(results);
         }
         // Example of a response with a view to be changed to, only necessary when the response needs to take the user to a different view
@@ -89,7 +58,15 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response BookStoreSearch(ArrayList<Parameter> params){
-        return null;//TODO
+        String[] bookSearchParams = getBookSearchParams(params);
+        ArrayList<Book> results = Books.search(bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],bookSearchParams[5]);
+        if(results == null ||  results.size() == 0 || (results.get(0) == null)){
+            System.out.println("The search returned an empty result");
+        }else {
+            Books.bookPrint(results);
+        }
+        // Example of a response with a view to be changed to, only necessary when the response needs to take the user to a different view
+        return new Response("");
     }
 
     /**
@@ -229,5 +206,42 @@ public final class BackEnd {
         return new Response("Good bye!").toggleEndResponse();
     }
 
+    static public String[] getBookSearchParams(ArrayList<Parameter> params){
+        // A list of strings with the parameters without including the authors
+        String[] bookSearchParams = new String[6];
+        String authors = "";//Initial authors string, it will stay like that if there are no authors
+
+        for(int i = 1; i<bookSearchParams.length; i++){
+
+            if(i < params.size()) {
+                Parameter param = params.get(i);
+                //If the parameter is an author then add it to authors array
+                if (param.getParam() instanceof ArrayList){
+                    for (String author : (ArrayList<String>) param.getParam()) {
+                        authors = authors.concat("," + author);
+                    }
+                } else {
+                    bookSearchParams[i] = (String) param.getParam();
+                }
+            }else{
+                if(i==5){
+                    bookSearchParams[i] = "title";
+                }else{
+                    bookSearchParams[i] = "*";
+                }
+
+            }
+        }
+        //Remove the first comma
+        String finished_authors;
+        if(!authors.equals("")){
+            finished_authors = authors.substring(1);
+        }else{
+            finished_authors = authors;
+        }
+
+        bookSearchParams[2] = finished_authors;
+        return bookSearchParams;
+    }
 
 }

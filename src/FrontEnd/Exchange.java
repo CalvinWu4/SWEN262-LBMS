@@ -161,8 +161,7 @@ public final class Exchange {
             Boolean braketChecker = false;
             ArrayList<String> multiparam = new ArrayList<>();
             String subparam = "";
-            for(int i=0; i<args.length;i++) {
-
+            for(int i=0; i<args.length;i++){
                 if (args[i].contains("{")) {
                     braketChecker = true;
                 } else if (args[i].contains("}")) {
@@ -173,15 +172,15 @@ public final class Exchange {
                 }
                 if (braketChecker){
                     multiparam.add(args[i]);
+                    if(args[i].contains("}")){
+                        parameters.add(new Parameter<>(multiparam));
+                    }
                 }else {
                     parameters.add(new Parameter<>(args[i]));
                 }
 
             }
 
-        }
-        if(BackEnd.isDebugMode()){
-            System.out.println(parameters);
         }
         return parameters;
     }

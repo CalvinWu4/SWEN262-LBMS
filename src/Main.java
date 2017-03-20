@@ -6,6 +6,7 @@ import FrontEnd.Exchange;
 import FrontEnd.Response;
 import FrontEnd.View;
 import Library.BackEnd;
+import Library.Books;
 import Library.Parser;
 
 public class Main {
@@ -40,7 +41,7 @@ public class Main {
         //BackEndCommand.setDebugMode();
         View.initMenuOptions();
         new Parser();
-
+        System.out.println(Books.getBookHash().get(9781840894622L));
 
         BackEnd.setDebugMode(true);
         MainLoop();

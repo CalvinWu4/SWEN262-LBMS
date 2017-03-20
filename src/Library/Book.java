@@ -87,6 +87,13 @@ public class Book {
         this.numAvailableCopies = _numAvailableCopies;
     }
 
+    @Override
+    public String toString(){
+        ArrayList<Book> booky = new ArrayList<>();
+        booky.add(this);
+        Books.bookPrint(booky);
+        return "";
+    }
 
 
     /// Put this in Transaction
