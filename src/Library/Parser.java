@@ -4,6 +4,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,16 +21,35 @@ public class Parser {
 
     public Parser(){
         CSVParser fileParser = null;
-        FileReader BUYBOOKCSV = null;
-        try {
-            BUYBOOKCSV = new FileReader("Books.csv");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        FileReader BOOKCSV = null;
+
+        File f = new File("libraryBooks.csv"); //Checks to see if any books have been bought
+        if(f.exists() && !f.isDirectory()) {
+            try {
+                BOOKCSV = new FileReader("libraryBooks.csv");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                fileParser = new CSVParser(BOOKCSV, CSVFormat.EXCEL);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            fileParser = new CSVParser(BUYBOOKCSV, CSVFormat.EXCEL);
-        } catch (IOException e) {
-            e.printStackTrace();
+        else {
+            //If this is the first startup, with no books bought
+            try {
+                BOOKCSV = new FileReader("Books.csv");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            //Creates the parser
+            try {
+                fileParser = new CSVParser(BOOKCSV, CSVFormat.EXCEL);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         HashMap<Long, Book> bookHash = Books.getBookHash();
@@ -38,17 +58,20 @@ public class Parser {
 
             LocalDate _pubDate;
 
-            Long _isbn = new Long(record.get(0));
-            String _title = record.get(1);
+            Long _isbn = new Long(record.get(0)); //Gets the isbn as a long
+
+            String _title = record.get(1); //Stores the title
+
+            //Splits up potential multiple authors and adds them to an ArrayList
             ArrayList<String> _authors = new ArrayList<>();
             String[] authorArray = record.get(2).split(",");
-
             for(int i = 0; i < authorArray.length; i++){
                 _authors.add(authorArray[i]);
             }
 
-            String _publisher = record.get(3);
-            String[] dateArray = record.get(4).split("-|/");
+            String _publisher = record.get(3); //Records the publisher
+
+            String[] dateArray = record.get(4).split("-|/"); //formats all potential dates into LocalDates
             if(dateArray.length == 1){
                 _pubDate = LocalDate.of(Integer.parseInt(dateArray[0]), 1, 1);
             }
@@ -58,8 +81,18 @@ public class Parser {
             else{
                 _pubDate = LocalDate.of(Integer.parseInt(dateArray[2]), Integer.parseInt(dateArray[0]), Integer.parseInt(dateArray[1]));
             }
-            Integer _pageCount = new Integer(record.get(5));
-            Book nextBook = new Book(_isbn,_title,_authors, _publisher,_pubDate,_pageCount, 0, 0);
+
+            Integer _pageCount = new Integer(record.get(5)); //Stores the page count
+
+            int _totalNumCopies = 0;
+            int _numAvailableCopies = 0;
+
+            if(BOOKCSV.toString().equals("libraryBooks.csv")){
+                _totalNumCopies = Integer.parseInt(record.get(6));
+                _numAvailableCopies = Integer.parseInt(record.get(7));
+            }
+
+            Book nextBook = new Book(_isbn,_title,_authors, _publisher,_pubDate,_pageCount, _totalNumCopies, _numAvailableCopies);
             bookHash.put(_isbn, nextBook);
         }
     }
