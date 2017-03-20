@@ -70,63 +70,30 @@ public final class Books {
         bookPrint(books);
     }
 
-    //check class diagram for missing parameter
-//    public void search(String _query, String _field){
-//        ArrayList<Book> books = new ArrayList<>();
-//        switch (_field) {
-//            case "title":
-//                for(Book book : bookHash.values()){
-//                    String title = book.getTitle();
-//                    Pattern pattern = Pattern.compile(_query);
-//                    Matcher matcher = pattern.matcher(title);
-//                    if(matcher.find()){
-//                        books.add(book);
-//                    }
-//                }
-//                break;
-//
-//            case "author":
-//                for(Book book : bookHash.values()){
-//                    String author = book.getAuthorsString();
-//                    Pattern pattern = Pattern.compile(_query);
-//                    Matcher matcher = pattern.matcher(author);
-//                    if(matcher.find()){
-//                        books.add(book);
-//                    }
-//                }
-//                break;
-//
-//            case "publisher":for(Book book : bookHash.values()){
-//                    String publisher = book.getPublisher();
-//                    Pattern pattern = Pattern.compile(_query);
-//                    Matcher matcher = pattern.matcher(publisher);
-//                    if(matcher.find()){
-//                        books.add(book);
-//                    }
-//                }
-//
-//                break;
-//        }
-//        bookPrint(books);
-//    }
-    public static ArrayList<Book> search(String title, String authors, String isbn, String publisher,
-                                  String sortOrder){
+    // Search Library
+    public static ArrayList<Book> info(String title, String authors, String isbn, String publisher,
+                                       String sortOrder){
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
         Collection<Book> bookCollection = bookHash.values();
         ArrayList<Book> bookList = new ArrayList<Book>(bookCollection);
+        for(Book book: bookList){
+            if(book.getNumAvailableCopies() < 1){
+                bookList.remove(book);
+            }
+        }
 
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
             searchResults = new ArrayList<Book>(query.search(bookList, title));
-            }
+        }
         if(!authors.equals("*")){
             AuthorsQuery query = new AuthorsQuery();
             if(searchResults.isEmpty()) {
                 searchResults = new ArrayList<Book>(query.search(bookList, authors));
             }
             else{
-                 searchResults.retainAll(query.search(bookList, authors));
+                searchResults.retainAll(query.search(bookList, authors));
             }
         }
         if(!isbn.equals("*")){
@@ -166,6 +133,62 @@ public final class Books {
                     searchResults.remove(book);
                 }
             }
+            return searchResults;
+        }
+        else{
+            System.out.println("The specified sort order doesn't match one of the expected values.");
+            return null;
+        }
+    }
+
+    // Search Book Store
+    public static ArrayList<Book> search(String title, String authors, String isbn, String publisher,
+                                         String sortOrder){
+
+        ArrayList<Book> searchResults = new ArrayList<Book>();
+        Collection<Book> bookCollection = bookHash.values();
+        ArrayList<Book> bookList = new ArrayList<Book>(bookCollection);
+
+        if(!title.equals("*")){
+            TitleQuery query = new TitleQuery();
+            searchResults = new ArrayList<Book>(query.search(bookList, title));
+        }
+        if(!authors.equals("*")){
+            AuthorsQuery query = new AuthorsQuery();
+            if(searchResults.isEmpty()) {
+                searchResults = new ArrayList<Book>(query.search(bookList, authors));
+            }
+            else{
+                searchResults.retainAll(query.search(bookList, authors));
+            }
+        }
+        if(!isbn.equals("*")){
+            IsbnQuery query = new IsbnQuery();
+            if(searchResults.isEmpty()) {
+                searchResults = new ArrayList<Book>(query.search(bookList, isbn));
+            }
+            else{
+                searchResults.retainAll(query.search(bookList, isbn));
+            }
+
+        }
+        if(!publisher.equals("*")){
+            PublisherQuery query = new PublisherQuery();
+            if(searchResults.isEmpty()) {
+                searchResults = new ArrayList<Book>(query.search(bookList, publisher));
+            }
+            else{
+                searchResults.retainAll(query.search(bookList, publisher));
+            }
+        }
+        if(sortOrder.equals("title")){
+            TitleSort sorter = new TitleSort();
+            sorter.sort(searchResults);
+            return searchResults;
+        }
+        else if(sortOrder.equals("publish-date")){
+            PubDateSort sorter = new PubDateSort();
+            sorter.sort(searchResults);
             return searchResults;
         }
         else{

@@ -58,7 +58,7 @@ public final class Transactions {
                 tempId++;
                 Book book = Books.getBookHash().get(transaction.getIsbn());
                 result += (tempId + " " + book.getIsbn() + " " + book.getTitle() + " " +
-                        transaction.getDateBorrowed().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+                        transaction.getDateBorrowed().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "\n");
             }
             return result;
         } else {
