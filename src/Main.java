@@ -40,7 +40,7 @@ public class Main {
         View.initMenuOptions();
         new Books();
 
-        BackEnd.setDebugMode(false);
+        BackEnd.setDebugMode(true);
         MainLoop();
     }
 }

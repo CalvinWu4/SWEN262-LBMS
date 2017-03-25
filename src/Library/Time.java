@@ -18,11 +18,10 @@ public final class Time {
     /**
      * Helper function for incTime.
      */
-    public static String checkIsOpenAndClose(){
+    public static void checkIsOpenAndClose(){
         if(dateTime.isAfter(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),7,59)) &&
                 dateTime.isBefore(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),19,0))){
             isOpen = true;
-            return("The library is open");
         }else {
             isOpen = false;
             for(Visitor visitor: Visitors.getVisitorHash().values()){
@@ -30,7 +29,6 @@ public final class Time {
                     visitor.getActiveVisit().setDeparture(LocalDateTime.now());
                 }
             }
-            return("The library has now closed");
         }
 
     }

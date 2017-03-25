@@ -23,7 +23,7 @@ import java.util.TreeMap;
 public final class BackEnd {
 
 
-    private static Boolean debugMode = true;
+    private static Boolean debugMode;
 
 
     public static void setDebugMode(Boolean onOrOff){
@@ -145,21 +145,26 @@ public final class BackEnd {
      * @return The response of whether the book was able to be borrowed
      */
     static public Response BorrowBook(ArrayList<Parameter> params){
-        ArrayList<String> borrowBookParams = new ArrayList<>();
         ArrayList<Long> booksIds = new ArrayList<>();
-        int i = 0;
-        for(Parameter parameter : params){
-            if(parameter.getParam() instanceof Collection){
-                for (String id : (ArrayList<String>)parameter.getParam()){
-                    booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
-                }
-            }
-            if(i == 0){
-                borrowBookParams.add((String) parameter.getParam());
-            }
-            i++;
+        for(int i = 1; i < params.size(); i++){
+            booksIds.add(Long.parseLong((String) params.get(i).getParam()));
         }
-        return new Response("borrow,"+Transactions.borrow(borrowBookParams.get(0),booksIds));
+
+//        ArrayList<String> borrowBookParams = new ArrayList<>();
+//        ArrayList<Long> booksIds = new ArrayList<>();
+//        int i = 0;
+//        for(Parameter parameter : params){
+//            if(parameter.getParam() instanceof Collection){
+//                for (String id : (ArrayList<String>)parameter.getParam()){
+//                    booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
+//                }
+//            }
+//            if(i == 0){
+//                borrowBookParams.add((String) parameter.getParam());
+//            }
+//            i++;
+//        }
+        return new Response("borrow,"+Transactions.borrow((String)params.get(0).getParam(),booksIds));
     }
 
     /**

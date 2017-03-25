@@ -48,7 +48,7 @@ public class View {
      */
     static public void initMenuOptions(){
         //Option to go back to the LBMS menu
-        MenuOption back = new MenuOption("1","Go Back",0);
+        MenuOption back = new MenuOption("1","Go back",0);
 
         //Option to exit the program
         MenuOption exit = new MenuOption("quit","Exit program",new BackEndCommand("exit"),0);
@@ -58,7 +58,7 @@ public class View {
         //LBMS view's options
         TreeMap<String,MenuOption> LBMSoptions =  new TreeMap<>();
         MenuOption books = new MenuOption("1","Books",1);
-        MenuOption visitors = new MenuOption("2","Visitors" ,2);
+        MenuOption visitors = new MenuOption("2","Visits" ,2);
         MenuOption transactions = new MenuOption("3","Transactions" ,3);
         MenuOption stats = new MenuOption("4","Stats",4);
         MenuOption time = new MenuOption("5","Date and Time", 5);
@@ -74,8 +74,8 @@ public class View {
 
         /** Books **/
         TreeMap<String,MenuOption> BookOptions =  new TreeMap<>();
-        MenuOption BookSearch = new MenuOption("info","Find a Book",new BackEndCommand("LibraryBookSearch"),2);
-        MenuOption BookStoreSearch  = new MenuOption("search","Search for Books in the store",new BackEndCommand("BookStoreSearch"),1);
+        MenuOption BookSearch = new MenuOption("info","Search for books in the bookstore",new BackEndCommand("LibraryBookSearch"),2);
+        MenuOption BookStoreSearch  = new MenuOption("search","Search for books in the library",new BackEndCommand("BookStoreSearch"),1);
         MenuOption BookPurchase  = new MenuOption("buy","Purchase a book",new BackEndCommand("BookPurchase"),2);
         BookOptions.put(back.getKeyWord(),back);
         BookOptions.put(BookSearch.getKeyWord(),BookSearch);
@@ -93,9 +93,9 @@ public class View {
         /** Visitors **/
 
         TreeMap<String,MenuOption> VisitorOptions =  new TreeMap<>();
-        MenuOption RegisterVisitor = new MenuOption("register","Register a New Visitor",new BackEndCommand("RegisterVisitor"),4);
+        MenuOption RegisterVisitor = new MenuOption("register","Register a new visitor",new BackEndCommand("RegisterVisitor"),4);
         MenuOption BeginVisit = new MenuOption("arrive","Record a visit",new BackEndCommand("BeginVisit"),1);
-        MenuOption EndVisit = new MenuOption("depart","Record a Departure",new BackEndCommand("EndVisit"),1);
+        MenuOption EndVisit = new MenuOption("depart","Record a departure",new BackEndCommand("EndVisit"),1);
 
         VisitorOptions.put(back.getKeyWord(),back);
         VisitorOptions.put(RegisterVisitor.getKeyWord(),RegisterVisitor);
@@ -120,14 +120,14 @@ public class View {
         /** Time options **/
         TreeMap<String,MenuOption> TimeOptions =  new TreeMap<>();
         MenuOption AdvanceTime = new MenuOption("advance","Advance time",new BackEndCommand("AdvanceTime"),1);
-        MenuOption CurrentDateTime = new MenuOption("datetime","Get current Date and Time",new BackEndCommand("CurrentDateTime"),0);
+        MenuOption CurrentDateTime = new MenuOption("datetime","Get current date and time",new BackEndCommand("CurrentDateTime"),0);
         TimeOptions.put(back.getKeyWord(),back);
         TimeOptions.put(AdvanceTime.getKeyWord(),AdvanceTime);
         TimeOptions.put(CurrentDateTime.getKeyWord(),CurrentDateTime);
         TimeOptions.put(exit.getKeyWord(),exit);
 
 
-        View LBMSView = new View(LBMSoptions,0,"LBMS main menu");
+        View LBMSView = new View(LBMSoptions,0,"LBMS Main Menu");
         View BooksView = new View(BookOptions,1,"Books Menu: ");
         View VisitsView = new View(VisitorOptions,2,"Visits Menu: ");
         View TransactionsView = new View(Transactions,3,"Transactions Menu: ");
