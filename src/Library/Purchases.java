@@ -13,14 +13,21 @@ public final class Purchases {
 
 
     public static String purchase(Integer quantity, ArrayList<Long> isbns) {
+        ArrayList<Long> seen = new ArrayList<>();
         for (Long isbn : isbns) {
             if (!Books.getBookHash().containsKey(isbn)) {
                 return ("One or more of the book ISBNs are not valid.");
-            } else {
+            }
+            else if(seen.contains(isbn)){
+                return ("Book ISBNs must be unique.");
+            }
+            else {
+                seen.add(isbn);
                 Integer prevTotalNumCopies = Books.getBookHash().get(isbn).getTotalNumCopies();
                 Integer prevNumAvailableCopies = Books.getBookHash().get(isbn).getNumAvailableCopies();
                 Books.getBookHash().get(isbn).setTotalNumCopies(prevTotalNumCopies + quantity);
                 Books.getBookHash().get(isbn).setNumAvailableCopies(prevNumAvailableCopies + quantity);
+                Books.saveToFile();
                 if (!purchaseHash.containsKey(Time.getDate())) {
                     purchaseHash.put(Time.getDate(), quantity);
                 } else {

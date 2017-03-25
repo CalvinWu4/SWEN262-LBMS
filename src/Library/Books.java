@@ -171,7 +171,7 @@ public final class Books {
         this.saveToFile();
     }
 
-    public void saveToFile(){
+    public static void saveToFile(){
         try {
             FileWriter fw = new FileWriter(BOOKSFILE);
             PrintWriter pw = new PrintWriter(fw,true);
