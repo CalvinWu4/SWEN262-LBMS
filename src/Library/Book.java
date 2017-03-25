@@ -43,7 +43,7 @@ public class Book {
     public String getAuthorsString(){
         String auths = "";
         for(String author : authors){
-            auths += author+", ";
+            auths += author+",";
         }
         auths = auths.replaceAll(", $","");
         return auths;
