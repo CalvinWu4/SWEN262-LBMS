@@ -1,5 +1,7 @@
-package FrontEnd;
+package FrontEnd.State;
 
+
+import FrontEnd.Response;
 
 /**
  * Created by Brandon on 3/25/2017.
