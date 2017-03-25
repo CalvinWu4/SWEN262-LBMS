@@ -53,6 +53,7 @@ public final class Transactions {
                     }
                 }
             }
+            saveToFile();
         }
         return("Books have been borrowed and are due " +
                 dueDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
@@ -130,7 +131,7 @@ public final class Transactions {
         return response;
     }
 
-    public void saveToFile(){
+    public static void saveToFile(){
         try {
             FileWriter fw = new FileWriter(TRANSACTIONSFILE);
             PrintWriter pw = new PrintWriter(fw,true);

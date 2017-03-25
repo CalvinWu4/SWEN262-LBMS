@@ -32,11 +32,12 @@ public final class Visitors {
         Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId, Time.getDate());
         visitorHash.put(newVisitor.getId(), newVisitor);
         count++;
+        saveToFile();
         return("Visitor ID:"+ visitorId + " has been registered on " +
                 Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + ".");
     }
 
-    public void saveToFile(){
+    public static void saveToFile(){
         try {
             FileWriter fw = new FileWriter(VISITORSFILE);
             PrintWriter pw = new PrintWriter(fw,true);
