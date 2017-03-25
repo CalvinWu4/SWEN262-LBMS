@@ -23,7 +23,7 @@ import java.util.TreeMap;
 public final class BackEnd {
 
 
-    private static Boolean debugMode = false;
+    private static Boolean debugMode = true;
 
 
     public static void setDebugMode(Boolean onOrOff){
@@ -80,11 +80,15 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response BookPurchase(ArrayList<Parameter> params){
-
         ArrayList<Long> booksIds = new ArrayList<>();
-            for (String id : (ArrayList<String>)params.get(1).getParam()){
-                booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
-            }
+        for(int i = 1; i < params.size(); i++){
+            booksIds.add(Long.parseLong((String) params.get(i).getParam()));
+        }
+
+//        ArrayList<Long> booksIds = new ArrayList<>();
+//            for (String id : (ArrayList<String>)params.get(1).getParam()){
+//                booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
+//            }
         return new Response("buy,"+Purchases.purchase(Integer.parseInt((String)params.get(0).getParam()),booksIds));
     }
 
