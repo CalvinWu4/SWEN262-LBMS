@@ -1,15 +1,20 @@
 package Library;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Calvin on 3/13/2017.
  */
 public final class Transactions {
     private static HashMap<String, ArrayList<Transaction>> transactionHash = new HashMap<>();
+    private static final String TRANSACTIONSFILE = "libraryTransactions.csv";
     // visitorId, borrowed books list
     private static Integer finesCollected = 0;
     private static Integer finesOutstanding = 0;
@@ -123,6 +128,29 @@ public final class Transactions {
         }
         
         return response;
+    }
+
+    public void saveToFile(){
+        try {
+            FileWriter fw = new FileWriter(TRANSACTIONSFILE);
+            PrintWriter pw = new PrintWriter(fw,true);
+
+            for(Map.Entry<String, ArrayList<Transaction>> map: transactionHash.entrySet()){
+
+                pw.write(map.getKey()+":\n");
+
+                for(Transaction transaction : map.getValue()) {
+                        pw.write(transaction.getIsbn() + "," + transaction.getDateBorrowed().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) +
+                                "," + transaction.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "\n");
+                }
+            }
+            fw.flush();
+            pw.close();
+            fw.close();
+        }
+        catch (IOException ioe){
+            System.out.println("Error writing to file.");
+        }
     }
 
     public static HashMap<String, ArrayList<Transaction>> getTransactionHash(){
