@@ -8,6 +8,8 @@ import java.util.Comparator;
 
 /**
  * Created by Calvin Wu on 3/19/2017.
+ *
+ * Sorting by number of available copies
  */
 public class NumAvailSort implements BookSort {
 

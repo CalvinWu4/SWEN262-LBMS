@@ -149,21 +149,6 @@ public final class BackEnd {
         for(int i = 1; i < params.size(); i++){
             booksIds.add(Long.parseLong((String) params.get(i).getParam()));
         }
-
-//        ArrayList<String> borrowBookParams = new ArrayList<>();
-//        ArrayList<Long> booksIds = new ArrayList<>();
-//        int i = 0;
-//        for(Parameter parameter : params){
-//            if(parameter.getParam() instanceof Collection){
-//                for (String id : (ArrayList<String>)parameter.getParam()){
-//                    booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
-//                }
-//            }
-//            if(i == 0){
-//                borrowBookParams.add((String) parameter.getParam());
-//            }
-//            i++;
-//        }
         return new Response("borrow,"+Transactions.borrow((String)params.get(0).getParam(),booksIds));
     }
 
@@ -317,7 +302,7 @@ public final class BackEnd {
         }else{
             finished_authors = authors;
         }
-        if(!bookSearchParams[1].equals("*")){
+        if(bookSearchParams[1] == null || !bookSearchParams[1].equals("*")){
             bookSearchParams[1] = finished_authors;
         }
         return bookSearchParams;

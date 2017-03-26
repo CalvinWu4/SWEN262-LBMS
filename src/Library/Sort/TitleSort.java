@@ -8,6 +8,8 @@ import java.util.Comparator;
 
 /**
  * Created by Tyler Lima on 3/5/2017.
+ *
+ * Sorting by Title
  */
 public class TitleSort implements BookSort {
 

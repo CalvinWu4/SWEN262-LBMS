@@ -3,7 +3,7 @@ import Library.Book;
 import java.util.ArrayList;
 /**
  * Created by Calvin Wu on 3/14/2017.
- *
+ * Search by Title
  */
 public class TitleQuery implements BookQuery {
     @Override

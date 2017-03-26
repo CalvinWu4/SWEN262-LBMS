@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Created by Calvin Wu on 3/14/2017.
- *
+ * Search by Author(s)
  */
 public class AuthorsQuery implements BookQuery {
     @Override
