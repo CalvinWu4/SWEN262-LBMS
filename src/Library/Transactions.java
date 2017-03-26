@@ -62,12 +62,12 @@ public final class Transactions {
     public static String findBooks(String visitorId) {
         if (transactionHash.containsKey(visitorId)) {
             ArrayList<Transaction> transactions = transactionHash.get(visitorId);
-            String result = transactions.size() + " books borrowed";
+            String result = transactions.size() + " books borrowed\n";
             int tempId = 0;
             for (Transaction transaction : transactions) {
                 tempId++;
                 Book book = Books.getBookHash().get(transaction.getIsbn());
-                result += (tempId + " " + book.getIsbn() + " " + book.getTitle() + " " +
+                result += (tempId + "," + book.getIsbn() + "," + book.getTitle() + "," +
                         transaction.getDateBorrowed().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "\n");
             }
             return result;

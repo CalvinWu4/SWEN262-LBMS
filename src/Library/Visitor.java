@@ -25,6 +25,7 @@ public class Visitor {
         this.address = address;
         this.phone = phone;
         this.id = id;
+        this.regDate = regDate;
     }
 
 

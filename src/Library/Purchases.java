@@ -1,6 +1,7 @@
 package Library;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,8 +14,10 @@ public final class Purchases {
 
 
     public static String purchase(Integer quantity, ArrayList<Long> isbns) {
+        String result = "success\n";
         ArrayList<Long> seen = new ArrayList<>();
         for (Long isbn : isbns) {
+            Book book = Books.getBookHash().get(isbn);
             if (!Books.getBookHash().containsKey(isbn)) {
                 return ("One or more of the book ISBNs are not valid.");
             }
@@ -22,11 +25,10 @@ public final class Purchases {
                 return ("Book ISBNs must be unique.");
             }
             else {
-                seen.add(isbn);
-                Integer prevTotalNumCopies = Books.getBookHash().get(isbn).getTotalNumCopies();
-                Integer prevNumAvailableCopies = Books.getBookHash().get(isbn).getNumAvailableCopies();
-                Books.getBookHash().get(isbn).setTotalNumCopies(prevTotalNumCopies + quantity);
-                Books.getBookHash().get(isbn).setNumAvailableCopies(prevNumAvailableCopies + quantity);
+                Integer prevTotalNumCopies = book.getTotalNumCopies();
+                Integer prevNumAvailableCopies = book.getNumAvailableCopies();
+                book.setTotalNumCopies(prevTotalNumCopies + quantity);
+                book.setNumAvailableCopies(prevNumAvailableCopies + quantity);
                 Books.saveToFile();
                 if (!purchaseHash.containsKey(Time.getDate())) {
                     purchaseHash.put(Time.getDate(), quantity);
@@ -34,9 +36,13 @@ public final class Purchases {
                     Integer oldQuantity = purchaseHash.get(Time.getDate());
                     purchaseHash.put(Time.getDate(), oldQuantity + quantity);
                 }
+                seen.add(isbn);
+                result += book.getIsbn() + "," + book.getTitle() + "," + "{" + book.getAuthorsString() + "}" + "," +
+                        book.getPublishedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "," +
+                        book.getTotalNumCopies() + "\n";
             }
         }
-        return ("Success");
+        return result;
     }
 
     public static HashMap<LocalDate, Integer> getPurchaseHash(){

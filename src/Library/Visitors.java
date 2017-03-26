@@ -32,7 +32,7 @@ public final class Visitors {
         Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId, Time.getDate());
         visitorHash.put(newVisitor.getId(), newVisitor);
         count++;
-        //saveToFile();
+        saveToFile();
         return("Visitor ID:"+ visitorId + " has been registered on " +
                 Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + ".");
     }
@@ -42,9 +42,9 @@ public final class Visitors {
             FileWriter fw = new FileWriter(VISITORSFILE);
             PrintWriter pw = new PrintWriter(fw,true);
 
-            for(Visitor visitor : visitorHash.values()){
-                pw.write(visitor.getId()+",\""+visitor.getFirstName()+"\",\""+visitor.getLastName()+"\",\""+
-                        visitor.getAddress()+"\","+visitor.getPhone()+","+visitor.getRegDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))+"\n");
+            for(Visitor visitor: visitorHash.values()) {
+                pw.write(visitor.getFirstName() + "," + visitor.getLastName() + "," +
+                        visitor.getAddress() + "," + visitor.getPhone() + "," + visitor.getId() + "," + visitor.getRegDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "\n");
             }
             fw.flush();
             pw.close();
