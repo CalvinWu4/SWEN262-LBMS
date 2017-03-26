@@ -1,12 +1,9 @@
 package Library;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * A Database for the visitor Object
@@ -15,48 +12,70 @@ import java.util.HashMap;
  *
  */
 public final class Visitors {
-    private static HashMap<String, Visitor> visitorHash = new HashMap<>(); // visitorId, Visitor
-    private static final String VISITORSFILE = "libraryVisitors.csv";
-    private static Integer count = 1;
+
+    private static TreeMap<Integer, Visitor> visitorMap; // visitorId, Visitor
+    public static File savedMaps = new File("visitors.ser");
+    public Visitors(){
+        visitorMap = new TreeMap<>();
+        load();
+    }
+//    private static final String VISITORSFILE = "libraryVisitors.csv";
 
 
     public static String register(String firstName, String lastName, String address, String phone){
-        for(Visitor visitor: visitorHash.values()) {
+        for(Visitor visitor: visitorMap.values()) {
             if (visitor.getFirstName().equals(firstName) && visitor.getLastName().equals(lastName) &&
                     visitor.getAddress().equals(address) && visitor.getPhone().equals(phone)) {
                 return("A visitor with the same name, address, and phone number is already registered.\n");
             }
         }
         DecimalFormat tenDigit = new DecimalFormat("0000000000");
-        String visitorId = tenDigit.format(count);
-        Visitor newVisitor = new Visitor(firstName, lastName, address, phone, visitorId, Time.getDate());
-        visitorHash.put(newVisitor.getId(), newVisitor);
-        count++;
-        saveToFile();
-        return("Visitor ID:"+ visitorId + " has been registered on " +
+        if(visitorMap.containsKey(1)) {
+            Visitor newVisitor = new Visitor(firstName, lastName, address, phone, tenDigit.format(visitorMap.lastKey() + 1), Time.getDate());
+            visitorMap.put(visitorMap.lastKey() + 1, newVisitor);
+        }
+        else{
+            Visitor newVisitor = new Visitor(firstName, lastName, address, phone, tenDigit.format(1), Time.getDate());
+            visitorMap.put(1,newVisitor);
+        }
+        return("Visitor ID:"+ tenDigit.format(visitorMap.lastKey()) + " has been registered on " +
                 Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + ".");
     }
 
-    public static void saveToFile(){
-        try {
-            FileWriter fw = new FileWriter(VISITORSFILE);
-            PrintWriter pw = new PrintWriter(fw,true);
-
-            for(Visitor visitor: visitorHash.values()) {
-                pw.write(visitor.getFirstName() + "," + visitor.getLastName() + "," +
-                        visitor.getAddress() + "," + visitor.getPhone() + "," + visitor.getId() + "," + visitor.getRegDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "\n");
-            }
-            fw.flush();
-            pw.close();
-            fw.close();
+    public static void save() {
+        try
+        {
+            FileOutputStream fos =
+                    new FileOutputStream("visitors.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(visitorMap);
+            oos.close();
+            fos.close();
+        }catch(IOException ioe)
+        {
+            ioe.printStackTrace();
         }
-        catch (IOException ioe){
-            System.out.println("Error writing to file.");
+    }
+
+    public static void load() {
+        try {
+            FileInputStream fis = new FileInputStream("visitors.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            visitorMap = (TreeMap<Integer, Visitor>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return;
         }
     }
 
 
-    public static HashMap<String, Visitor> getVisitorHash(){
-        return visitorHash;
+    public static TreeMap<Integer, Visitor> getVisitorMap(){
+        return visitorMap;
     }
 }

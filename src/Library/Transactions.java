@@ -22,7 +22,7 @@ public final class Transactions {
 
     public static String borrow(String visitorId, ArrayList<Long> isbns) {
         LocalDate dueDate = null;
-        if (!Visitors.getVisitorHash().containsKey(visitorId)) {
+        if (!Visitors.getVisitorMap().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
         } else if (transactionHash.get(visitorId) != null &&  transactionHash.get(visitorId).size() + isbns.size() > 5) {
             return("The borrow request would cause the visitor to exceed 5 borrowed books.");
@@ -77,7 +77,7 @@ public final class Transactions {
     }
 
     public static String _return(Integer visitorId, ArrayList<Long> isbns) {
-        if (!Visitors.getVisitorHash().containsKey(visitorId)) {
+        if (!Visitors.getVisitorMap().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
         } else {
             for (Long isbn : isbns) {

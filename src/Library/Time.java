@@ -24,7 +24,7 @@ public final class Time {
             isOpen = true;
         }else {
             isOpen = false;
-            for(Visitor visitor: Visitors.getVisitorHash().values()){
+            for(Visitor visitor: Visitors.getVisitorMap().values()){
                 if(visitor.getActiveVisit() != null) {
                     visitor.getActiveVisit().setDeparture(LocalDateTime.now());
                 }

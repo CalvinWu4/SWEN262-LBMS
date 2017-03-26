@@ -34,7 +34,7 @@ public class Stats {
                 numBooks += book.getTotalNumCopies();
             }
             // Number of Visitors
-            for (Visitor visitor : Visitors.getVisitorHash().values()) {
+            for (Visitor visitor : Visitors.getVisitorMap().values()) {
                 if (visitor.getRegDate().equals(queriedDate)) {
                     numVisitorsTotal++;
                 }

@@ -2,6 +2,7 @@ package Library;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by Calvin on 3/5/2017.
  */
-public class Visitor {
+public class Visitor implements Serializable{
     private String firstName;
     private String lastName;
     private String address;

@@ -261,11 +261,12 @@ public final class BackEnd {
     /// UTILITY METHODS ///
 
     static public Response exit(ArrayList<Parameter> params){
-        for(Visitor visitor: Visitors.getVisitorHash().values()){
+        for(Visitor visitor: Visitors.getVisitorMap().values()){
             if(visitor.getActiveVisit() != null) {
                 visitor.getActiveVisit().setDeparture(Time.getDateTime());
             }
         }
+        Visitors.save();
         return new Response("Good bye!").toggleEndResponse();
     }
 
