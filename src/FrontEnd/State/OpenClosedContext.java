@@ -7,7 +7,11 @@ package FrontEnd.State;
 public class OpenClosedContext {
     private OpenOrClosed state;
 
-    public void setState(OpenOrClosed state){}
+    public OpenClosedContext(){
+        this.state = null;
+    }
+
+    public void setState(OpenOrClosed state){ this.state = state; }
 
     public OpenOrClosed getState(){
         return state;
