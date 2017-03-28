@@ -75,6 +75,13 @@ public final class Visitors {
     }
 
 
+    static public void exitActiveVisitors(){
+        for(Visitor visitor: Visitors.getVisitorMap().values()){
+            if(visitor.getActiveVisit() != null) {
+                visitor.getActiveVisit().setDeparture(Time.getDateTime());
+            }
+        }
+    }
     public static TreeMap<Integer, Visitor> getVisitorMap(){
         return visitorMap;
     }

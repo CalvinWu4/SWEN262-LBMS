@@ -1,5 +1,7 @@
 package Library;
 
+import FrontEnd.State.OpenClosedContext;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,25 +15,26 @@ public final class Time {
     private final static LocalDateTime startDateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
     private static LocalDateTime dateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
     private static boolean isOpen;
+    /** Context field that will check the state of the library for open or closed **/
+    static private OpenClosedContext context = new OpenClosedContext();
+
 
 
     /**
      * Helper function for incTime.
      */
-    public static void checkIsOpenAndClose(){
+    public static Boolean checkIsOpenAndClose(){
         if(dateTime.isAfter(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),7,59)) &&
                 dateTime.isBefore(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),19,0))){
             isOpen = true;
+            context.toggleOpenClosed();
         }else {
             isOpen = false;
-            for(Visitor visitor: Visitors.getVisitorMap().values()){
-                if(visitor.getActiveVisit() != null) {
-                    visitor.getActiveVisit().setDeparture(LocalDateTime.now());
-                }
-            }
+            context.toggleOpenClosed();
         }
-
+        return isOpen;
     }
+
 
     public static String incTime(Integer days, Integer hours) {
         if (days < 0 || days > 7) {
@@ -44,6 +47,10 @@ public final class Time {
             checkIsOpenAndClose();
             return ("Success");
         }
+    }
+
+    static public OpenClosedContext getTimeContext(){
+        return context;
     }
 
     public static String display(){

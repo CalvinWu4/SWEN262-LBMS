@@ -6,7 +6,10 @@ package FrontEnd;
 import FrontEnd.Command.BackEndCommand;
 import FrontEnd.Command.MenuOption;
 import FrontEnd.Command.ViewCommand;
+import FrontEnd.State.OpenClosedContext;
+import FrontEnd.State.OpenState;
 import Library.BackEnd;
+import Library.Time;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,12 +20,8 @@ import java.util.TreeMap;
 
 public final class Exchange {
 
-
     /** Is the exchange completed **/
     static private boolean isComplete;
-
-    /** Is the exchange executed **/
-    static private boolean isExecuted;
 
     /** The Partial input request **/
     static private String request = "";
@@ -30,6 +29,7 @@ public final class Exchange {
     /** The available options for the exchange **/
     static private TreeMap<String,MenuOption> options;
 
+    /** The view to load after the response is received **/
     static private View viewAfterResponse;
 
 
@@ -43,7 +43,6 @@ public final class Exchange {
         // Options to choose from, each will perform a series of Commands
         TreeMap<String,MenuOption> theOptions = ViewForOptions.getOptions();
         isComplete = false;
-        isExecuted = false;
         options = theOptions;
         Scanner userInput = new Scanner(System.in);
         return getRequest(userInput);
@@ -53,9 +52,7 @@ public final class Exchange {
         return isComplete;
     }
 
-    static public boolean getIsExecuted(){
-        return isExecuted;
-    }
+
 
     /**
      * Retrieves user input and send it to parse().
@@ -104,54 +101,55 @@ public final class Exchange {
      * Upon execution set the response view to be the actual view.
      * @param query: The finished query typed by the user.
      */
-    static public Response interpret(String query){
+    static public Response interpret(String query) {
         String[] args = query.split(",");
         String mainTrigger = args[0];
         // Check that the query has at least a comma to show that iu
-        MenuOption chosenOption =  options.get(mainTrigger);
-        if(chosenOption != null){
-            isExecuted = true;
-            //Check that the number of parameters is at least the number of parameters needed
-            if(args.length >= chosenOption.getMinArgsSize() + 1){
-                //Set the arguments for the commands
-                if(chosenOption.getCommand() instanceof ViewCommand){
-                    //Empty arrayList if the command is to just change views
-                    chosenOption.setCommandArgs(new ArrayList<>());
-                }else{
-                    chosenOption.setCommandArgs(getParamsFromRequest(query));
-                }
+        MenuOption chosenOption = options.get(mainTrigger);
+        if (chosenOption != null) {
+            //Check that the option is available after the library has closed
+            if (chosenOption.isAvailableAfterClosed() || Time.getTimeContext().getState() instanceof OpenState) {
+                if (args.length >= chosenOption.getMinArgsSize() + 1) {
+                    //Set the arguments for the commands
+                    if (chosenOption.getCommand() instanceof ViewCommand) {
+                        //Empty arrayList if the command is to just change views
+                        chosenOption.setCommandArgs(new ArrayList<>());
+                    } else {
+                        chosenOption.setCommandArgs(getParamsFromRequest(query));
+                    }
 
-                //First call to execute command
-                Response response = chosenOption.execute();
-                //Only if the command is for the back end and has no view attached we assign the same view that this
-                // exchange is taking place on.
-                if(chosenOption.getCommand() instanceof BackEndCommand){
-                    if(response == null) {
-                        if (BackEnd.isDebugMode()) {
-                            return new Response("Backend method not implemented or something went wrong").setResponseView(viewAfterResponse);
+                    //Execute command
+                    Response response = chosenOption.execute();
+
+                    //Assign the same view that this exchange is taking place on if the command doesn't have one already
+                    if (chosenOption.getCommand() instanceof BackEndCommand) {
+                        if (response == null) {
+                            if (BackEnd.isDebugMode()) {
+                                return new Response("Backend method not implemented or something went wrong").setResponseView(viewAfterResponse);
+                            } else {
+                                return new Response("Something went wrong").setResponseView(viewAfterResponse);
+                            }
                         } else {
-                            return new Response("Something went wrong").setResponseView(viewAfterResponse);
-                        }
-                    }else{
-                        if(response.getResponseView() ==  null){
-                            response.setResponseView(viewAfterResponse);
+                            if (response.getResponseView() == null) {
+                                response.setResponseView(viewAfterResponse);
+                            }
                         }
                     }
+                    return response;
+
+                } else {
+                    int numMissing = chosenOption.getMinArgsSize() + 1 - args.length;
+                    return new Response("Incorrect number of arguments. Missing: " + numMissing + " arguments").setResponseView(viewAfterResponse);
                 }
-                return response;
 
             }else{
-                int numMissing = chosenOption.getMinArgsSize() + 1 - args.length;
-                return new Response("Incorrect number of arguments. Missing: " + numMissing + " arguments").setResponseView(viewAfterResponse);
+                return new Response("Command not available during closed library").setResponseView(viewAfterResponse);
             }
 
-
-        }else{
-            isExecuted = false;
+        } else {
             return new Response("Invalid command").setResponseView(viewAfterResponse);
 
         }
-
 
     }
     //Checks to see if the current command has been completed or not, then returns the command.

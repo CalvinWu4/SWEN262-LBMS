@@ -8,6 +8,12 @@ import FrontEnd.State.OpenOrClosed;
  */
 public class ClosedState implements OpenOrClosed {
 
+
+    @Override
+    public void toggle(OpenClosedContext wrapper){
+        wrapper.setState(new OpenState());
+    }
+
     @Override
     public Response returnResponse() {
         return null;

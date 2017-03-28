@@ -2,6 +2,7 @@ package FrontEnd.Command;
 
 import FrontEnd.Parameter;
 import FrontEnd.Response;
+import Library.Time;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,8 @@ import java.util.ArrayList;
  */
 public class MenuOption {
 
-    /** Message to display **/
+    /** Message to
+     * display **/
     private String message;
 
     /** Size of Arguments to be provided**/
@@ -27,6 +29,9 @@ public class MenuOption {
     /** If this Option is just to travel to a different view, then we set a viewID **/
     private Integer futureViewId = null;
 
+    /** Is available after closed **/
+    private Boolean isAvailableAfterClosed;
+
     /**
      * Constructor for an Option that connects a BackEndCommand in the backend to the an option in the front
      * end.
@@ -34,11 +39,13 @@ public class MenuOption {
      * @param message: The Message that identifies the option to be displayed to the user
      * @param command: The command to be executed if the option is selected
      */
-    public MenuOption(String keyWord, String message, BackEndCommand command, int min_args_size){
+    public MenuOption(String keyWord, String message, BackEndCommand command, int min_args_size, Boolean isAvailableAfterClosed){
         this.keyWord = keyWord;
         this.message = message;
         this.command = command;
         this.min_args_size = min_args_size;
+        this.isAvailableAfterClosed = isAvailableAfterClosed;
+
     }
 
     /**
@@ -54,6 +61,7 @@ public class MenuOption {
         this.message = message;
         this.futureViewId = futureViewId;
         this.min_args_size = 0;
+        this.isAvailableAfterClosed = true;
     }
 
     /**
@@ -103,5 +111,9 @@ public class MenuOption {
 
     public String getKeyWord() {
         return keyWord;
+    }
+
+    public Boolean isAvailableAfterClosed(){
+        return this.isAvailableAfterClosed;
     }
 }

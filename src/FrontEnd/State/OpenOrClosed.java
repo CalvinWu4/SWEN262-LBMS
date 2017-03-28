@@ -7,5 +7,6 @@ import FrontEnd.Response;
  */
 public interface OpenOrClosed {
 
+    public void toggle(OpenClosedContext wrapper);
     public Response returnResponse();
 }

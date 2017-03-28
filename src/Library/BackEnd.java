@@ -270,6 +270,8 @@ public final class BackEnd {
         return new Response("Good bye!").toggleEndResponse();
     }
 
+
+
     static public String[] getBookSearchParams(ArrayList<Parameter> params){
         // A list of strings with the parameters without including the authors
         String[] bookSearchParams = new String[5];
