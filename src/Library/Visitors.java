@@ -14,10 +14,16 @@ import java.util.*;
 public final class Visitors {
 
     private static TreeMap<Integer, Visitor> visitorMap; // visitorId, Visitor
-    public static File savedMaps = new File("visitors.ser");
-    public Visitors(){
+    public static final File FILE = new File("visitors.ser");
+    public Visitors() {
         visitorMap = new TreeMap<>();
-        load();
+        try {
+            if (!FILE.createNewFile()) {
+                load();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 //    private static final String VISITORSFILE = "libraryVisitors.csv";
 
@@ -46,7 +52,7 @@ public final class Visitors {
         try
         {
             FileOutputStream fos =
-                    new FileOutputStream("visitors.ser");
+                    new FileOutputStream(FILE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(visitorMap);
             oos.close();
@@ -59,7 +65,7 @@ public final class Visitors {
 
     public static void load() {
         try {
-            FileInputStream fis = new FileInputStream("visitors.ser");
+            FileInputStream fis = new FileInputStream(FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
             visitorMap = (TreeMap<Integer, Visitor>) ois.readObject();
             ois.close();
