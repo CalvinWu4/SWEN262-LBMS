@@ -36,7 +36,7 @@ public class BackEndCommand implements Command {
     }
 
     /**
-     * Execute the method upton the receiver and return the response generated form the BackEnd
+     * Execute the method upon the receiver and return the response generated from the BackEnd
      * @return Response generated, either an error or a success response.
      */
     @Override

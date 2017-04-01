@@ -1,10 +1,7 @@
 package Library;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Calvin on 3/12/2017.
