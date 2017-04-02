@@ -50,7 +50,7 @@ public final class Transactions {
         } else if (map.get(visitorId) != null &&  map.get(visitorId).size() + isbns.size() > 5) {
             return("The borrow request would cause the visitor to exceed 5 borrowed books.");
         }
-        else if(checkCanBorrow(visitorId)){
+        else if(!checkCanBorrow(visitorId)){
             return("The visitor owes the library a fine for books that were previously not returned or returned late.");
         }
         else {
@@ -103,6 +103,7 @@ public final class Transactions {
     }
 
     public static String _return(Integer visitorId, ArrayList<Long> isbns) {
+        String response = "Error in return function api";
         if (!Visitors.getMap().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
         } else {
@@ -113,27 +114,25 @@ public final class Transactions {
                 } else {
                     if (map.containsValue(isbn)){
                         Integer cost = 0;
-                        String response = "";
                         ArrayList<Transaction> transactions = map.get(visitorId);
                         for (Transaction transaction : transactions){
                             cost = cost + transaction.calculateFee();
                             if(cost > 0){
-                                response += "Book: "+isbn+" is overdue. Cost = $"+cost+"\n";
+                                return("Book: "+isbn+" is overdue. Cost = $"+cost+"\n");
                             }
                             else{
-                                response = "Success";
+                                return("Success");
                             }
                         }
                         book.setNumAvailableCopies(book.getNumAvailableCopies() + 1);
                         map.get(visitorId).remove(book);
-                        return response;
                     } else {
                         return("One or more of the books are not currently borrowed the visitor.");
                     }
                 }
             }
         }
-        return null;
+        return response;
     }
 
     public static String pay(Integer visitorId, Integer amount) {
