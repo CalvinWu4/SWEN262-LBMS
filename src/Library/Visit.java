@@ -1,5 +1,6 @@
 package Library;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,19 +11,19 @@ import java.time.LocalTime;
  * The Visit class for all visitors. It creates one visit every time a visitor visits the Library.
  *
  */
-public class Visit {
-    private String visitorID;
+public class Visit implements Serializable{
+    private Integer visitorID;
     private LocalDateTime arrival;
     private LocalDateTime departure;
 
 
-    Visit(String visitorID, LocalDateTime arrival){
+    Visit(Integer visitorID, LocalDateTime arrival){
         this.visitorID = visitorID;
         this.arrival = arrival;
     }
 
     // Setters
-    public void setVisitorID(String visitorID) {
+    public void setVisitorID(Integer visitorID) {
         this.visitorID = visitorID;
     }
     public void setArrival(LocalDateTime arrival) {
@@ -33,7 +34,7 @@ public class Visit {
     }
 
     // Getters
-    public String getVisitorID(){
+    public Integer getVisitorID(){
         return this.visitorID;
     }
     public LocalDateTime getArrival(){

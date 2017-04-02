@@ -13,10 +13,12 @@ import java.util.*;
  */
 public final class Visitors {
 
-    private static TreeMap<Integer, Visitor> visitorMap; // visitorId, Visitor
+    private static TreeMap<Integer, Visitor> map; // visitorId, Visitor
     public static final File FILE = new File("visitors.ser");
+
+
     public Visitors() {
-        visitorMap = new TreeMap<>();
+        map = new TreeMap<>();
         try {
             if (!FILE.createNewFile()) {
                 load();
@@ -25,26 +27,24 @@ public final class Visitors {
             ioe.printStackTrace();
         }
     }
-//    private static final String VISITORSFILE = "libraryVisitors.csv";
-
 
     public static String register(String firstName, String lastName, String address, String phone){
-        for(Visitor visitor: visitorMap.values()) {
+        for(Visitor visitor: map.values()) {
             if (visitor.getFirstName().equals(firstName) && visitor.getLastName().equals(lastName) &&
                     visitor.getAddress().equals(address) && visitor.getPhone().equals(phone)) {
                 return("A visitor with the same name, address, and phone number is already registered.\n");
             }
         }
         DecimalFormat tenDigit = new DecimalFormat("0000000000");
-        if(visitorMap.containsKey(1)) {
-            Visitor newVisitor = new Visitor(firstName, lastName, address, phone, tenDigit.format(visitorMap.lastKey() + 1), Time.getDate());
-            visitorMap.put(visitorMap.lastKey() + 1, newVisitor);
+        if(map.containsKey(1)) {
+            Visitor newVisitor = new Visitor(firstName, lastName, address, phone, map.lastKey() + 1, Time.getDate());
+            map.put(map.lastKey() + 1, newVisitor);
         }
         else{
-            Visitor newVisitor = new Visitor(firstName, lastName, address, phone, tenDigit.format(1), Time.getDate());
-            visitorMap.put(1,newVisitor);
+            Visitor newVisitor = new Visitor(firstName, lastName, address, phone, 1, Time.getDate());
+            map.put(1,newVisitor);
         }
-        return("Visitor ID:"+ tenDigit.format(visitorMap.lastKey()) + " has been registered on " +
+        return("Visitor ID:"+ tenDigit.format(map.lastKey()) + " has been registered on " +
                 Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + ".");
     }
 
@@ -54,7 +54,7 @@ public final class Visitors {
             FileOutputStream fos =
                     new FileOutputStream(FILE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(visitorMap);
+            oos.writeObject(map);
             oos.close();
             fos.close();
         }catch(IOException ioe)
@@ -67,7 +67,7 @@ public final class Visitors {
         try {
             FileInputStream fis = new FileInputStream(FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            visitorMap = (TreeMap<Integer, Visitor>) ois.readObject();
+            map = (TreeMap<Integer, Visitor>) ois.readObject();
             ois.close();
             fis.close();
         } catch (IOException ioe) {
@@ -80,15 +80,15 @@ public final class Visitors {
         }
     }
 
-
     static public void exitActiveVisitors(){
-        for(Visitor visitor: Visitors.getVisitorMap().values()){
+        for(Visitor visitor: Visitors.getMap().values()){
             if(visitor.getActiveVisit() != null) {
                 visitor.getActiveVisit().setDeparture(Time.getDateTime());
             }
         }
     }
-    public static TreeMap<Integer, Visitor> getVisitorMap(){
-        return visitorMap;
+
+    public static TreeMap<Integer, Visitor> getMap(){
+        return map;
     }
 }

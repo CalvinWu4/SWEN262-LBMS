@@ -1,33 +1,56 @@
 package Library;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Calvin on 3/13/2017.
  */
 public final class Transactions {
-    private static HashMap<String, ArrayList<Transaction>> transactionHash = new HashMap<>();
-    private static final String TRANSACTIONSFILE = "libraryTransactions.csv";
-    // visitorId, borrowed books list
-    private static Integer finesCollected = 0;
-    private static Integer finesOutstanding = 0;
+    private static HashMap<Integer, ArrayList<Transaction>> map = new HashMap<>(); // visitorId, borrowed books list
+    public static final File FILE = new File("transactions.ser");
 
+    public Transactions(){
+        map = new HashMap<>();
+        try {
+            if (!FILE.createNewFile()) {
+                load();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
 
-    public static String borrow(String visitorId, ArrayList<Long> isbns) {
+    /**
+     * Helper function to check if all transactions of a visitor are paid off
+     */
+    public static boolean checkCanBorrow(Integer visitorId) {
+        ArrayList<Transaction> transactions = map.get(visitorId);
+        if(transactions != null){
+        for (Transaction transaction : transactions) {
+                Fine fine = transaction.getFine();
+                if (fine != null) {
+                    if (fine.getBalance() > 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public static String borrow(Integer visitorId, ArrayList<Long> isbns) {
         LocalDate dueDate = null;
-        if (!Visitors.getVisitorMap().containsKey(visitorId)) {
+        if (!Visitors.getMap().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
-        } else if (transactionHash.get(visitorId) != null &&  transactionHash.get(visitorId).size() + isbns.size() > 5) {
+        } else if (map.get(visitorId) != null &&  map.get(visitorId).size() + isbns.size() > 5) {
             return("The borrow request would cause the visitor to exceed 5 borrowed books.");
         }
-        else if(finesOutstanding > 0){
+        else if(checkCanBorrow(visitorId)){
             return("The visitor owes the library a fine for books that were previously not returned or returned late.");
         }
         else {
@@ -38,30 +61,35 @@ public final class Transactions {
                             " recent library book search.");
                 } else {
                     if (book.getNumAvailableCopies() < 1) {
-                        return("There no available copies of this book");
+                        return("There no available copies of one or more books");
                     } else {
                         book.setNumAvailableCopies(book.getNumAvailableCopies() - 1);
                         dueDate = Time.getDate().plusDays(7);
                         Transaction transaction = new Transaction(isbn, Time.getDate(), dueDate);
-                        if (transactionHash.get(visitorId) == null) {
+                        if (map.get(visitorId) == null) {
                             ArrayList<Transaction> transactionsList = new ArrayList<Transaction>();
                             transactionsList.add(transaction);
-                            transactionHash.put(visitorId, transactionsList);
+                            map.put(visitorId, transactionsList);
                         } else {
-                            transactionHash.get(visitorId).add(transaction);
+                            map.get(visitorId).add(transaction);
                         }
                     }
                 }
             }
-            saveToFile();
         }
         return("Books have been borrowed and are due " +
                 dueDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
     }
 
-    public static String findBooks(String visitorId) {
-        if (transactionHash.containsKey(visitorId)) {
-            ArrayList<Transaction> transactions = transactionHash.get(visitorId);
+    public static String findBooks(Integer visitorId) {
+        if(!Visitors.getMap().containsKey(visitorId)){
+            return("The visitor ID does not match a registered visitor.");
+        }
+        else if(map.get(visitorId) == null){
+            return "0";
+        }
+        else{
+            ArrayList<Transaction> transactions = map.get(visitorId);
             String result = transactions.size() + " books borrowed\n";
             int tempId = 0;
             for (Transaction transaction : transactions) {
@@ -71,13 +99,11 @@ public final class Transactions {
                         transaction.getDateBorrowed().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "\n");
             }
             return result;
-        } else {
-            return("The visitor ID does not match a registered visitor.");
         }
     }
 
     public static String _return(Integer visitorId, ArrayList<Long> isbns) {
-        if (!Visitors.getVisitorMap().containsKey(visitorId)) {
+        if (!Visitors.getMap().containsKey(visitorId)) {
             return("The visitor ID does not match a registered visitor.");
         } else {
             for (Long isbn : isbns) {
@@ -85,12 +111,12 @@ public final class Transactions {
                 if (book == null) {
                     return("One or more of the book IDs are not valid.");
                 } else {
-                    if (transactionHash.containsValue(isbn)){
+                    if (map.containsValue(isbn)){
                         Integer cost = 0;
                         String response = "";
-                        ArrayList<Transaction> tr = transactionHash.get(visitorId);
-                        for (Transaction t : tr){
-                            cost = cost + t.calculateFee(book);
+                        ArrayList<Transaction> transactions = map.get(visitorId);
+                        for (Transaction transaction : transactions){
+                            cost = cost + transaction.calculateFee();
                             if(cost > 0){
                                 response += "Book: "+isbn+" is overdue. Cost = $"+cost+"\n";
                             }
@@ -99,7 +125,7 @@ public final class Transactions {
                             }
                         }
                         book.setNumAvailableCopies(book.getNumAvailableCopies() + 1);
-                        transactionHash.get(visitorId).remove(book);
+                        map.get(visitorId).remove(book);
                         return response;
                     } else {
                         return("One or more of the books are not currently borrowed the visitor.");
@@ -110,58 +136,77 @@ public final class Transactions {
         return null;
     }
 
-    public static String _pay(Integer visitorId,Integer amount){
-        ArrayList<Transaction> tr = transactionHash.get(visitorId);
-        String response;
+    public static String pay(Integer visitorId, Integer amount) {
+        ArrayList<Transaction> transactions = map.get(visitorId);
+        ArrayList<Fine> fines = new ArrayList<>();
+        Integer totalBalance = 0;
 
-        for(Transaction t : tr){
-            Fine f = t.getFine();
-            finesOutstanding = finesOutstanding + f.getCost();
+        if (!Visitors.getMap().containsKey(visitorId)) {
+            return ("The visitor ID does not match a registered visitor.");
+        } else if (amount < 0) {
+            return ("The specified amount is negative.");
         }
-        
-        if(amount <= finesOutstanding){
-            finesOutstanding = finesOutstanding - amount;
-            response = "success,"+finesOutstanding;
-            finesCollected += amount;
-        }
-        else{
-            response = "invalid-amount,"+amount+","+finesOutstanding;
-        }
-        
-        return response;
-    }
+        // Add fines that don't have a zero balance to the array list
+        for (Transaction transaction : transactions) {
+                Fine fine = transaction.getFine();
+                if(fine != null){
+                    if(fine.getBalance() > 0){
+                        fines.add(fine);
 
-    public static void saveToFile(){
-        try {
-            FileWriter fw = new FileWriter(TRANSACTIONSFILE);
-            PrintWriter pw = new PrintWriter(fw,true);
-
-            for(Map.Entry<String, ArrayList<Transaction>> map: transactionHash.entrySet()){
-
-                pw.write(map.getKey()+":\n");
-
-                for(Transaction transaction : map.getValue()) {
-                        pw.write(transaction.getIsbn() + "," + transaction.getDateBorrowed().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) +
-                                "," + transaction.getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "\n");
+                    }
                 }
             }
-            fw.flush();
-            pw.close();
-            fw.close();
+        for (Fine fine : fines) {
+            totalBalance += fine.getBalance();
+            if (totalBalance > amount) {
+                return ("The specified amount exceeds the balance.");
+            }
         }
-        catch (IOException ioe){
-            System.out.println("Error writing to file.");
+        // Pay fines by the smallest ones first
+        Collections.sort(fines);
+        for (int i = 0; i < fines.size(); i++) {
+            Integer balance = fines.get(i).getBalance();
+            if (amount > balance) {
+                amount -= balance;
+            }
+            fines.get(i).pay(amount);
+        }
+        return ("success," + totalBalance);
+    }
+
+    public static void save() {
+        try
+        {
+            FileOutputStream fos = new FileOutputStream(FILE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(map);
+            oos.close();
+            fos.close();
+        }catch(IOException ioe)
+        {
+            ioe.printStackTrace();
         }
     }
 
-    public static HashMap<String, ArrayList<Transaction>> getTransactionHash(){
-        return transactionHash;
-    }
-    public static Integer getFinesCollected(){
-        return finesCollected;
-    }
-    public static Integer getFinesOutstanding(){
-        return finesOutstanding;
+    public static void load() {
+        try {
+            FileInputStream fis = new FileInputStream(FILE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            map = (HashMap<Integer, ArrayList<Transaction>>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return;
+        }
     }
 
+
+    public static HashMap<Integer, ArrayList<Transaction>> getMap(){
+        return map;
+    }
 }

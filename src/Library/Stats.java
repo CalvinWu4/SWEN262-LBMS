@@ -2,6 +2,7 @@ package Library;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * Created by Calvin on 3/12/2017.
@@ -10,11 +11,11 @@ public class Stats {
 
 
     static public String report(Integer days) {
-        int daysPassed = (int)Duration.between(Time.getDateTime(), Time.getStartDateTime()).toDays();
+        int daysPassed = (int) Duration.between(Time.getDateTime(), Time.getStartDateTime()).toDays();
         if (days <= 0) {
-            return("Invalid number of days.");
+            return ("Invalid number of days.");
         }
-        if(days > daysPassed) {
+        if (days > daysPassed) {
             days = daysPassed;
         }
         Integer numBooksTotal = 0;
@@ -31,7 +32,7 @@ public class Stats {
                 numBooks += book.getTotalNumCopies();
             }
             // Number of Visitors
-            for (Visitor visitor : Visitors.getVisitorMap().values()) {
+            for (Visitor visitor : Visitors.getMap().values()) {
                 if (visitor.getRegDate().equals(queriedDate)) {
                     numVisitorsTotal++;
                 }
@@ -43,16 +44,22 @@ public class Stats {
                 numVisits++;
                 totalHrs = totalHrs.plusHours(Duration.between(visit.getArrival(), visit.getDeparture()).toHours());
             }
-            visitAvg = (int)totalHrs.toHours()/numVisits;
+            visitAvg = (int) totalHrs.toHours() / numVisits;
             // Number of Books Purchased
             Integer numPurchased = Purchases.getPurchaseHash().get(queriedDate);
             if (numPurchased != null && numPurchased > 0) {
                 numPurchasedTotal += numPurchased;
             }
-            // Fines Collected
-            finesCollectedTotal = Transactions.getFinesCollected();
-            // Fines Outstanding
-            finesOutstandingTotal = Transactions.getFinesOutstanding();
+            // Fines Collected and Outstanding
+            for (ArrayList<Transaction> transactions : Transactions.getMap().values()) {
+                for (Transaction transaction : transactions) {
+                    Fine fine = transaction.getFine();
+                    if (fine != null) {
+                        finesCollectedTotal += fine.getPaid();
+                        finesOutstandingTotal += fine.getBalance();
+                    }
+                }
+            }
         }
         String reportString = "Number of Books:" + numBooksTotal + "\n" +
                 "Number of Visitors:" + numVisitorsTotal + "\n" +
@@ -61,5 +68,5 @@ public class Stats {
                 "Fines Collected:" + finesCollectedTotal + "\n" +
                 "Fines Outstanding:" + finesOutstandingTotal + "\n";
         return reportString;
-        }
     }
+}

@@ -2,7 +2,6 @@ package Library;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -12,21 +11,21 @@ public final class Visits {
     private static HashMap<LocalDate, ArrayList<Visit>> visitHash = new HashMap<>();
 
     public static String visit(String visitorID){
-        if(!Visitors.getVisitorMap().containsKey(visitorID)){
+        if(!Visitors.getMap().containsKey(Integer.parseInt(visitorID))){
             return("The specified visitor ID is not a valid ID or has not been assigned to any " +
                     "registered visitor.");
         }else{
-            return Visitors.getVisitorMap().get(visitorID).startVisit();
+            return Visitors.getMap().get(Integer.parseInt(visitorID)).startVisit();
 
         }
     }
 
     public static String leave(String visitorID) {
-        if(!Visitors.getVisitorMap().containsKey(visitorID)){
+        if(!Visitors.getMap().containsKey(Integer.parseInt(visitorID))){
             return("The specified visitor ID is not a valid ID or has not been assigned to any " +
                     "registered visitor.");
         }else{
-            return Visitors.getVisitorMap().get(visitorID).endVisit();
+            return Visitors.getMap().get(Integer.parseInt(visitorID)).endVisit();
         }
     }
 

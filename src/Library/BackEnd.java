@@ -1,19 +1,9 @@
 package Library;
 
 import FrontEnd.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import javafx.scene.shape.TriangleMesh;
-import org.omg.CORBA.INTERNAL;
 
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.TreeMap;
 
 /**
  * Created by Kevin Bastian on 3/17/2017.
@@ -149,7 +139,7 @@ public final class BackEnd {
         for(int i = 1; i < params.size(); i++){
             booksIds.add(Long.parseLong((String) params.get(i).getParam()));
         }
-        return new Response("borrow,"+Transactions.borrow((String)params.get(0).getParam(),booksIds));
+        return new Response("borrow,"+Transactions.borrow(Integer.parseInt((String)params.get(0).getParam()),booksIds));
     }
 
     /**
@@ -158,7 +148,7 @@ public final class BackEnd {
      * @return The response list of borrowed books.
      */
     static public Response FindBorrowedBooks(ArrayList<Parameter> params){
-        return new Response("borrowed," + Transactions.findBooks((String)params.get(0).getParam()));
+        return new Response("borrowed," + Transactions.findBooks(Integer.parseInt((String)params.get(0).getParam())));
     }
 
     /**
@@ -197,7 +187,7 @@ public final class BackEnd {
         for(Parameter parameter : params){
             payFineParams.add((String)parameter.getParam());
         }
-        return new Response("pay,"+Transactions._pay(Integer.parseInt(payFineParams.get(0)),Integer.parseInt(payFineParams.get(1))));
+        return new Response("pay,"+Transactions.pay(Integer.parseInt(payFineParams.get(0)),Integer.parseInt(payFineParams.get(1))));
     }
 
     /////
@@ -261,12 +251,13 @@ public final class BackEnd {
     /// UTILITY METHODS ///
 
     static public Response exit(ArrayList<Parameter> params){
-        for(Visitor visitor: Visitors.getVisitorMap().values()){
+        for(Visitor visitor: Visitors.getMap().values()){
             if(visitor.getActiveVisit() != null) {
                 visitor.getActiveVisit().setDeparture(Time.getDateTime());
             }
         }
         Visitors.save();
+        Transactions.save();
         return new Response("Good bye!").toggleEndResponse();
     }
 

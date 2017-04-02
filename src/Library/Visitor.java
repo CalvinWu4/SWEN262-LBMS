@@ -16,11 +16,11 @@ public class Visitor implements Serializable{
     private String lastName;
     private String address;
     private String phone;
-    private String id;
+    private Integer id;
     private LocalDate regDate;
     private Visit activeVisit;
 
-    Visitor(String firstName, String lastName, String address, String phone, String id, LocalDate regDate){
+    Visitor(String firstName, String lastName, String address, String phone, Integer id, LocalDate regDate){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -72,7 +72,7 @@ public class Visitor implements Serializable{
     public void setPhone(String phone){
         this.phone = phone;
     }
-    public void setId(String id){
+    public void setId(Integer id){
         this.id = id;
     }
     public void setRegDate(LocalDate date) {
@@ -92,7 +92,7 @@ public class Visitor implements Serializable{
     public String getPhone(){
         return this.phone;
     }
-    public String getId(){
+    public Integer getId(){
         return this.id;
     }
     public Visit getActiveVisit(){

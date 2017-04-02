@@ -9,6 +9,7 @@ import FrontEnd.Response;
 import FrontEnd.View;
 import Library.BackEnd;
 import Library.Books;
+import Library.Transactions;
 import Library.Visitors;
 
 public class Main {
@@ -43,6 +44,7 @@ public class Main {
         View.initMenuOptions();
         new Books();
         new Visitors();
+        new Transactions();
 
         BackEnd.setDebugMode(true);
         MainLoop();

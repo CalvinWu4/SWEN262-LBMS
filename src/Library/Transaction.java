@@ -1,24 +1,34 @@
 package Library;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-
-import Library.*;
 
 /**
  * Created by Calvin on 3/5/2017.
  *
  */
-public class Transaction {
+public class Transaction implements Serializable{
     private Long isbn;
     private LocalDate dateBorrowed;
     private LocalDate dueDate;
-    private Fine fine;
+    private static Fine fine;
 
     Transaction(Long isbn, LocalDate dateBorrowed, LocalDate dueDate){
         this.isbn = isbn;
         this.dateBorrowed = dateBorrowed;
-        this.dueDate = dateBorrowed.plusDays(7);
+        this.dueDate = dateBorrowed.plusWeeks(1);
+    }
+
+    public Integer calculateFee(){
+        fine = new Fine();
+        if((Time.getDate().isBefore(this.getDueDate()))){
+            return fine.getBalance();
+        }
+        else{
+            fine.incBalance(ChronoUnit.WEEKS.between(this.getDueDate(), Time.getDate()));
+            return fine.getBalance();
+        }
     }
 
     // Setters
@@ -32,19 +42,6 @@ public class Transaction {
         this.dueDate = dueDate;
     }
 
-    public Integer calculateFee(Book book){
-        fine = new Fine();
-        LocalDate present = LocalDate.now();
-        if((present.isBefore(this.getDueDate()))){
-            return fine.getCost();
-        }
-        else{
-            long weeksInYear = ChronoUnit.WEEKS.between(this.getDueDate(), present);
-            fine.addCost(weeksInYear);
-            return fine.getCost();
-        }
-    }
-
     // Getters
     public Long getIsbn(){
         return this.isbn;
@@ -56,6 +53,6 @@ public class Transaction {
         return this.dueDate;
     }
     public Fine getFine(){
-        return this.fine;
+        return fine;
     }
 }

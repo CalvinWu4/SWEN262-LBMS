@@ -1,31 +1,53 @@
 package Library;
 
+import java.io.Serializable;
+import java.util.Comparator;
+
 /**
  * Created by Anthony Perez on 3/10/17.
  */
-public class Fine {
+public class Fine implements Comparator<Fine>, Comparable<Fine>, Serializable {
     private static final Integer INITIALFEE = 10;
     private static final Integer PROGRESSIVEFEE = 2;
-    private Integer cost;
+    private static Integer balance;
+    private static Integer paid;
 
     public Fine(){
-        this.cost = 0;
+        balance = 0;
+        paid = 0;
     }
 
-    public void addCost(long weeks){
-        if(cost == 0){
-            cost += INITIALFEE;
+    // Overriding the compareTo method
+    public int compareTo(Fine fine) {
+        return balance.compareTo(fine.getBalance());
+    }
+
+    // Overriding the compare method to sort the balance
+    public int compare(Fine fine1, Fine fine2) {
+        return fine1.getBalance() - fine2.getBalance();
+    }
+
+    public void incBalance(long weeks){
+        if(balance == 0){
+            balance += INITIALFEE;
         }
-        if((cost >= 10)){
+        if((balance >= 10)){
             weeks = (weeks > 10 ? 10 : weeks);
-            for(int i=0;i<weeks;i++) {
-                cost += PROGRESSIVEFEE;
+            for(int i=0; i<weeks; i++) {
+                balance += PROGRESSIVEFEE;
             }
         }
     }
 
-    public Integer getCost(){
-        return cost;
+    public void pay(Integer amount){
+        paid += amount;
+        balance -= amount;
     }
 
+    public Integer getPaid(){
+        return paid;
+    }
+    public Integer getBalance(){
+        return balance;
+    }
 }
