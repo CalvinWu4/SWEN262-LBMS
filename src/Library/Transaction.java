@@ -1,6 +1,9 @@
 package Library;
 
+import org.omg.PortableInterceptor.LOCATION_FORWARD;
+
 import java.io.Serializable;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -13,6 +16,8 @@ public class Transaction implements Serializable{
     private LocalDate dateBorrowed;
     private LocalDate dueDate;
     private static Fine fine;
+    private LocalDate returnedDate;
+
 
     Transaction(Long isbn, LocalDate dateBorrowed, LocalDate dueDate){
         this.isbn = isbn;
@@ -40,6 +45,14 @@ public class Transaction implements Serializable{
     }
     public void setDueDate(LocalDate dueDate){
         this.dueDate = dueDate;
+    }
+
+    public void setReturnedDate(LocalDate returnedDate){
+        this.returnedDate = returnedDate;
+    }
+
+    public LocalDate getReturnedDate(){
+        return this.returnedDate;
     }
 
     // Getters

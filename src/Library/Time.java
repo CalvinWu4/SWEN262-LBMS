@@ -50,12 +50,14 @@ public final class Time {
             checkIsOpenAndClose();
             for (ArrayList<Transaction> transactions : Transactions.getMap().values()){
                 for(Transaction transaction: transactions){
-                    transaction.calculateFee();
-                    }
+                    //Only keep calculating fees for transactions if they haven't been returned
+                    if(transaction.getReturnedDate() == null)
+                        transaction.calculateFee();
                 }
             }
-                return ("Success");
         }
+        return ("Success");
+    }
 
     static public OpenClosedContext getTimeContext(){
         return context;

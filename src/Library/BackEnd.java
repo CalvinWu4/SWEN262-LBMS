@@ -159,21 +159,11 @@ public final class BackEnd {
      */
     static public Response ReturnBook(ArrayList<Parameter> params){
 
-        ArrayList<String> returnBookParams = new ArrayList<>();
         ArrayList<Long> booksIds = new ArrayList<>();
-        int i = 0;
-        for(Parameter parameter : params){
-            if(parameter.getParam() instanceof Collection){
-                for (String id : (ArrayList<String>)parameter.getParam()){
-                    booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
-                }
-            }
-            if(i <= 1){
-                returnBookParams.add((String) parameter.getParam());
-            }
-            i++;
+        for(int i = 1; i < params.size(); i++){
+            booksIds.add(Long.parseLong((String) params.get(i).getParam()));
         }
-        return new Response("return,"+Transactions._return(Integer.parseInt(returnBookParams.get(0)),booksIds));
+        return new Response("return,"+Transactions._return(Integer.parseInt((String)params.get(0).getParam()),booksIds));
     }
 
     /**

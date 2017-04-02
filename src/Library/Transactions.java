@@ -112,22 +112,25 @@ public final class Transactions {
                 if (book == null) {
                     return("One or more of the book IDs are not valid.");
                 } else {
-                    if (map.containsValue(isbn)){
-                        Integer cost = 0;
+                    if (map.containsKey(visitorId) && map.get(visitorId) != null){
                         ArrayList<Transaction> transactions = map.get(visitorId);
                         for (Transaction transaction : transactions){
-                            cost = cost + transaction.calculateFee();
-                            if(cost > 0){
-                                return("Book: "+isbn+" is overdue. Cost = $"+cost+"\n");
-                            }
-                            else{
-                                return("Success");
+                            if(transaction.getReturnedDate() == null && transaction.getIsbn().equals(isbn) ){
+                                //Set the returned date, get fee, increase amount of available copies and set the retuned date
+                                transaction.setReturnedDate(Time.getDate());
+                                Integer fee = transaction.getFine().getBalance();
+                                book.setNumAvailableCopies(book.getNumAvailableCopies() + 1);
+                                if (fee > 0) {
+                                    return ("Book: " + isbn + " is overdue. Cost = $" + fee + "\n");
+                                } else {
+                                    return ("Success");
+                                }
                             }
                         }
-                        book.setNumAvailableCopies(book.getNumAvailableCopies() + 1);
-                        map.get(visitorId).remove(book);
+
+
                     } else {
-                        return("One or more of the books are not currently borrowed the visitor.");
+                        return("The visitor currently does not have any borrowed books.");
                     }
                 }
             }
