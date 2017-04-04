@@ -110,6 +110,7 @@ public final class BackEnd {
      * @return The response of whether the visit was created successfully
      */
     static public Response BeginVisit(ArrayList<Parameter> params){
+
         return new Response("arrive," + Visits.visit((String) params.get(0).getParam()));
     }
 
