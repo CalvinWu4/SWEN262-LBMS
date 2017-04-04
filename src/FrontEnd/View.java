@@ -166,17 +166,26 @@ public class View {
         return views.get(viewId);
     }
 
-    public void printUI(){
-        System.out.println(border);
-        System.out.println(headerMessage);
+    public String printUI(){
+
+        String text = new String();
+
+        text += border+"\n";
+        text += headerMessage+"\n";
+
+//        System.out.println(border);
+//        System.out.println(headerMessage);
 
         Collection c = options.keySet();
 
         for (MenuOption option : options.values()){
-            System.out.println(option.getKeyWord() + ") " + option.getMessage());
+            //System.out.println(option.getKeyWord() + ") " + option.getMessage());
+            text += option.getKeyWord() + ") " + option.getMessage()+"\n";
         }
-        System.out.println(border);
+        //System.out.println(border);
+        text += border;
 
+        return text;
     }
 
     public int getId(){
