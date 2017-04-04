@@ -246,6 +246,7 @@ public final class BackEnd {
                 visitor.getActiveVisit().setDeparture(Time.getDateTime());
             }
         }
+        Visits.save();
         Visitors.save();
         Transactions.save();
         return new Response("Good bye!").toggleEndResponse();
