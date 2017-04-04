@@ -46,7 +46,7 @@ public class Stats {
             }
             visitAvg = (int) totalHrs.toHours() / numVisits;
             // Number of Books Purchased
-            Integer numPurchased = Purchases.getPurchaseHash().get(queriedDate);
+            Integer numPurchased = Purchases.getMap().get(queriedDate);
             if (numPurchased != null && numPurchased > 0) {
                 numPurchasedTotal += numPurchased;
             }

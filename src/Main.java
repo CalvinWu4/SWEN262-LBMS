@@ -43,6 +43,7 @@ public class Main {
         new Visits();
         new Visitors();
         new Transactions();
+        new Time();
 
         BackEnd.setDebugMode(true);
         MainLoop();

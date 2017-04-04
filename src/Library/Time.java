@@ -2,6 +2,7 @@ package Library;
 
 import FrontEnd.State.OpenClosedContext;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,32 +12,38 @@ import java.util.ArrayList;
 /**
  * Created by Calvin on 3/15/2017.
  */
-public final class Time {
+public final class Time implements Serializable{
     private final static LocalDateTime startDateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
     private static LocalDateTime dateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
-    private static boolean isOpen;
     private static final int MINDAYINC = 0;
     private static final int MAXDAYINC = 7;
     private static final int MINHRINC = 0;
     private static final int MAXHRINC = 23;
     /** Context field that will check the state of the library for open or closed **/
     static private OpenClosedContext context = new OpenClosedContext();
+    private static final File FILE = new File("time.ser");
 
 
+    public Time() {
+        try {
+            if (!FILE.createNewFile()) {
+                load();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
 
     /**
      * Helper function for incTime.
      */
-    public static Boolean checkIsOpenAndClose(){
+    public static void checkIsOpenAndClose(){
         if(dateTime.isAfter(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),7,59)) &&
                 dateTime.isBefore(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),19,0))){
-            isOpen = true;
             context.toggleOpenClosed();
         }else {
-            isOpen = false;
             context.toggleOpenClosed();
         }
-        return isOpen;
     }
 
     public static String incTime(Integer days, Integer hours) {
@@ -67,6 +74,46 @@ public final class Time {
         return dateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
     }
 
+    public static void load() {
+        try {
+            FileInputStream fis = new FileInputStream(FILE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            dateTime = (LocalDateTime) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return;
+        }
+    }
+
+    public static void save() {
+        try
+        {
+            FileOutputStream fos =
+                    new FileOutputStream(FILE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(dateTime);
+            oos.close();
+            fos.close();
+        }catch(IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+    }
+
+    static public void exitActiveVisitors(){
+        for(Visitor visitor: Visitors.getMap().values()){
+            if(visitor.getActiveVisit() != null) {
+                visitor.getActiveVisit().setDeparture(Time.getDateTime());
+            }
+        }
+    }
+
     // Getters
     public static LocalDate getDate(){
         return dateTime.toLocalDate();
@@ -79,8 +126,5 @@ public final class Time {
     }
     public static LocalDateTime getStartDateTime(){
         return startDateTime;
-    }
-    public static boolean getIsOpen(){
-        return isOpen;
     }
 }

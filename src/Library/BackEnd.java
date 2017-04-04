@@ -249,6 +249,7 @@ public final class BackEnd {
         Visits.save();
         Visitors.save();
         Transactions.save();
+        Time.save();
         return new Response("Good bye!").toggleEndResponse();
     }
 

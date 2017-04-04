@@ -14,7 +14,7 @@ import java.util.*;
 public final class Visitors {
 
     private static TreeMap<Integer, Visitor> map; // visitorId, Visitor
-    public static final File FILE = new File("visitors.ser");
+    private static final File FILE = new File("visitors.ser");
 
 
     public Visitors() {
