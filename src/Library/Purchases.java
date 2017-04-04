@@ -1,6 +1,6 @@
 package Library;
 
-import java.io.Serializable;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,7 +11,18 @@ import java.util.HashMap;
  */
 public final class Purchases implements Serializable{
     private static HashMap<LocalDate, Integer> map = new HashMap<>(); // Date, NumBooksPurchased
+    public static final File FILE = new File("purchases.ser");
 
+    public Purchases() {
+        map = new HashMap<>();
+        try {
+            if (!FILE.createNewFile()) {
+                load();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
 
     public static String purchase(Integer quantity, ArrayList<Long> isbns) {
         String result = "success\n";
@@ -43,6 +54,38 @@ public final class Purchases implements Serializable{
             }
         }
         return result;
+    }
+
+    public static void save() {
+        try
+        {
+            FileOutputStream fos =
+                    new FileOutputStream(FILE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(map);
+            oos.close();
+            fos.close();
+        }catch(IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
+    }
+
+    public static void load() {
+        try {
+            FileInputStream fis = new FileInputStream(FILE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            map = (HashMap<LocalDate, Integer>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return;
+        }
     }
 
     public static HashMap<LocalDate, Integer> getMap(){

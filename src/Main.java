@@ -44,6 +44,7 @@ public class Main {
         new Visitors();
         new Transactions();
         new Time();
+        new Purchases();
 
         BackEnd.setDebugMode(true);
         MainLoop();
