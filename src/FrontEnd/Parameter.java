@@ -28,6 +28,10 @@ public class Parameter<E> {
         return this.getParam().toString();
     }
 
+    public void setField(E field){
+        this.field = field;
+    }
+
 
 
 }

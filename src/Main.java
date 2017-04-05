@@ -7,10 +7,7 @@
 import FrontEnd.Exchange;
 import FrontEnd.Response;
 import FrontEnd.View;
-import Library.BackEnd;
-import Library.Books;
-import Library.Transactions;
-import Library.Visitors;
+import Library.*;
 
 public class Main {
 
