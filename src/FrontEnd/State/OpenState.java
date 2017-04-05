@@ -2,13 +2,8 @@
 package FrontEnd.State;
 
 
-import FrontEnd.Command.MenuOption;
 import FrontEnd.Response;
-import FrontEnd.View;
-import Library.Visitors;
-
-import java.util.Iterator;
-import java.util.Map;
+import Library.Users.Visitors;
 
 /**
  * Created by Brandon on 3/25/2017.

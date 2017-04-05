@@ -17,7 +17,7 @@ public class Visit implements Serializable{
     private LocalDateTime departure;
 
 
-    Visit(Integer visitorID, LocalDateTime arrival){
+    public Visit(Integer visitorID, LocalDateTime arrival){
         this.visitorID = visitorID;
         this.arrival = arrival;
     }

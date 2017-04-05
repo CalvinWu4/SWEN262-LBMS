@@ -191,6 +191,7 @@ public final class Books {
             System.out.println("Error writing to file.");
         }
     }
+
     public void displayAvailable(){
         //loop through the "bookHash" and display all books that are available.
         ArrayList<Book> availableBooks = new ArrayList<>();

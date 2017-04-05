@@ -1,5 +1,8 @@
 package Library;
 
+import Library.Users.Visitor;
+import Library.Users.Visitors;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;

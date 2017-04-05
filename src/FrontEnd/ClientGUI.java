@@ -117,10 +117,6 @@ public class ClientGUI {
                     txtResponse.appendText(text+"\n");
                     txtResponse.appendText("You do not have a connection to the LBMS network!\n");
                 }
-                else if(!clientLogin) {
-                    txtResponse.appendText(text+"\n");
-                    txtResponse.appendText("Invalid command, please connect to Library Network.\n");
-                }
 
                 if(clientConnection || clientLogin){
                     Response response = Exchange.interpret(text,this.currentView);
@@ -137,6 +133,10 @@ public class ClientGUI {
                         System.exit(0);
                     }
                     txtResponse.appendText("\n"+response.getResponseMessage());
+                }
+                else{
+                    txtResponse.appendText(text+"\n");
+                    txtResponse.appendText("Invalid command, please connect to Library Network.\n");
                 }
 
                 txtSubmit.clear();

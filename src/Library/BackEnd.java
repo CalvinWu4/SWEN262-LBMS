@@ -1,9 +1,10 @@
 package Library;
 
 import FrontEnd.*;
+import Library.Users.Visitor;
+import Library.Users.Visitors;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by Kevin Bastian on 3/17/2017.
@@ -98,7 +99,7 @@ public final class BackEnd {
         for(Parameter parameter : params){
             registerParams.add((String) parameter.getParam());
         }
-        return new Response("register,"+Visitors.register(registerParams.get(0),registerParams.get(1),registerParams.get(2),registerParams.get(3)));
+        return new Response("register,"+ Visitors.register(registerParams.get(0),registerParams.get(1),registerParams.get(2),registerParams.get(3)));
 
 
 

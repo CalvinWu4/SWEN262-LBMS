@@ -1,5 +1,8 @@
-package Library;
+package Library.Users;
 
+import Library.Time;
+import Library.Visit;
+import Library.Visits;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.Serializable;
