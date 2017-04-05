@@ -24,7 +24,6 @@ public final class Books {
         ArrayList<Book> books = new ArrayList<>();
         for(Book book : bookHash.values()){
             books.add(book);
-            //System.out.println("Library.Book fee cost: "+book.calculateFee()); Library.Transaction
         }
         bookPrint(books);
     }
@@ -38,16 +37,22 @@ public final class Books {
         Collection<Book> bookCollection = bookHash.values();
         ArrayList<Book> bookList = new ArrayList<>();
 
+        // Query books with at least one available copy
         for(Book book: bookCollection){
             if(book.getTotalNumCopies() >= 1){
                 bookList.add(book);
             }
         }
 
+        // Title Query
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
             searchResults = new ArrayList<Book>(query.search(bookList, title));
         }
+        else{
+            searchResults = bookList;
+        }
+        // Authors Query
         if(!authors.equals("*")){
             AuthorsQuery query = new AuthorsQuery();
             if(searchResults.isEmpty()) {
@@ -57,6 +62,10 @@ public final class Books {
                 searchResults.retainAll(query.search(bookList, authors));
             }
         }
+        else{
+            searchResults = bookList;
+        }
+        // ISBN Query
         if(!isbn.equals("*")){
             IsbnQuery query = new IsbnQuery();
             if(searchResults.isEmpty()) {
@@ -67,6 +76,10 @@ public final class Books {
             }
 
         }
+        else{
+            searchResults = bookList;
+        }
+        // Publisher Query
         if(!publisher.equals("*")){
             PublisherQuery query = new PublisherQuery();
             if(searchResults.isEmpty()) {
@@ -76,34 +89,28 @@ public final class Books {
                 searchResults.retainAll(query.search(bookList, publisher));
             }
         }
+        else{
+            searchResults = bookList;
+        }
+        // Sort Order Query
         if(sortOrder.equals("title")){
             TitleSort sorter = new TitleSort();
             sorter.sort(searchResults);
-            return searchResults;
         }
         else if(sortOrder.equals("publish-date")){
             PubDateSort sorter = new PubDateSort();
             sorter.sort(searchResults);
-            return searchResults;
         }
         else if(sortOrder.equals("book-status")){
             NumAvailSort sorter = new NumAvailSort();
             sorter.sort(searchResults);
-//            ArrayList<Book> finalSearchResults = new ArrayList<>();
-//            int i = searchResults.size();
-//            while (searchResults.get(i).getNumAvailableCopies() >= 1) {
-//                if(i >= 0) {
-//                    finalSearchResults.add(searchResults.get(i));
-//                    i--;
-//                }
-//            }
-//            return finalSearchResults;
-            return searchResults;
         }
         else{
             System.out.println("The specified sort order doesn't match one of the expected values.");
             return null;
         }
+
+        return searchResults;
     }
 
     // Search Book Store
@@ -115,16 +122,20 @@ public final class Books {
 
         ArrayList<Book> bookList = new ArrayList<>();
 
+        // Query all books
         for(Book book: bookCollection){
-            if(book.getTotalNumCopies() == 0){
-                bookList.add(book);
-            }
+            bookList.add(book);
         }
 
+        // Title Query
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
             searchResults = new ArrayList<Book>(query.search(bookList, title));
         }
+        else{
+            searchResults = bookList;
+        }
+        // Authors Query
         if(!authors.equals("*")){
             AuthorsQuery query = new AuthorsQuery();
             if(searchResults.isEmpty()) {
@@ -134,6 +145,10 @@ public final class Books {
                 searchResults.retainAll(query.search(bookList, authors));
             }
         }
+        else{
+            searchResults = bookList;
+        }
+        // ISBN Query
         if(!isbn.equals("*")){
             IsbnQuery query = new IsbnQuery();
             if(searchResults.isEmpty()) {
@@ -144,6 +159,10 @@ public final class Books {
             }
 
         }
+        else{
+            searchResults = bookList;
+        }
+        // Publisher Query
         if(!publisher.equals("*")){
             PublisherQuery query = new PublisherQuery();
             if(searchResults.isEmpty()) {
@@ -153,20 +172,24 @@ public final class Books {
                 searchResults.retainAll(query.search(bookList, publisher));
             }
         }
+        else{
+            searchResults = bookList;
+        }
+        // Sort Order Query
         if(sortOrder.equals("title")){
             TitleSort sorter = new TitleSort();
             sorter.sort(searchResults);
-            return searchResults;
         }
         else if(sortOrder.equals("publish-date")){
             PubDateSort sorter = new PubDateSort();
             sorter.sort(searchResults);
-            return searchResults;
         }
         else{
             System.out.println("The specified sort order doesn't match one of the expected values.");
             return null;
         }
+
+        return searchResults;
     }
 
     public void add(Book _book){
@@ -197,7 +220,7 @@ public final class Books {
         ArrayList<Book> availableBooks = new ArrayList<>();
         for(Book book : bookHash.values()){
             if(book.getTotalNumCopies() > 0){
-               availableBooks.add(book);
+                availableBooks.add(book);
             }
         }
         bookPrint(availableBooks);
