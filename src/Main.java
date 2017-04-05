@@ -57,7 +57,6 @@ public class Main extends Application{
         ClientGUI cl1 = new ClientGUI(tabPane.getTabs().size());
         clients.connectClient(cl1);
 
-        cl1.changeHeader("Halloo!!");
 
         BorderPane bodyPane = cl1.returnClientGUI();
         tab.setContent(bodyPane);
@@ -85,12 +84,10 @@ public class Main extends Application{
                 clients.connectClient(client);
 
                 BorderPane newBody = client.returnClientGUI();
-
-                client.changeHeader("Hello this is a new Header\nhii!!");
                 //hbox.setAlignment(Pos.CENTER);
                 tab.setContent(newBody);
-
                 tab.setOnCloseRequest(ev -> {clients.disconnectClient(client);});
+
             }
         });
 
@@ -104,43 +101,18 @@ public class Main extends Application{
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
     public void setTabText(String txt){
         tab.setText(txt);
     }
 
-//    static public void MainLoop(){
-//        //Initial view is the main menu
-//        View actual_view = View.findView(0);
-//        // Print the first Main menu view, and then print the response received by the exchange and change the view to
-//        // the one attached to the response.
-//        while (true){
-//            actual_view.printUI();
-//            Response response = Exchange.setExchangeView(actual_view);
-//            System.out.println(response.getResponseMessage());
-//            //Check that the response is not an end response
-//            if(!response.isEndResponse()){
-//                // Only if there is a view attached to the response we assign a new view, otherwise just loop with
-//                // the same view as before, so that if there is a problem with the response just loop again
-//                if(response.getResponseView() != null ){
-//                    actual_view = response.getResponseView();
-//                }else if(BackEnd.isDebugMode()){
-//                    System.out.println("The view specified for the back end method was not found");
-//                }
-//            }else{
-//                System.exit(0);
-//            }
-//
-//        }
-//    }
 
     static public void main(String[] args){
-//        View.initMenuOptions();
-//        new Books();
-//        new Visitors();
-//        new Transactions();
-//
-//        BackEnd.setDebugMode(true);
+        View.initMenuOptions();
+        new Books();
+        new Visitors();
+        new Transactions();
+
+        BackEnd.setDebugMode(true);
 //        MainLoop();
         launch(args);
     }

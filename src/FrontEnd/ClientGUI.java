@@ -1,5 +1,6 @@
 package FrontEnd;
 
+import Library.BackEnd;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -19,9 +20,13 @@ public class ClientGUI {
     Integer clientGuiID = 0;
     Boolean clientLogin = false;
 
+    //The current view that will display the available options at the left
+    private View currentView;
+
     public ClientGUI(Integer _clientGuiID){
 
         this.clientGuiID = _clientGuiID;
+        this.currentView = View.findView(0);
 
         Button btn = new Button();
         Button btn1 = new Button();
@@ -34,9 +39,11 @@ public class ClientGUI {
         txtResponse.setPrefWidth(550);
         //txtResponse.setDisable(true);
 
-        txtResponse.setText("Hello");
+        txtHeader.setText(this.currentView.printUI());
 
         txtHeader.setPrefWidth(250);
+
+
 
         ScrollPane scroll = new ScrollPane();
 
@@ -69,9 +76,21 @@ public class ClientGUI {
                 if(text == "connect"){
 
                 }
-
                 txtResponse.appendText("\n"+text);
-
+                Response response = Exchange.interpret(text,this.currentView);
+                if(!response.isEndResponse()){
+                    // Only if there is a view attached to the response we assign a new view, otherwise just loop with
+                    // the same view as before, so that if there is a problem with the response just loop again
+                    if(response.getResponseView() != null ){
+                        this.currentView = response.getResponseView();
+                        txtHeader.setText(this.currentView.printUI());
+                    }else if(BackEnd.isDebugMode()){
+                        txtResponse.appendText("\nThe view specified for the back end method was not found");
+                    }
+                }else{
+                    System.exit(0);
+                }
+                txtResponse.appendText("\n"+response.getResponseMessage());
                 txtSubmit.setText("");
             }
         });
@@ -84,6 +103,10 @@ public class ClientGUI {
     public void changeHeader(String txt){
         txtHeader.setText("");
         txtHeader.setText(txt);
+    }
+
+    public void changeResponse(String text){
+        txtResponse.setText(text);
     }
 
     public Integer returnID() {

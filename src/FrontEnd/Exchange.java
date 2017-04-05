@@ -39,61 +39,61 @@ public final class Exchange {
      * @param ViewForOptions: View to obtain the options from
      */
 
-    static public Response setExchangeView(View ViewForOptions){
-        viewAfterResponse = ViewForOptions;
-        // Options to choose from, each will perform a series of Commands
-        TreeMap<String,MenuOption> theOptions = ViewForOptions.getOptions();
-        isComplete = false;
-        options = theOptions;
-        Scanner userInput = new Scanner(System.in);
-        return getRequest(userInput);
-    }
-
-    static boolean getIsComplete(){
-        return isComplete;
-    }
-
-
+//    static public Response setExchangeView(View ViewForOptions){
+//        viewAfterResponse = ViewForOptions;
+//        // Options to choose from, each will perform a series of Commands
+//        TreeMap<String,MenuOption> theOptions = ViewForOptions.getOptions();
+//        isComplete = false;
+//        options = theOptions;
+//        Scanner userInput = new Scanner(System.in);
+//        return getRequest(userInput);
+//    }
+//
+//    static boolean getIsComplete(){
+//        return isComplete;
+//    }
+//
+//
 
     /**
      * Retrieves user input and send it to parse().
      * @param userInput: std input received
      */
-    static public Response getRequest(Scanner userInput) {
-        String userLine = "";
-        while (!getIsComplete()) {
-            System.out.print("~");
-            userLine += userInput.nextLine();
-            parse(userLine);
-        }
-        // Interpret the userInput
-        return interpret(getExchange());
-    }
+//    static public Response getRequest(Scanner userInput) {
+//        String userLine = "";
+//        while (!getIsComplete()) {
+//            System.out.print("~");
+//            userLine += userInput.nextLine();
+//            parse(userLine);
+//        }
+//        // Interpret the userInput
+//        return interpret(getExchange());
+//    }
 
-    /**
-     * Parses the user's input to decide whether the command was complete or not.
-     * @param userInput: Input to be parsed
-     */
-    public static void parse(String userInput){
-        Scanner StringParser = new Scanner(userInput);
-        String completeUserLine = "";
-        StringParser.useDelimiter("");
-
-        while(StringParser.hasNext()){
-            if(StringParser.hasNext(";")){
-                StringParser.close();
-                isComplete = true;
-                request = completeUserLine;
-                return;
-            }
-            else{
-                completeUserLine += StringParser.next();
-                request = completeUserLine;
-            }
-        }
-        StringParser.close();
-
-    }
+//    /**
+//     * Parses the user's input to decide whether the command was complete or not.
+//     * @param userInput: Input to be parsed
+//     */
+//    public static void parse(String userInput){
+//        Scanner StringParser = new Scanner(userInput);
+//        String completeUserLine = "";
+//        StringParser.useDelimiter("");
+//
+//        while(StringParser.hasNext()){
+//            if(StringParser.hasNext(";")){
+//                StringParser.close();
+//                isComplete = true;
+//                request = completeUserLine;
+//                return;
+//            }
+//            else{
+//                completeUserLine += StringParser.next();
+//                request = completeUserLine;
+//            }
+//        }
+//        StringParser.close();
+//
+//    }
 
 
     /**
@@ -102,10 +102,16 @@ public final class Exchange {
      * Upon execution set the response view to be the actual view.
      * @param query: The finished query typed by the user.
      */
-    static public Response interpret(String query) {
+    static public Response interpret(String query, View ViewForOptions) {
+        query = query.trim();
         String[] args = query.split(",");
         String mainTrigger = args[0];
         // Check that the query has at least a comma to show that iu
+        viewAfterResponse = ViewForOptions;
+        // Options to choose from, each will perform a series of Commands
+        TreeMap<String,MenuOption> theOptions = ViewForOptions.getOptions();
+        options = theOptions;
+        //Find the selected option given the trigger word from the query
         MenuOption chosenOption = options.get(mainTrigger);
         if (chosenOption != null) {
             //Check that the option is available after the library has closed

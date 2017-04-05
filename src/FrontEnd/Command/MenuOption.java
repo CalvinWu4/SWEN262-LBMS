@@ -116,4 +116,9 @@ public class MenuOption {
     public Boolean isAvailableAfterClosed(){
         return this.isAvailableAfterClosed;
     }
+
+    @Override
+    public String toString(){
+        return this.message+"\n";
+    }
 }
