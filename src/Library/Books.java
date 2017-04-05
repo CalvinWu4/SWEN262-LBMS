@@ -89,15 +89,16 @@ public final class Books {
         else if(sortOrder.equals("book-status")){
             NumAvailSort sorter = new NumAvailSort();
             sorter.sort(searchResults);
-            ArrayList<Book> finalSearchResults = new ArrayList<>();
-            int i = searchResults.size();
-            while (searchResults.get(i).getNumAvailableCopies() >= 1) {
-                if(i >= 0) {
-                    finalSearchResults.add(searchResults.get(i));
-                    i--;
-                }
-            }
-            return finalSearchResults;
+//            ArrayList<Book> finalSearchResults = new ArrayList<>();
+//            int i = searchResults.size();
+//            while (searchResults.get(i).getNumAvailableCopies() >= 1) {
+//                if(i >= 0) {
+//                    finalSearchResults.add(searchResults.get(i));
+//                    i--;
+//                }
+//            }
+//            return finalSearchResults;
+            return searchResults;
         }
         else{
             System.out.println("The specified sort order doesn't match one of the expected values.");
