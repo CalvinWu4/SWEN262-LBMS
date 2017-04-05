@@ -12,13 +12,27 @@ public class GUIClients {
         clientHash = new HashMap<>();
     }
 
-    public void connectClient(ClientGUI gui){
+    public Boolean connectClient(ClientGUI gui){
         clientHash.put(gui.returnID(), gui);
         System.out.println(clientHash);
+
+        if(clientHash.containsKey(gui.clientGuiID)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
-    public void disconnectClient(ClientGUI gui){
+    public Boolean disconnectClient(ClientGUI gui){
         clientHash.remove(gui.returnID());
         System.out.println(clientHash);
+
+        if(!clientHash.containsKey(gui.clientGuiID)){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 }

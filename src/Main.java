@@ -44,26 +44,21 @@ public class Main extends Application{
         menuBar.getMenus().addAll(menuFile);
 
         TabPane tabPane = new TabPane();
-        tab.setText("     ");
-        //tab.setContent(new Rectangle(200,200, Color.LIGHTSTEELBLUE));
+        tab.setText("Client #"+(tabPane.getTabs().size()+1));
         tabPane.getTabs().add(tab);
 
         BorderPane pane = new BorderPane();
 
-        //pane.setTop(menuBar);
         pane.setTop(menuBar);
         pane.setCenter(tabPane);
 
-        ClientGUI cl1 = new ClientGUI(tabPane.getTabs().size());
-        clients.connectClient(cl1);
+        ClientGUI cl1 = new ClientGUI(tabPane.getTabs().size(), clients);
 
+        cl1.changeHeader("===========================\nWelcome to the LBMS Application\nPlease connect to the library network with the following command:\n\"connect;\"\n===========================");
 
         BorderPane bodyPane = cl1.returnClientGUI();
         tab.setContent(bodyPane);
         tab.setClosable(false);
-
-
-        //pane.setBottom(bodyPane);
 
         pane.prefHeightProperty().bind(scene.heightProperty());
         pane.prefWidthProperty().bind(scene.widthProperty());
@@ -80,14 +75,14 @@ public class Main extends Application{
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab);
 
-                ClientGUI client = new ClientGUI(tabPane.getTabs().size());
-                clients.connectClient(client);
+                ClientGUI client = new ClientGUI(tabPane.getTabs().size(), clients);
 
                 BorderPane newBody = client.returnClientGUI();
-                //hbox.setAlignment(Pos.CENTER);
-                tab.setContent(newBody);
-                tab.setOnCloseRequest(ev -> {clients.disconnectClient(client);});
 
+                client.changeHeader("===========================\nWelcome to the LBMS Application\nPlease connect to the library network with the following command:\n\"connect;\"\n===========================");
+                tab.setContent(newBody);
+
+                tab.setOnCloseRequest(ev -> {clients.disconnectClient(client);});
             }
         });
 
@@ -101,10 +96,10 @@ public class Main extends Application{
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
     public void setTabText(String txt){
         tab.setText(txt);
     }
-
 
     static public void main(String[] args){
         View.initMenuOptions();

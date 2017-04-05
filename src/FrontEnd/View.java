@@ -15,7 +15,7 @@ import java.util.*;
 public class View {
 
     /** The top and bottom borders of the UI **/
-    static private String border = "=======================";
+    static private String border = "===========================";
 
     /** The options currently available for the view **/
     private TreeMap<String,MenuOption> options;
