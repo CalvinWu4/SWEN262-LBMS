@@ -15,10 +15,10 @@ public final class Time {
     private final static LocalDateTime startDateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
     private static LocalDateTime dateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
     private static boolean isOpen;
-    private static final Integer MINDAYINC = 0;
-    private static final Integer MAXDAYINC = 7;
-    private static final Integer MINHRINC = 0;
-    private static final Integer MAXHRINC = 23;
+    private static final int MINDAYINC = 0;
+    private static final int MAXDAYINC = 7;
+    private static final int MINHRINC = 0;
+    private static final int MAXHRINC = 23;
     /** Context field that will check the state of the library for open or closed **/
     static private OpenClosedContext context = new OpenClosedContext();
 

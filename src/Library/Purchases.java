@@ -1,5 +1,6 @@
 package Library;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,9 +9,8 @@ import java.util.HashMap;
 /**
  * Created by Calvin on 3/18/2017.
  */
-public final class Purchases {
-    private static HashMap<LocalDate, Integer> purchaseHash = new HashMap<>();
-    // Date, NumBooksPurchased
+public final class Purchases implements Serializable{
+    private static HashMap<LocalDate, Integer> purchaseHash = new HashMap<>(); // Date, NumBooksPurchased
 
 
     public static String purchase(Integer quantity, ArrayList<Long> isbns) {

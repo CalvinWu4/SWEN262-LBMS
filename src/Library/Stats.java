@@ -40,7 +40,7 @@ public class Stats {
             // Average Length of Visit
             Duration totalHrs = Duration.ofHours(0);
             int numVisits = 0;
-            for (Visit visit : Visits.getVisitHash().get(queriedDate)) {
+            for (Visit visit : Visits.getMap().get(queriedDate)) {
                 numVisits++;
                 totalHrs = totalHrs.plusHours(Duration.between(visit.getArrival(), visit.getDeparture()).toHours());
             }

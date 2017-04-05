@@ -40,6 +40,7 @@ public class Main {
     static public void main(String[] args){
         View.initMenuOptions();
         new Books();
+        new Visits();
         new Visitors();
         new Transactions();
 

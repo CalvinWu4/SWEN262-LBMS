@@ -1,11 +1,7 @@
 package Library;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -45,12 +41,12 @@ public class Visitor implements Serializable{
      */
     public String endVisit(){
         if(this.activeVisit != null){
-            if(Visits.getVisitHash().get(this.activeVisit.getArrival()) == null){
+            if(Visits.getMap().get(this.activeVisit.getArrival()) == null){
                 ArrayList<Visit> newVisits = new ArrayList<>();
                 newVisits.add(this.activeVisit);
-                Visits.getVisitHash().put(this.activeVisit.getArrival().toLocalDate(),newVisits);
+                Visits.getMap().put(this.activeVisit.getArrival().toLocalDate(),newVisits);
             }
-            this.activeVisit = new Visit(this.id, Time.getDateTime());
+            this.activeVisit = null;
             return "Success";
 
         }else{
