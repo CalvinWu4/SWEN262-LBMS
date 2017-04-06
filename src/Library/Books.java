@@ -93,21 +93,20 @@ public final class Books {
             searchResults = bookList;
         }
         // Sort Order Query
-        if(sortOrder.equals("title")){
-            TitleSort sorter = new TitleSort();
-            sorter.sort(searchResults);
-        }
-        else if(sortOrder.equals("publish-date")){
-            PubDateSort sorter = new PubDateSort();
-            sorter.sort(searchResults);
-        }
-        else if(sortOrder.equals("book-status")){
-            NumAvailSort sorter = new NumAvailSort();
-            sorter.sort(searchResults);
-        }
-        else{
-            System.out.println("The specified sort order doesn't match one of the expected values.");
-            return null;
+        if(!sortOrder.equals("*")) {
+            if (sortOrder.equals("title")) {
+                TitleSort sorter = new TitleSort();
+                sorter.sort(searchResults);
+            } else if (sortOrder.equals("publish-date")) {
+                PubDateSort sorter = new PubDateSort();
+                sorter.sort(searchResults);
+            } else if (sortOrder.equals("book-status")) {
+                NumAvailSort sorter = new NumAvailSort();
+                sorter.sort(searchResults);
+            } else {
+                System.out.println("The specified sort order doesn't match one of the expected values.");
+                return null;
+            }
         }
 
         return searchResults;
@@ -176,17 +175,17 @@ public final class Books {
             searchResults = bookList;
         }
         // Sort Order Query
-        if(sortOrder.equals("title")){
-            TitleSort sorter = new TitleSort();
-            sorter.sort(searchResults);
-        }
-        else if(sortOrder.equals("publish-date")){
-            PubDateSort sorter = new PubDateSort();
-            sorter.sort(searchResults);
-        }
-        else{
-            System.out.println("The specified sort order doesn't match one of the expected values.");
-            return null;
+        if(!sortOrder.equals("*")) {
+            if (sortOrder.equals("title")) {
+                TitleSort sorter = new TitleSort();
+                sorter.sort(searchResults);
+            } else if (sortOrder.equals("publish-date")) {
+                PubDateSort sorter = new PubDateSort();
+                sorter.sort(searchResults);
+            } else {
+                System.out.println("The specified sort order doesn't match one of the expected values.");
+                return null;
+            }
         }
 
         return searchResults;

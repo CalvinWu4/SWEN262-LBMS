@@ -275,12 +275,7 @@ public final class BackEnd {
                     bookSearchParams[i] = (String) param.getParam();
                 }
             }else{
-                if(i==4){
-                    bookSearchParams[i] = "title";
-                }else{
                     bookSearchParams[i] = "*";
-                }
-
             }
         }
         //Remove the first comma
