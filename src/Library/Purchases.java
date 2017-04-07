@@ -28,8 +28,8 @@ public final class Purchases implements Serializable{
         String result = "success\n";
         ArrayList<Long> seen = new ArrayList<>();
         for (Long isbn : isbns) {
-            Book book = Books.getBookHash().get(isbn);
-            if (!Books.getBookHash().containsKey(isbn)) {
+            Book book = Books.getMap().get(isbn);
+            if (!Books.getMap().containsKey(isbn)) {
                 return ("One or more of the book ISBNs are not valid.");
             }
             else if(seen.contains(isbn)){
@@ -40,7 +40,7 @@ public final class Purchases implements Serializable{
                 Integer prevNumAvailableCopies = book.getNumAvailableCopies();
                 book.setTotalNumCopies(prevTotalNumCopies + quantity);
                 book.setNumAvailableCopies(prevNumAvailableCopies + quantity);
-                Books.saveToFile();
+//                Books.saveToFile();
                 if (!map.containsKey(Time.getDate())) {
                     map.put(Time.getDate(), quantity);
                 } else {

@@ -247,6 +247,7 @@ public final class BackEnd {
                 visitor.getActiveVisit().setDeparture(Time.getDateTime());
             }
         }
+        Books.save();
         Visits.save();
         Visitors.save();
         Transactions.save();

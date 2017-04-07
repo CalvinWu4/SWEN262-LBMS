@@ -55,7 +55,7 @@ public final class Transactions {
         }
         else {
             for (Long isbn : isbns) {
-                Book book = Books.getBookHash().get(isbn);
+                Book book = Books.getMap().get(isbn);
                 if (book == null) {
                     return("One or more of the book IDs specified do not match the IDs for the most" +
                             " recent library book search.");
@@ -94,7 +94,7 @@ public final class Transactions {
             int tempId = 0;
             for (Transaction transaction : transactions) {
                 tempId++;
-                Book book = Books.getBookHash().get(transaction.getIsbn());
+                Book book = Books.getMap().get(transaction.getIsbn());
                 result += (tempId + "," + book.getIsbn() + "," + book.getTitle() + "," +
                         transaction.getDateBorrowed().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "\n");
             }
@@ -108,7 +108,7 @@ public final class Transactions {
             return("The visitor ID does not match a registered visitor.");
         } else {
             for (Long isbn : isbns) {
-                Book book = Books.getBookHash().get(isbn);
+                Book book = Books.getMap().get(isbn);
                 if (book == null) {
                     return("One or more of the book IDs are not valid.");
                 } else {

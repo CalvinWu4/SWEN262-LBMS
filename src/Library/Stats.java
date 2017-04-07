@@ -28,7 +28,7 @@ public class Stats {
             LocalDate queriedDate = Time.getDate().minusDays(i);
             // Number of Books
             Integer numBooks = 0;
-            for (Book book : Books.getBookHash().values()) {
+            for (Book book : Books.getMap().values()) {
                 numBooks += book.getTotalNumCopies();
             }
             // Number of Visitors

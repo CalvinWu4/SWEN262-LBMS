@@ -11,21 +11,54 @@ import java.util.*;
  * Created by Anthony Perez on 3/5/17.
  */
 public final class Books {
-    private static HashMap<Long, Book> bookHash = new HashMap<>();
-    private static final String BOOKSFILE = "libraryBooks.csv";
+    private static HashMap<Long, Book> map = new HashMap<>();
+    public static final File FILE = new File("books.ser");
 
 
     public Books(){
-        new Parser();
-        this.saveToFile();
+        map = new HashMap<>();
+        try {
+            if (!FILE.createNewFile()) {
+                load();
+            }
+            else{
+                new Parser();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
-    public void display(){
-        ArrayList<Book> books = new ArrayList<>();
-        for(Book book : bookHash.values()){
-            books.add(book);
+    public static void save() {
+        try
+        {
+            FileOutputStream fos =
+                    new FileOutputStream(FILE);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(map);
+            oos.close();
+            fos.close();
+        }catch(IOException ioe)
+        {
+            ioe.printStackTrace();
         }
-        bookPrint(books);
+    }
+
+    public static void load() {
+        try {
+            FileInputStream fis = new FileInputStream(FILE);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            map = (HashMap<Long, Book>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Class not found");
+            c.printStackTrace();
+            return;
+        }
     }
 
     // Search Library
@@ -34,7 +67,7 @@ public final class Books {
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
 
-        Collection<Book> bookCollection = bookHash.values();
+        Collection<Book> bookCollection = map.values();
         ArrayList<Book> bookList = new ArrayList<>();
 
         // Query books with at least one available copy
@@ -117,7 +150,7 @@ public final class Books {
                                          String sortOrder){
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
-        Collection<Book> bookCollection = bookHash.values();
+        Collection<Book> bookCollection = map.values();
 
         ArrayList<Book> bookList = new ArrayList<>();
 
@@ -189,40 +222,6 @@ public final class Books {
         }
 
         return searchResults;
-    }
-
-    public void add(Book _book){
-        bookHash.put(_book.getIsbn(),_book);
-        this.saveToFile();
-    }
-
-    public static void saveToFile(){
-        try {
-            FileWriter fw = new FileWriter(BOOKSFILE);
-            PrintWriter pw = new PrintWriter(fw,true);
-
-            for(Book book : bookHash.values()){
-                pw.write(book.getIsbn()+",\""+book.getTitle()+"\",\""+book.getAuthorsString()+"\",\""+
-                        book.getPublisher()+"\","+book.getPublishedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))+
-                        ","+book.getPageCount()+","+book.getTotalNumCopies()+ ","+book.getNumAvailableCopies()+"\n");
-            }
-            fw.flush();
-            pw.close();
-            fw.close();
-        }
-        catch (IOException ioe){
-            System.out.println("Error writing to file.");
-        }
-    }
-    public void displayAvailable(){
-        //loop through the "bookHash" and display all books that are available.
-        ArrayList<Book> availableBooks = new ArrayList<>();
-        for(Book book : bookHash.values()){
-            if(book.getTotalNumCopies() > 0){
-                availableBooks.add(book);
-            }
-        }
-        bookPrint(availableBooks);
     }
 
     static public void bookPrint(ArrayList<Book> _books){
@@ -332,8 +331,8 @@ public final class Books {
         System.out.println(line);
     }
 
-    public static HashMap<Long, Book> getBookHash(){
-        return bookHash;
+    public static HashMap<Long, Book> getMap(){
+        return map;
     }
 
 }
