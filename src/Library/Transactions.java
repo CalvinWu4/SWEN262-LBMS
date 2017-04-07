@@ -11,7 +11,7 @@ import java.util.HashMap;
  * Created by Calvin on 3/13/2017.
  */
 public final class Transactions {
-    private static HashMap<Integer, ArrayList<Transaction>> map = new HashMap<>(); // visitorId, borrowed books list
+    private static HashMap<Integer, ArrayList<Transaction>> map; // visitorId, borrowed books list
     public static final File FILE = new File("transactions.ser");
 
     public Transactions(){

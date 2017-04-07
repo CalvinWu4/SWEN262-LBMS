@@ -10,7 +10,7 @@ import java.util.HashMap;
  * Created by Calvin on 3/18/2017.
  */
 public final class Purchases implements Serializable{
-    private static HashMap<LocalDate, Integer> map = new HashMap<>(); // Date, NumBooksPurchased
+    private static HashMap<LocalDate, Integer> map; // Date, NumBooksPurchased
     public static final File FILE = new File("purchases.ser");
 
     public Purchases() {

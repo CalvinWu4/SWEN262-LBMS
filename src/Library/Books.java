@@ -5,28 +5,21 @@ import Library.Sort.*;
 
 import java.io.*;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Created by Anthony Perez on 3/5/17.
  */
 public final class Books {
-    private static HashMap<Long, Book> map = new HashMap<>();
-    public static final File FILE = new File("books.ser");
-
+    private static HashMap<Long, Book> map;
+    public static File FILE;
 
     public Books(){
         map = new HashMap<>();
-        try {
-            if (!FILE.createNewFile()) {
-                load();
-            }
-            else{
-                new Parser();
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        FILE = new File("books.ser");
+        load();
     }
 
     public static void save() {
