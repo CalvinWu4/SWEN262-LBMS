@@ -5,10 +5,7 @@
  *
  */
 import FrontEnd.*;
-import Library.BackEnd;
-import Library.Books;
-import Library.Transactions;
-import Library.Users.Visitors;
+import Library.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -104,6 +101,7 @@ public class Main extends Application{
         View.initMenuOptions();
         new Books();
         new Visitors();
+        new Users();
         new Transactions();
 
         BackEnd.setDebugMode(true);

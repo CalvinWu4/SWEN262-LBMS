@@ -1,8 +1,6 @@
 package Library;
 
 import FrontEnd.*;
-import Library.Users.Visitor;
-import Library.Users.Visitors;
 
 import java.util.ArrayList;
 
@@ -81,6 +79,22 @@ public final class BackEnd {
 //                booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
 //            }
         return new Response("buy,"+Purchases.purchase(Integer.parseInt((String)params.get(0).getParam()),booksIds));
+    }
+
+
+    /////
+
+    ///// USER MENU ACTIONS /////
+
+    /////
+
+
+    static public Response RegisterUser(ArrayList<Parameter> params){
+        ArrayList<String> registerParams = new ArrayList<>();
+        for(Parameter parameter : params){
+            registerParams.add((String) parameter.getParam());
+        }
+        return new Response("create,"+Users.create(registerParams.get(0),registerParams.get(1),registerParams.get(2),registerParams.get(3)));
     }
 
 
@@ -236,7 +250,6 @@ public final class BackEnd {
         }
         return new Response("report,\n"+Stats.report(days));
     }
-
 
 
     /// UTILITY METHODS ///
