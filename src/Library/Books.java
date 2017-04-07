@@ -23,7 +23,7 @@ public final class Books extends Database{
 
     public static void load(){
         if(read(FILE) != null){
-            map = (HashMap<Long, Book>)Database.read(FILE);
+            map = (HashMap<Long, Book>)read(FILE);
         }
     }
 

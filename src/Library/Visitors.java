@@ -11,7 +11,7 @@ import java.util.*;
  *
  *
  */
-public final class Visitors {
+public final class Visitors extends Database{
 
     private static TreeMap<Integer, Visitor> map; // visitorId, Visitor
     private static final File FILE = new File("visitors.ser");
@@ -19,13 +19,17 @@ public final class Visitors {
 
     public Visitors() {
         map = new TreeMap<>();
-        try {
-            if (!FILE.createNewFile()) {
-                load();
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        load();
+    }
+
+    public static void load(){
+        if(read(FILE) != null){
+            map = (TreeMap<Integer, Visitor>)read(FILE);
         }
+    }
+
+    public static void save(){
+        write(map, FILE);
     }
 
     public static String register(String firstName, String lastName, String address, String phone){
@@ -46,38 +50,6 @@ public final class Visitors {
         }
         return("Visitor ID:"+ tenDigit.format(map.lastKey()) + " has been registered on " +
                 Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + ".");
-    }
-
-    public static void save() {
-        try
-        {
-            FileOutputStream fos =
-                    new FileOutputStream(FILE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(map);
-            oos.close();
-            fos.close();
-        }catch(IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-    }
-
-    public static void load() {
-        try {
-            FileInputStream fis = new FileInputStream(FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            map = (TreeMap<Integer, Visitor>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
-        }
     }
 
     static public void exitActiveVisitors(){

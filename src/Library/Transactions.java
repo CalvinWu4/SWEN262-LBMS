@@ -14,7 +14,6 @@ public final class Transactions extends Database{
     private static HashMap<Integer, ArrayList<Transaction>> map; // visitorId, borrowed books list
     public static final File FILE = new File("transactions.ser");
 
-
     public Transactions() {
         map = new HashMap<>();
         load();
@@ -22,7 +21,7 @@ public final class Transactions extends Database{
 
     public static void load(){
         if(read(FILE) != null){
-            map = (HashMap<Integer, ArrayList<Transaction>>)Database.read(FILE);
+            map = (HashMap<Integer, ArrayList<Transaction>>)read(FILE);
         }
     }
 

@@ -20,7 +20,7 @@ public final class Purchases extends Database implements Serializable{
 
     public static void load(){
         if(read(FILE) != null){
-            map = (HashMap<LocalDate, Integer>)Database.read(FILE);
+            map = (HashMap<LocalDate, Integer>)read(FILE);
         }
     }
 
