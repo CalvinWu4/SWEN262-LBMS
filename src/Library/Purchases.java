@@ -9,19 +9,23 @@ import java.util.HashMap;
 /**
  * Created by Calvin on 3/18/2017.
  */
-public final class Purchases implements Serializable{
+public final class Purchases extends Database implements Serializable{
     private static HashMap<LocalDate, Integer> map; // Date, NumBooksPurchased
     public static final File FILE = new File("purchases.ser");
 
     public Purchases() {
         map = new HashMap<>();
-        try {
-            if (!FILE.createNewFile()) {
-                load();
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        load();
+    }
+
+    public static void load(){
+        if(read(FILE) != null){
+            map = (HashMap<LocalDate, Integer>)Database.read(FILE);
         }
+    }
+
+    public static void save(){
+        write(map, FILE);
     }
 
     public static String purchase(Integer quantity, ArrayList<Long> isbns) {
@@ -56,37 +60,6 @@ public final class Purchases implements Serializable{
         return result;
     }
 
-    public static void save() {
-        try
-        {
-            FileOutputStream fos =
-                    new FileOutputStream(FILE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(map);
-            oos.close();
-            fos.close();
-        }catch(IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-    }
-
-    public static void load() {
-        try {
-            FileInputStream fis = new FileInputStream(FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            map = (HashMap<LocalDate, Integer>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
-        }
-    }
 
     public static HashMap<LocalDate, Integer> getMap(){
         return map;

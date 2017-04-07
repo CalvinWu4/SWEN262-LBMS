@@ -10,19 +10,24 @@ import java.util.HashMap;
 /**
  * Created by Calvin on 3/13/2017.
  */
-public final class Transactions {
+public final class Transactions extends Database{
     private static HashMap<Integer, ArrayList<Transaction>> map; // visitorId, borrowed books list
     public static final File FILE = new File("transactions.ser");
 
-    public Transactions(){
+
+    public Transactions() {
         map = new HashMap<>();
-        try {
-            if (!FILE.createNewFile()) {
-                load();
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        load();
+    }
+
+    public static void load(){
+        if(read(FILE) != null){
+            map = (HashMap<Integer, ArrayList<Transaction>>)Database.read(FILE);
         }
+    }
+
+    public static void save(){
+        write(map, FILE);
     }
 
     /**
@@ -174,37 +179,6 @@ public final class Transactions {
             fines.get(i).pay(amount);
         }
         return ("success," + totalBalance);
-    }
-
-    public static void save() {
-        try
-        {
-            FileOutputStream fos = new FileOutputStream(FILE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(map);
-            oos.close();
-            fos.close();
-        }catch(IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-    }
-
-    public static void load() {
-        try {
-            FileInputStream fis = new FileInputStream(FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            map = (HashMap<Integer, ArrayList<Transaction>>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
-        }
     }
 
 

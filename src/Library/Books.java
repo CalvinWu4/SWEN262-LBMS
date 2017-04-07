@@ -12,53 +12,30 @@ import java.util.HashMap;
 /**
  * Created by Anthony Perez on 3/5/17.
  */
-public final class Books {
+public final class Books extends Database{
     private static HashMap<Long, Book> map;
-    public static File FILE;
+    public static final File FILE = new File("books.ser");
 
-    public Books(){
+    public Books() {
         map = new HashMap<>();
-        FILE = new File("books.ser");
         load();
     }
 
-    public static void save() {
-        try
-        {
-            FileOutputStream fos =
-                    new FileOutputStream(FILE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(map);
-            oos.close();
-            fos.close();
-        }catch(IOException ioe)
-        {
-            ioe.printStackTrace();
+    public static void load(){
+        if(read(FILE) != null){
+            map = (HashMap<Long, Book>)Database.read(FILE);
         }
     }
 
-    public static void load() {
-        try {
-            FileInputStream fis = new FileInputStream(FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            map = (HashMap<Long, Book>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
-        }
+    public static void save(){
+        write(map, FILE);
     }
 
     // Search Library
     public static ArrayList<Book> info(String title, String authors, String isbn, String publisher,
                                        String sortOrder){
 
-        ArrayList<Book> searchResults = new ArrayList<Book>();
+        ArrayList<Book> searchResults;
 
         Collection<Book> bookCollection = map.values();
         ArrayList<Book> bookList = new ArrayList<>();
