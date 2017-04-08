@@ -93,7 +93,7 @@ public class ClientGUI {
                 String text;
 
                 if(clientConnection){
-                    text = (txtSubmit.getText().equals("")) ? "" : txtSubmit.getText().substring(4,txtSubmit.getText().length());
+                    text = (txtSubmit.getText().equals("")) ? "" : txtSubmit.getText().substring(5,txtSubmit.getText().length());
                 }
                 else{
                     text = txtSubmit.getText();
@@ -135,16 +135,16 @@ public class ClientGUI {
                             break;
 
                         default:
-                            if(text.substring(0,5).equals("login")){
-                                this.addResponse(text+"\n");
-                                String[] loginData = text.split(",");
-                                this.setLoginStatus(login(loginData[1],loginData[2]));
-                                this.addResponse(clientLogin ? "Successful Login!" : "Login Failed. Please Try again.");
-                            }
-//                            if(text.substring(0,11).equals("login,true;")){
-//                                this.setLoginStatus(true);
+//                            if(text.substring(0,5).equals("login")){
+//                                this.addResponse(text+"\n");
+//                                String[] loginData = text.split(",");
+//                                this.setLoginStatus(login(loginData[1],loginData[2]));
 //                                this.addResponse(clientLogin ? "Successful Login!" : "Login Failed. Please Try again.");
 //                            }
+                            if(text.substring(0,11).equals("login,true;")){
+                                this.setLoginStatus(true);
+                                this.addResponse(clientLogin ? "Successful Login!" : "Login Failed. Please Try again.");
+                            }
                             else{
                                 this.addResponse(text+"\n");
                                 this.addResponse("Invalid command.\n");
@@ -154,7 +154,13 @@ public class ClientGUI {
                 }
                 if(clientConnection && clientLogin){
                     Response response = Exchange.interpret(text,this.currentView);
-                    if(!response.isEndResponse()){
+                    if(text.equals("logout;")){
+                        this.addResponse(text+"\n");
+                        this.setLoginStatus(false);
+                        this.addResponse("Successful Logout!");
+                        this.changeHeader("===========================\nWelcome to the LBMS Application\nPlease log in to the library network with the following command:\n\"login,'username','password';\"\n===========================");
+                    }
+                    else if(!response.isEndResponse()){
                         // Only if there is a view attached to the response we assign a new view, otherwise just loop with
                         // the same view as before, so that if there is a problem with the response just loop again
                         if(response.getResponseView() != null ){
@@ -163,7 +169,8 @@ public class ClientGUI {
                         }else if(BackEnd.isDebugMode()){
                             txtResponse.appendText("\nThe view specified for the back end method was not found");
                         }
-                    }else{
+                    }
+                    else{
                         System.exit(0);
                     }
                     txtResponse.appendText("\n"+response.getResponseMessage());
@@ -215,7 +222,7 @@ public class ClientGUI {
 //
                 txtSubmit.clear();
                 if(clientConnection){
-                    txtSubmit.setText(returnID()+" >>");
+                    txtSubmit.setText(returnID()+" >> ");
                     txtSubmit.positionCaret(7);
                 }
                 else{
@@ -223,7 +230,6 @@ public class ClientGUI {
                     txtSubmit.positionCaret(0);
                 }
                 event.consume();
-
             }
         });
     }
