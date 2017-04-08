@@ -2,7 +2,6 @@ package Library;
 
 import java.io.*;
 import java.text.DecimalFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -49,15 +48,7 @@ public final class Visitors extends Database{
             map.put(1,newVisitor);
         }
         return("Visitor ID:"+ tenDigit.format(map.lastKey()) + " has been registered on " +
-                Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + ".");
-    }
-
-    static public void exitActiveVisitors(){
-        for(Visitor visitor: Visitors.getMap().values()){
-            if(visitor.getActiveVisit() != null) {
-                visitor.getActiveVisit().setDeparture(Time.getDateTime());
-            }
-        }
+                Time.getDateString() + ".");
     }
 
     public static TreeMap<Integer, Visitor> getMap(){

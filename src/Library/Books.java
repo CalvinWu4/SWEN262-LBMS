@@ -25,6 +25,9 @@ public final class Books extends Database{
         if(read(FILE) != null){
             map = (HashMap<Long, Book>)read(FILE);
         }
+        else{
+            new Parser();
+        }
     }
 
     public static void save(){

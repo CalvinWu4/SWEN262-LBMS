@@ -110,7 +110,7 @@ public final class BackEnd {
      */
     static public Response BeginVisit(ArrayList<Parameter> params){
 
-        return new Response("arrive," + Visits.visit((String) params.get(0).getParam()));
+        return new Response("arrive," + Visits.visit(Integer.parseInt((String)params.get(0).getParam())));
     }
 
     /**
@@ -120,7 +120,7 @@ public final class BackEnd {
      * @return The response of results
      */
     static public Response EndVisit(ArrayList<Parameter> params){
-        return new Response("depart," + Visits.leave((String) params.get(0).getParam()));
+        return new Response("depart," + Visits.leave(Integer.parseInt((String)params.get(0).getParam()), Time.getTime()));
     }
 
     /////
@@ -241,6 +241,11 @@ public final class BackEnd {
     /// UTILITY METHODS ///
 
     static public Response exit(ArrayList<Parameter> params){
+        for(Visitor visitor: Visitors.getMap().values()){
+            if(visitor.getActiveVisit() != null) {
+                visitor.getActiveVisit().setDeparture(Time.getDateTime());
+            }
+        }
         Books.save();
         Visits.save();
         Visitors.save();

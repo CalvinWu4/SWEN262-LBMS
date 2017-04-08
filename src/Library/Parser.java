@@ -14,8 +14,6 @@ import java.util.HashMap;
  */
 public class Parser {
 
-//    private ArrayList<String> bookLine = new ArrayList<>();
-
     public Parser(){
         CSVParser fileParser = null;
         FileReader BOOKCSV = null;
@@ -68,7 +66,6 @@ public class Parser {
 
             String _publisher = record.get(3); //Records the publisher
             String fileString = BOOKCSV.toString();
-//            if(record.size() == 6) {
                 String[] dateArray = record.get(4).split("-|/"); //formats all potential dates into LocalDates
                 if (dateArray.length == 1) {
                     _pubDate = LocalDate.of(Integer.parseInt(dateArray[0]), 1, 1);
@@ -77,20 +74,11 @@ public class Parser {
                 } else {
                     _pubDate = LocalDate.of(Integer.parseInt(dateArray[2]), Integer.parseInt(dateArray[0]), Integer.parseInt(dateArray[1]));
                 }
-//            }
-//            else{
-//                _pubDate = LocalDate.parse(record.get(4));
-//            }
 
             Integer _pageCount = new Integer(record.get(5)); //Stores the page count
 
             int _totalNumCopies = 0;
             int _numAvailableCopies = 0;
-
-//            if(record.size() == 8){
-//                _totalNumCopies = Integer.parseInt(record.get(6));
-//                _numAvailableCopies = Integer.parseInt(record.get(7));
-//            }
 
             Book nextBook = new Book(_isbn,_title,_authors, _publisher,_pubDate,_pageCount, _totalNumCopies, _numAvailableCopies);
             bookHashMap.put(_isbn, nextBook);
