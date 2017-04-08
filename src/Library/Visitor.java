@@ -1,14 +1,9 @@
 package Library;
 
-import Library.Time;
-import Library.Visit;
-import Library.Visits;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
@@ -33,34 +28,6 @@ public class Visitor implements Serializable{
     }
 
 
-    public String startVisit(){
-        if(this.activeVisit == null){
-            this.activeVisit = new Visit(this.id, Time.getDateTime());
-            return "Success";
-        }else{
-            return "The given user already has an active visit";
-        }
-
-    }
-
-    /**
-     * Ends the active visit for the visitor
-     */
-    public String endVisit(){
-        if(this.activeVisit != null){
-            if(Visits.getVisitHash().get(this.activeVisit.getArrival()) == null){
-                ArrayList<Visit> newVisits = new ArrayList<>();
-                newVisits.add(this.activeVisit);
-                Visits.getVisitHash().put(this.activeVisit.getArrival().toLocalDate(),newVisits);
-            }
-            this.activeVisit = new Visit(this.id, Time.getDateTime());
-            return "Success";
-
-        }else{
-            return "The given user doesn't have an active visit";
-        }
-
-    }
 
     // Setters
     public void setFirstName(String firstName){
@@ -81,6 +48,9 @@ public class Visitor implements Serializable{
     public void setRegDate(LocalDate date) {
         this.regDate = regDate;
     }
+    public void setActiveVisit(Visit activeVisit){
+        this.activeVisit = activeVisit;
+    }
 
     // Getters
     public String getFirstName(){
@@ -98,11 +68,14 @@ public class Visitor implements Serializable{
     public Integer getId(){
         return this.id;
     }
-    public Visit getActiveVisit(){
-        return this.activeVisit;
+    public String getIdString(){
+        return new DecimalFormat("0000000000").format(id);
     }
     public LocalDate getRegDate(){
         return this.regDate;
+    }
+    public Visit getActiveVisit(){
+        return this.activeVisit;
     }
 
 }

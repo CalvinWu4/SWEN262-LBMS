@@ -1,14 +1,13 @@
 package Library;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 /**
  * Created by Anthony Perez on 3/5/17.
  */
-public class Book {
+public class Book implements Serializable{
     private Long isbn;
     private String title;
     private ArrayList<String> authors;
@@ -17,7 +16,6 @@ public class Book {
     private Integer pageCount;
     private Integer totalNumCopies;
     private Integer numAvailableCopies;
-    //private Fine fine; Put this in transaction
 
     public Book(Long _isbn, String _title, ArrayList<String> _authors, String _publisher,
                 LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies){
@@ -45,7 +43,7 @@ public class Book {
         for(String author : authors){
             auths += author+",";
         }
-        auths = auths.replaceAll(", $","");
+        auths = auths.replaceAll(",","");
         return auths;
     }
     public String getPublisher(){

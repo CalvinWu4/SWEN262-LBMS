@@ -14,7 +14,7 @@ public class IsbnQuery implements BookQuery {
     @Override
     public ArrayList<Book> search(ArrayList<Book> books, String searchParam){
         ArrayList<Book> newBooks = new ArrayList<>();
-        newBooks.add(Books.getBookHash().get(Long.parseLong(searchParam)));
+        newBooks.add(Books.getMap().get(Long.parseLong(searchParam)));
         return newBooks;
     }
 }

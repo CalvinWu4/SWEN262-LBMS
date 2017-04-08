@@ -1,7 +1,8 @@
 package Library;
 
-import FrontEnd.State.OpenClosedContext;
+import Library.State.OpenClosedContext;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,32 +12,49 @@ import java.util.ArrayList;
 /**
  * Created by Calvin on 3/15/2017.
  */
-public final class Time {
-    private final static LocalDateTime startDateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
-    private static LocalDateTime dateTime = LocalDateTime.of(2017, 3, 20, 2, 0);
-    private static boolean isOpen;
-    private static final Integer MINDAYINC = 0;
-    private static final Integer MAXDAYINC = 7;
-    private static final Integer MINHRINC = 0;
-    private static final Integer MAXHRINC = 23;
-    /** Context field that will check the state of the library for open or closed **/
+public final class Time extends Database implements Serializable{
+    private final static LocalDateTime startDateTime = LocalDateTime.of(2017, 4, 1, 8, 0);
+    private static LocalDateTime dateTime;
+    private static final int MINDAYINC = 0;
+    private static final int MAXDAYINC = 7;
+    private static final int MINHRINC = 0;
+    private static final int MAXHRINC = 23;
+    private static final LocalTime openingTime = LocalTime.of(7,59);
+    private static final LocalTime closingTime = LocalTime.of(19,0);
+    // Context field that will check the state of the library for open or closed
     static private OpenClosedContext context = new OpenClosedContext();
+    private static final File FILE = new File("time.ser");
 
 
+    public Time() {
+        dateTime = startDateTime;
+        context = new OpenClosedContext();
+        load();
+    }
+
+    public static void load(){
+        if(read(FILE) != null){
+            dateTime = (LocalDateTime)read(FILE);
+        }
+    }
+
+    public static void save(){
+        write(dateTime, FILE);
+    }
 
     /**
      * Helper function for incTime.
      */
-    public static Boolean checkIsOpenAndClose(){
-        if(dateTime.isAfter(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),7,59)) &&
-                dateTime.isBefore(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.getDayOfMonth(),19,0))){
-            isOpen = true;
+    public static void checkIsOpenAndClose(){
+        if(dateTime.isAfter(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.
+                getDayOfMonth(),openingTime.getHour(),openingTime.getMinute())) &&
+                dateTime.isBefore(LocalDateTime.of(dateTime.getYear(),dateTime.getMonth(),dateTime.
+                        getDayOfMonth(),closingTime.getHour(),closingTime.getMinute()))){
             context.toggleOpenClosed();
         }else {
-            isOpen = false;
             context.toggleOpenClosed();
+            exitActiveVisitors();
         }
-        return isOpen;
     }
 
     public static String incTime(Integer days, Integer hours) {
@@ -47,7 +65,12 @@ public final class Time {
         } else {
             dateTime = dateTime.plusDays(days);
             dateTime = dateTime.plusHours(hours);
-            checkIsOpenAndClose();
+            if(days > 0){
+                exitActiveVisitors();
+            }
+            if(hours > 0) {
+                checkIsOpenAndClose();
+            }
             for (ArrayList<Transaction> transactions : Transactions.getMap().values()){
                 for(Transaction transaction: transactions){
                     //Only keep calculating fees for transactions if they haven't been returned
@@ -67,9 +90,21 @@ public final class Time {
         return dateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
     }
 
+    // Helper function to exit all active visitors when the library closes
+    static public void exitActiveVisitors(){
+        for(Visitor visitor: Visitors.getMap().values()) {
+            if(visitor.getActiveVisit() != null){
+                Visits.leave(visitor.getId(), closingTime);
+            }
+        }
+    }
+
     // Getters
     public static LocalDate getDate(){
         return dateTime.toLocalDate();
+    }
+    public static String getDateString(){
+        return Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
     public static LocalTime getTime(){
         return dateTime.toLocalTime();
@@ -79,8 +114,5 @@ public final class Time {
     }
     public static LocalDateTime getStartDateTime(){
         return startDateTime;
-    }
-    public static boolean getIsOpen(){
-        return isOpen;
     }
 }

@@ -5,49 +5,60 @@ import Library.Sort.*;
 
 import java.io.*;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Created by Anthony Perez on 3/5/17.
  */
-public final class Books {
-    private static HashMap<Long, Book> bookHash = new HashMap<>();
-    private static final String BOOKSFILE = "libraryBooks.csv";
+public final class Books extends Database{
+    private static HashMap<Long, Book> map;
+    public static final File FILE = new File("books.ser");
 
-
-    public Books(){
-        new Parser();
-        this.saveToFile();
+    public Books() {
+        map = new HashMap<>();
+        load();
     }
 
-    public void display(){
-        ArrayList<Book> books = new ArrayList<>();
-        for(Book book : bookHash.values()){
-            books.add(book);
-            //System.out.println("Library.Book fee cost: "+book.calculateFee()); Library.Transaction
+    public static void load(){
+        if(read(FILE) != null){
+            map = (HashMap<Long, Book>)read(FILE);
         }
-        bookPrint(books);
+        else{
+            new Parser();
+        }
+    }
+
+    public static void save(){
+        write(map, FILE);
     }
 
     // Search Library
     public static ArrayList<Book> info(String title, String authors, String isbn, String publisher,
                                        String sortOrder){
 
-        ArrayList<Book> searchResults = new ArrayList<Book>();
+        ArrayList<Book> searchResults;
 
-        Collection<Book> bookCollection = bookHash.values();
+        Collection<Book> bookCollection = map.values();
         ArrayList<Book> bookList = new ArrayList<>();
 
+        // Query books with at least one available copy
         for(Book book: bookCollection){
             if(book.getTotalNumCopies() >= 1){
                 bookList.add(book);
             }
         }
 
+        // Title Query
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
             searchResults = new ArrayList<Book>(query.search(bookList, title));
         }
+        else{
+            searchResults = bookList;
+        }
+        // Authors Query
         if(!authors.equals("*")){
             AuthorsQuery query = new AuthorsQuery();
             if(searchResults.isEmpty()) {
@@ -57,6 +68,10 @@ public final class Books {
                 searchResults.retainAll(query.search(bookList, authors));
             }
         }
+        else{
+            searchResults = bookList;
+        }
+        // ISBN Query
         if(!isbn.equals("*")){
             IsbnQuery query = new IsbnQuery();
             if(searchResults.isEmpty()) {
@@ -67,6 +82,10 @@ public final class Books {
             }
 
         }
+        else{
+            searchResults = bookList;
+        }
+        // Publisher Query
         if(!publisher.equals("*")){
             PublisherQuery query = new PublisherQuery();
             if(searchResults.isEmpty()) {
@@ -76,33 +95,27 @@ public final class Books {
                 searchResults.retainAll(query.search(bookList, publisher));
             }
         }
-        if(sortOrder.equals("title")){
-            TitleSort sorter = new TitleSort();
-            sorter.sort(searchResults);
-            return searchResults;
-        }
-        else if(sortOrder.equals("publish-date")){
-            PubDateSort sorter = new PubDateSort();
-            sorter.sort(searchResults);
-            return searchResults;
-        }
-        else if(sortOrder.equals("book-status")){
-            NumAvailSort sorter = new NumAvailSort();
-            sorter.sort(searchResults);
-            ArrayList<Book> finalSearchResults = new ArrayList<>();
-            int i = searchResults.size();
-            while (searchResults.get(i).getNumAvailableCopies() >= 1) {
-                if(i >= 0) {
-                    finalSearchResults.add(searchResults.get(i));
-                    i--;
-                }
-            }
-            return finalSearchResults;
-        }
         else{
-            System.out.println("The specified sort order doesn't match one of the expected values.");
-            return null;
+            searchResults = bookList;
         }
+        // Sort Order Query
+        if(!sortOrder.equals("*")) {
+            if (sortOrder.equals("title")) {
+                TitleSort sorter = new TitleSort();
+                sorter.sort(searchResults);
+            } else if (sortOrder.equals("publish-date")) {
+                PubDateSort sorter = new PubDateSort();
+                sorter.sort(searchResults);
+            } else if (sortOrder.equals("book-status")) {
+                NumAvailSort sorter = new NumAvailSort();
+                sorter.sort(searchResults);
+            } else {
+                System.out.println("The specified sort order doesn't match one of the expected values.");
+                return null;
+            }
+        }
+
+        return searchResults;
     }
 
     // Search Book Store
@@ -110,20 +123,24 @@ public final class Books {
                                          String sortOrder){
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
-        Collection<Book> bookCollection = bookHash.values();
+        Collection<Book> bookCollection = map.values();
 
         ArrayList<Book> bookList = new ArrayList<>();
 
+        // Query all books
         for(Book book: bookCollection){
-            if(book.getTotalNumCopies() == 0){
-                bookList.add(book);
-            }
+            bookList.add(book);
         }
 
+        // Title Query
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
             searchResults = new ArrayList<Book>(query.search(bookList, title));
         }
+        else{
+            searchResults = bookList;
+        }
+        // Authors Query
         if(!authors.equals("*")){
             AuthorsQuery query = new AuthorsQuery();
             if(searchResults.isEmpty()) {
@@ -133,6 +150,10 @@ public final class Books {
                 searchResults.retainAll(query.search(bookList, authors));
             }
         }
+        else{
+            searchResults = bookList;
+        }
+        // ISBN Query
         if(!isbn.equals("*")){
             IsbnQuery query = new IsbnQuery();
             if(searchResults.isEmpty()) {
@@ -143,6 +164,10 @@ public final class Books {
             }
 
         }
+        else{
+            searchResults = bookList;
+        }
+        // Publisher Query
         if(!publisher.equals("*")){
             PublisherQuery query = new PublisherQuery();
             if(searchResults.isEmpty()) {
@@ -152,55 +177,24 @@ public final class Books {
                 searchResults.retainAll(query.search(bookList, publisher));
             }
         }
-        if(sortOrder.equals("title")){
-            TitleSort sorter = new TitleSort();
-            sorter.sort(searchResults);
-            return searchResults;
-        }
-        else if(sortOrder.equals("publish-date")){
-            PubDateSort sorter = new PubDateSort();
-            sorter.sort(searchResults);
-            return searchResults;
-        }
         else{
-            System.out.println("The specified sort order doesn't match one of the expected values.");
-            return null;
+            searchResults = bookList;
         }
-    }
-
-    public void add(Book _book){
-        bookHash.put(_book.getIsbn(),_book);
-        this.saveToFile();
-    }
-
-    public static void saveToFile(){
-        try {
-            FileWriter fw = new FileWriter(BOOKSFILE);
-            PrintWriter pw = new PrintWriter(fw,true);
-
-            for(Book book : bookHash.values()){
-                pw.write(book.getIsbn()+",\""+book.getTitle()+"\",\""+book.getAuthorsString()+"\",\""+
-                        book.getPublisher()+"\","+book.getPublishedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))+
-                        ","+book.getPageCount()+","+book.getTotalNumCopies()+ ","+book.getNumAvailableCopies()+"\n");
-            }
-            fw.flush();
-            pw.close();
-            fw.close();
-        }
-        catch (IOException ioe){
-            System.out.println("Error writing to file.");
-        }
-    }
-
-    public void displayAvailable(){
-        //loop through the "bookHash" and display all books that are available.
-        ArrayList<Book> availableBooks = new ArrayList<>();
-        for(Book book : bookHash.values()){
-            if(book.getTotalNumCopies() > 0){
-               availableBooks.add(book);
+        // Sort Order Query
+        if(!sortOrder.equals("*")) {
+            if (sortOrder.equals("title")) {
+                TitleSort sorter = new TitleSort();
+                sorter.sort(searchResults);
+            } else if (sortOrder.equals("publish-date")) {
+                PubDateSort sorter = new PubDateSort();
+                sorter.sort(searchResults);
+            } else {
+                System.out.println("The specified sort order doesn't match one of the expected values.");
+                return null;
             }
         }
-        bookPrint(availableBooks);
+
+        return searchResults;
     }
 
     static public void bookPrint(ArrayList<Book> _books){
@@ -310,8 +304,8 @@ public final class Books {
         System.out.println(line);
     }
 
-    public static HashMap<Long, Book> getBookHash(){
-        return bookHash;
+    public static HashMap<Long, Book> getMap(){
+        return map;
     }
 
 }

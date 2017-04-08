@@ -1,6 +1,4 @@
-package FrontEnd.State;
-
-import Library.Time;
+package Library.State;
 
 /**
  * Created by Brandon on 3/25/2017.

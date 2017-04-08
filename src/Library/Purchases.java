@@ -1,5 +1,6 @@
 package Library;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,17 +9,31 @@ import java.util.HashMap;
 /**
  * Created by Calvin on 3/18/2017.
  */
-public final class Purchases {
-    private static HashMap<LocalDate, Integer> purchaseHash = new HashMap<>();
-    // Date, NumBooksPurchased
+public final class Purchases extends Database implements Serializable{
+    private static HashMap<LocalDate, Integer> map; // Date, NumBooksPurchased
+    public static final File FILE = new File("purchases.ser");
 
+    public Purchases() {
+        map = new HashMap<>();
+        load();
+    }
+
+    public static void load(){
+        if(read(FILE) != null){
+            map = (HashMap<LocalDate, Integer>)read(FILE);
+        }
+    }
+
+    public static void save(){
+        write(map, FILE);
+    }
 
     public static String purchase(Integer quantity, ArrayList<Long> isbns) {
         String result = "success\n";
         ArrayList<Long> seen = new ArrayList<>();
         for (Long isbn : isbns) {
-            Book book = Books.getBookHash().get(isbn);
-            if (!Books.getBookHash().containsKey(isbn)) {
+            Book book = Books.getMap().get(isbn);
+            if (!Books.getMap().containsKey(isbn)) {
                 return ("One or more of the book ISBNs are not valid.");
             }
             else if(seen.contains(isbn)){
@@ -29,12 +44,12 @@ public final class Purchases {
                 Integer prevNumAvailableCopies = book.getNumAvailableCopies();
                 book.setTotalNumCopies(prevTotalNumCopies + quantity);
                 book.setNumAvailableCopies(prevNumAvailableCopies + quantity);
-                Books.saveToFile();
-                if (!purchaseHash.containsKey(Time.getDate())) {
-                    purchaseHash.put(Time.getDate(), quantity);
+//                Books.saveToFile();
+                if (!map.containsKey(Time.getDate())) {
+                    map.put(Time.getDate(), quantity);
                 } else {
-                    Integer oldQuantity = purchaseHash.get(Time.getDate());
-                    purchaseHash.put(Time.getDate(), oldQuantity + quantity);
+                    Integer oldQuantity = map.get(Time.getDate());
+                    map.put(Time.getDate(), oldQuantity + quantity);
                 }
                 seen.add(isbn);
                 result += book.getIsbn() + "," + book.getTitle() + "," + "{" + book.getAuthorsString() + "}" + "," +
@@ -45,7 +60,8 @@ public final class Purchases {
         return result;
     }
 
-    public static HashMap<LocalDate, Integer> getPurchaseHash(){
-        return purchaseHash;
+
+    public static HashMap<LocalDate, Integer> getMap(){
+        return map;
     }
 }

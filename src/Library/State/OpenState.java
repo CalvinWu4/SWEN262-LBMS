@@ -1,5 +1,5 @@
 
-package FrontEnd.State;
+package Library.State;
 
 
 import FrontEnd.Response;
@@ -13,7 +13,6 @@ public class OpenState implements OpenOrClosed{
 
     @Override
     public void toggle(OpenClosedContext wrapper){
-        Visitors.exitActiveVisitors();
         wrapper.setState(new ClosedState());
     }
     @Override

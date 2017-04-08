@@ -10,19 +10,23 @@ import java.util.HashMap;
 /**
  * Created by Calvin on 3/13/2017.
  */
-public final class Transactions {
-    private static HashMap<Integer, ArrayList<Transaction>> map = new HashMap<>(); // visitorId, borrowed books list
+public final class Transactions extends Database{
+    private static HashMap<Integer, ArrayList<Transaction>> map; // visitorId, borrowed books list
     public static final File FILE = new File("transactions.ser");
 
-    public Transactions(){
+    public Transactions() {
         map = new HashMap<>();
-        try {
-            if (!FILE.createNewFile()) {
-                load();
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        load();
+    }
+
+    public static void load(){
+        if(read(FILE) != null){
+            map = (HashMap<Integer, ArrayList<Transaction>>)read(FILE);
         }
+    }
+
+    public static void save(){
+        write(map, FILE);
     }
 
     /**
@@ -55,7 +59,7 @@ public final class Transactions {
         }
         else {
             for (Long isbn : isbns) {
-                Book book = Books.getBookHash().get(isbn);
+                Book book = Books.getMap().get(isbn);
                 if (book == null) {
                     return("One or more of the book IDs specified do not match the IDs for the most" +
                             " recent library book search.");
@@ -94,7 +98,7 @@ public final class Transactions {
             int tempId = 0;
             for (Transaction transaction : transactions) {
                 tempId++;
-                Book book = Books.getBookHash().get(transaction.getIsbn());
+                Book book = Books.getMap().get(transaction.getIsbn());
                 result += (tempId + "," + book.getIsbn() + "," + book.getTitle() + "," +
                         transaction.getDateBorrowed().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "\n");
             }
@@ -108,7 +112,7 @@ public final class Transactions {
             return("The visitor ID does not match a registered visitor.");
         } else {
             for (Long isbn : isbns) {
-                Book book = Books.getBookHash().get(isbn);
+                Book book = Books.getMap().get(isbn);
                 if (book == null) {
                     return("One or more of the book IDs are not valid.");
                 } else {
@@ -174,37 +178,6 @@ public final class Transactions {
             fines.get(i).pay(amount);
         }
         return ("success," + totalBalance);
-    }
-
-    public static void save() {
-        try
-        {
-            FileOutputStream fos = new FileOutputStream(FILE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(map);
-            oos.close();
-            fos.close();
-        }catch(IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
-    }
-
-    public static void load() {
-        try {
-            FileInputStream fis = new FileInputStream(FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            map = (HashMap<Integer, ArrayList<Transaction>>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
-        }
     }
 
 

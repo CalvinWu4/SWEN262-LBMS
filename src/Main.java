@@ -14,6 +14,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import FrontEnd.Exchange;
+import FrontEnd.Response;
+import FrontEnd.View;
+import Library.*;
 
 public class Main extends Application{
 
@@ -100,9 +104,12 @@ public class Main extends Application{
     static public void main(String[] args){
         View.initMenuOptions();
         new Books();
+        new Visits();
         new Visitors();
         new Users();
         new Transactions();
+        new Time();
+        new Purchases();
 
         BackEnd.setDebugMode(true);
 //        MainLoop();

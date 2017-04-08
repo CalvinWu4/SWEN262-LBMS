@@ -1,7 +1,6 @@
-package FrontEnd.State;
+package Library.State;
 
 import FrontEnd.Response;
-import FrontEnd.State.OpenOrClosed;
 
 /**
  * Created by Brandon on 3/25/2017.

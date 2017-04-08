@@ -11,7 +11,7 @@ public class Stats {
 
 
     static public String report(Integer days) {
-        int daysPassed = (int) Duration.between(Time.getDateTime(), Time.getStartDateTime()).toDays();
+        int daysPassed = (int) Duration.between(Time.getStartDateTime(), Time.getDateTime()).toDays();
         if (days <= 0) {
             return ("Invalid number of days.");
         }
@@ -28,7 +28,7 @@ public class Stats {
             LocalDate queriedDate = Time.getDate().minusDays(i);
             // Number of Books
             Integer numBooks = 0;
-            for (Book book : Books.getBookHash().values()) {
+            for (Book book : Books.getMap().values()) {
                 numBooks += book.getTotalNumCopies();
             }
             // Number of Visitors
@@ -40,13 +40,20 @@ public class Stats {
             // Average Length of Visit
             Duration totalHrs = Duration.ofHours(0);
             int numVisits = 0;
-            for (Visit visit : Visits.getVisitHash().get(queriedDate)) {
-                numVisits++;
-                totalHrs = totalHrs.plusHours(Duration.between(visit.getArrival(), visit.getDeparture()).toHours());
+            if(Visits.getMap().get(queriedDate) != null) {
+                for (Visit visit : Visits.getMap().get(queriedDate)) {
+                    numVisits++;
+                    totalHrs = totalHrs.plusHours(Duration.between(visit.getArrival(), visit.getDeparture()).toHours());
+                }
             }
-            visitAvg = (int) totalHrs.toHours() / numVisits;
+            if(numVisits > 0) {
+                visitAvg = (int) totalHrs.toHours() / numVisits;
+            }
+            else{
+                visitAvg = (int) totalHrs.toHours();
+            }
             // Number of Books Purchased
-            Integer numPurchased = Purchases.getPurchaseHash().get(queriedDate);
+            Integer numPurchased = Purchases.getMap().get(queriedDate);
             if (numPurchased != null && numPurchased > 0) {
                 numPurchasedTotal += numPurchased;
             }
