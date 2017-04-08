@@ -1,6 +1,7 @@
 package Library;
 
 import java.io.*;
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.TreeMap;
 
@@ -36,29 +37,26 @@ public final class Users {
         }
         Integer visitorIdInt;
         try{
-            visitorIdInt = Integer.parseInt(visitorID);
+            visitorIdInt = Integer.parseInt(visitorID.replace(";",""));
             if(!Visitors.getMap().containsKey(visitorIdInt)){
                 return "Visitor ID given does not exist";
-
             }
-
-
 
         }catch (Exception e){
 
+            System.out.println("Error: "+e);
+
             return "Given visitor ID is not a valid id number";
         }
-        User newUser = new User(username, password, role, visitorIdInt);
-
 
         Integer userID;
 
         if(!map.isEmpty()){
             userID = map.lastKey() + 1;
-            map.put(userID, newUser);
+            map.put(userID, new User(userID, username, password, role, visitorIdInt));
         }else{
             userID = 1;
-            map.put(userID, newUser);
+            map.put(userID, new User(userID, username, password, role, visitorIdInt));
 
         }
         return("User ID:"+ userID + " has been registered on " +

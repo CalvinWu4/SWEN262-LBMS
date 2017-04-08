@@ -135,16 +135,16 @@ public class ClientGUI {
                             break;
 
                         default:
-//                            if(text.substring(0,5).equals("login")){
-//                                this.addResponse(text+"\n");
-//                                String[] loginData = text.split(",");
-//                                this.setLoginStatus(login(loginData[1],loginData[2]));
-//                                this.addResponse(clientLogin ? "Successful Login!" : "Login Failed. Please Try again.");
-//                            }
-                            if(text.substring(0,11).equals("login,true;")){
-                                this.setLoginStatus(true);
+                            if(text.substring(0,5).equals("login")){
+                                this.addResponse(text+"\n");
+                                String[] loginData = text.split(",");
+                                this.setLoginStatus(login(loginData[1],loginData[2]));
                                 this.addResponse(clientLogin ? "Successful Login!" : "Login Failed. Please Try again.");
                             }
+//                            if(text.substring(0,11).equals("login,true;")){
+//                                this.setLoginStatus(true);
+//                                this.addResponse(clientLogin ? "Successful Login!" : "Login Failed. Please Try again.");
+//                            }
                             else{
                                 this.addResponse(text+"\n");
                                 this.addResponse("Invalid command.\n");

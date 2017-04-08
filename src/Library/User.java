@@ -15,12 +15,12 @@ public class User {
 
 
 
-    User(String _username, String _password, String role, Integer visitorID){
+    User(Integer _uid, String _username, String _password, String role, Integer visitorID){
         this.username = _username;
         this.password = _password;
         this.role = role;
         this.visitorID = visitorID;
-        this.uID = Users.getMap().lastKey() + 1;
+        this.uID = _uid;
         Users.getMap().put(this.uID, this);
     }
 

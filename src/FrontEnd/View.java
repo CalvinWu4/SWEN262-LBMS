@@ -97,12 +97,14 @@ public class View {
         MenuOption RegisterVisitor = new MenuOption("register","Register a new visitor",new BackEndCommand("RegisterVisitor"),4,true);
         MenuOption BeginVisit = new MenuOption("arrive","Record a visit",new BackEndCommand("BeginVisit"),1,false);
         MenuOption EndVisit = new MenuOption("depart","Record a departure",new BackEndCommand("EndVisit"),1,true);
+        MenuOption User = new MenuOption("create","create user",new BackEndCommand("RegisterUser"),4,false);
 
         VisitorOptions.put(back.getKeyWord(),back);
         VisitorOptions.put(RegisterVisitor.getKeyWord(),RegisterVisitor);
         VisitorOptions.put(BeginVisit.getKeyWord(),BeginVisit);
         VisitorOptions.put(EndVisit.getKeyWord(),EndVisit);
         VisitorOptions.put(exit.getKeyWord(),exit);
+        VisitorOptions.put(User.getKeyWord(),User);
 
         /** Transactions **/
         TreeMap<String,MenuOption> Transactions =  new TreeMap<>();
