@@ -153,7 +153,7 @@ public final class Exchange {
             }
 
         } else {
-            return new Response("Invalid command").setResponseView(viewAfterResponse);
+            return new Response("Invalid command\n").setResponseView(viewAfterResponse);
 
         }
 

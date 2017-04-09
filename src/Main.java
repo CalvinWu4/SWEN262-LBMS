@@ -54,7 +54,7 @@ public class Main extends Application{
 
         ClientGUI cl1 = new ClientGUI(tabPane.getTabs().size(), clients);
 
-        cl1.changeHeader("===========================\nWelcome to the LBMS Application\nPlease connect to the library network with the following command:\n\"connect;\"\n===========================");
+        cl1.changeHeader("==================================================\nWelcome to the LBMS Application\nPlease connect to the library network with the following command:\n\"connect;\"\n==================================================");
 
         BorderPane bodyPane = cl1.returnClientGUI();
         tab.setContent(bodyPane);
@@ -79,7 +79,7 @@ public class Main extends Application{
 
                 BorderPane newBody = client.returnClientGUI();
 
-                client.changeHeader("===========================\nWelcome to the LBMS Application\nPlease connect to the library network with the following command:\n\"connect;\"\n===========================");
+                client.changeHeader("========================================\nWelcome to the LBMS Application\nPlease connect to the library network with the following command:\n\"connect;\"\n========================================");
                 tab.setContent(newBody);
 
                 tab.setOnCloseRequest(ev -> {clients.disconnectClient(client);});

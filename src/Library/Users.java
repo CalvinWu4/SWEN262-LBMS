@@ -9,31 +9,23 @@ import java.util.TreeMap;
 /**
  * Created by Jp on 4/5/17.
  */
-public final class Users {
-
+public final class Users extends Database{
 
     private static TreeMap<Integer, User> map; // visitorId, Visitor
-    public static final File FILE = new File("users.ser");
+    private static final File FILE = new File("users.ser");
 
 
     public Users() {
         map = new TreeMap<>();
-        try {
-            if (!FILE.createNewFile()) {
-                load();
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        load();
     }
 
 
     public static String create(String username, String password, String role, String visitorID){
         for(User user: map.values()) {
-//            if (user.getFirstName().equals(firstName) && visitor.getLastName().equals(lastName) &&
-//                    user.getAddress().equals(address) && visitor.getPhone().equals(phone)) {
-//                return("A visitor with the same name, address, and phone number is already registered.\n");
-//            }
+            if (user.getUsername().equals(username) && user.getVisitorID().equals(visitorID)) {
+                return("A visitor with the same name, address, and phone number is already registered.\n");
+            }
         }
         Integer visitorIdInt;
         try{
@@ -57,41 +49,22 @@ public final class Users {
         }else{
             userID = 1;
             map.put(userID, new User(userID, username, password, role, visitorIdInt));
-
         }
         return("User ID:"+ userID + " has been registered on " +
                 Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + ".");
     }
 
     public static void save() {
-        try
-        {
-            FileOutputStream fos =
-                    new FileOutputStream(FILE);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(map);
-            oos.close();
-            fos.close();
-        }catch(IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
+        write(map, FILE);
     }
 
     public static void load() {
-        try {
-            FileInputStream fis = new FileInputStream(FILE);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            map = (TreeMap<Integer, User>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Class not found");
-            c.printStackTrace();
-            return;
+        if(read(FILE) != null){
+            map = (TreeMap<Integer, User>)read(FILE);
+
+            for(User user : map.values()){
+                System.out.println(user.getVisitorID()+"-"+user.getUsername()+"-"+user.getPassword());
+            }
         }
     }
 

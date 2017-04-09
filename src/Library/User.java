@@ -1,19 +1,17 @@
 package Library;
 
+import java.io.Serializable;
+
 /**
  * Created by Jp on 4/5/17.
  */
-public class User {
+public class User implements Serializable{
 
     private Integer uID;
     private String username;
     private String password;
     private String role;
     private Integer visitorID;
-
-
-
-
 
     User(Integer _uid, String _username, String _password, String role, Integer visitorID){
         this.username = _username;

@@ -267,6 +267,7 @@ public final class BackEnd {
         Transactions.save();
         Time.save();
         Purchases.save();
+        Users.save();
         return new Response("Good bye!").toggleEndResponse();
     }
 
