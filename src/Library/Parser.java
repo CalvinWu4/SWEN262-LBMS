@@ -18,28 +18,14 @@ public class Parser {
         CSVParser fileParser = null;
         FileReader BOOKCSV = null;
 
-        File f = new File("Books.csv"); //Checks to see if any books have been bought
-        if(f.exists() && !f.isDirectory()) {
+        final File file = new File("Books.csv"); //Checks to see if any books have been bought
+        if(file.exists() && !file.isDirectory()) {
             try {
-                BOOKCSV = new FileReader("Books.csv");
+                BOOKCSV = new FileReader(file);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
 
-            try {
-                fileParser = new CSVParser(BOOKCSV, CSVFormat.EXCEL);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            //If this is the first startup, with no books bought
-            try {
-                BOOKCSV = new FileReader("Books.csv");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            //Creates the parser
             try {
                 fileParser = new CSVParser(BOOKCSV, CSVFormat.EXCEL);
             } catch (IOException e) {
@@ -55,7 +41,7 @@ public class Parser {
 
             Long _isbn = new Long(record.get(0)); //Gets the isbn as a long
 
-            String _title = record.get(1); //Stores the title
+            String _title = "\"" + record.get(1) + "\""; //Stores the title
 
             //Splits up potential multiple authors and adds them to an ArrayList
             ArrayList<String> _authors = new ArrayList<>();

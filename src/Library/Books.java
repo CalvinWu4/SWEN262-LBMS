@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public final class Books extends Database{
     private static HashMap<Long, Book> map;
-    public static final File FILE = new File("books.ser");
+    private static final File FILE = new File("books.ser");
 
     public Books() {
         map = new HashMap<>();
@@ -34,111 +34,42 @@ public final class Books extends Database{
         write(map, FILE);
     }
 
-    // Search Library
-    public static ArrayList<Book> info(String title, String authors, String isbn, String publisher,
-                                       String sortOrder){
-
-        ArrayList<Book> searchResults;
-
-        Collection<Book> bookCollection = map.values();
-        ArrayList<Book> bookList = new ArrayList<>();
-
-        // Query books with at least one available copy
-        for(Book book: bookCollection){
-            if(book.getTotalNumCopies() >= 1){
-                bookList.add(book);
-            }
-        }
-
-        // Title Query
-        if(!title.equals("*")){
-            TitleQuery query = new TitleQuery();
-            searchResults = new ArrayList<Book>(query.search(bookList, title));
-        }
-        else{
-            searchResults = bookList;
-        }
-        // Authors Query
-        if(!authors.equals("*")){
-            AuthorsQuery query = new AuthorsQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, authors));
-            }
-            else{
-                searchResults.retainAll(query.search(bookList, authors));
-            }
-        }
-        else{
-            searchResults = bookList;
-        }
-        // ISBN Query
-        if(!isbn.equals("*")){
-            IsbnQuery query = new IsbnQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, isbn));
-            }
-            else{
-                searchResults.retainAll(query.search(bookList, isbn));
-            }
-
-        }
-        else{
-            searchResults = bookList;
-        }
-        // Publisher Query
-        if(!publisher.equals("*")){
-            PublisherQuery query = new PublisherQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, publisher));
-            }
-            else{
-                searchResults.retainAll(query.search(bookList, publisher));
-            }
-        }
-        else{
-            searchResults = bookList;
-        }
-        // Sort Order Query
-        if(!sortOrder.equals("*")) {
-            if (sortOrder.equals("title")) {
-                TitleSort sorter = new TitleSort();
-                sorter.sort(searchResults);
-            } else if (sortOrder.equals("publish-date")) {
-                PubDateSort sorter = new PubDateSort();
-                sorter.sort(searchResults);
-            } else if (sortOrder.equals("book-status")) {
-                NumAvailSort sorter = new NumAvailSort();
-                sorter.sort(searchResults);
-            } else {
-                System.out.println("The specified sort order doesn't match one of the expected values.");
-                return null;
-            }
-        }
-
-        return searchResults;
-    }
-
-    // Search Book Store
-    public static ArrayList<Book> search(String title, String authors, String isbn, String publisher,
-                                         String sortOrder){
+    // Search Library/Book Store
+    public static String search(String title, String authors, String isbn, String publisher,
+                                         String sortOrder, String location){
 
         ArrayList<Book> searchResults = new ArrayList<Book>();
         Collection<Book> bookCollection = map.values();
 
         ArrayList<Book> bookList = new ArrayList<>();
 
-        // Query all books
-        for(Book book: bookCollection){
-            bookList.add(book);
+        // Choose which books to query
+        if(location.equals("bookstore")){
+            for(Book book: bookCollection){
+                bookList.add(book);
+            }
+        }
+        else{
+            for(Book book: bookCollection){
+                if(book.getTotalNumCopies() >= 1){
+                    bookList.add(book);
+                }
+            }
         }
 
+        // Check for wildcards
+        if(title.equals("*") || authors.equals("*") || isbn.equals("*") || publisher.equals("*")){
+            searchResults = bookList;
+        }
         // Title Query
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
-            searchResults = new ArrayList<Book>(query.search(bookList, title));
-        }
-        else{
-            searchResults = bookList;
+            if(searchResults.isEmpty()) {
+                searchResults = new ArrayList<Book>(query.search(bookList, title));
+            }
+            else{
+                searchResults.retainAll(query.search(bookList, title));
+            }
         }
         // Authors Query
         if(!authors.equals("*")){
@@ -150,9 +81,6 @@ public final class Books extends Database{
                 searchResults.retainAll(query.search(bookList, authors));
             }
         }
-        else{
-            searchResults = bookList;
-        }
         // ISBN Query
         if(!isbn.equals("*")){
             IsbnQuery query = new IsbnQuery();
@@ -162,10 +90,6 @@ public final class Books extends Database{
             else{
                 searchResults.retainAll(query.search(bookList, isbn));
             }
-
-        }
-        else{
-            searchResults = bookList;
         }
         // Publisher Query
         if(!publisher.equals("*")){
@@ -177,9 +101,6 @@ public final class Books extends Database{
                 searchResults.retainAll(query.search(bookList, publisher));
             }
         }
-        else{
-            searchResults = bookList;
-        }
         // Sort Order Query
         if(!sortOrder.equals("*")) {
             if (sortOrder.equals("title")) {
@@ -188,17 +109,19 @@ public final class Books extends Database{
             } else if (sortOrder.equals("publish-date")) {
                 PubDateSort sorter = new PubDateSort();
                 sorter.sort(searchResults);
-            } else {
+
+            }
+            else if (location.equals("library") && sortOrder.equals("book-status")) {
+                NumAvailSort sorter = new NumAvailSort();
+                sorter.sort(searchResults);
+            }
+            else {
                 System.out.println("The specified sort order doesn't match one of the expected values.");
                 return null;
             }
         }
 
-        return searchResults;
-    }
-
-    static public void bookPrint(ArrayList<Book> _books){
-
+        // Book Print
         int isbnLength = 13;
         int titleLength = 10;
         int authorsLength = 10;
@@ -207,9 +130,10 @@ public final class Books extends Database{
         int numOfCopies = 17;
         int availableCopies = 20;
 
+        String searchResultsString = "";
         String line="+";
 
-        for(Book book : _books){
+        for(Book book : searchResults){
 
             if(book.getTitle().length() > titleLength){
                 titleLength = book.getTitle().length();
@@ -269,39 +193,51 @@ public final class Books extends Database{
                 line += "-";
             }
         }
-
-        for(int i=0; i<=numOfCopies; i++){
-            if(i==numOfCopies){
-                line += "+";
+        if(location.equals("library")) {
+            for (int i = 0; i <= numOfCopies; i++) {
+                if (i == numOfCopies) {
+                    line += "+";
+                } else {
+                    line += "-";
+                }
             }
-            else{
-                line += "-";
+
+            for (int i = 0; i <= availableCopies; i++) {
+                if (i == availableCopies) {
+                    line += "+";
+                } else {
+                    line += "-";
+                }
             }
         }
 
-        for(int i=0; i<=availableCopies; i++){
-            if(i==availableCopies){
-                line += "+";
-            }
-            else{
-                line += "-";
-            }
+        searchResultsString += searchResults.size() + " book(s) found.\n";
+        searchResultsString += line + "\n";
+        searchResultsString += String.format("|%-" + isbnLength + "s|%-" + titleLength + "s|%-" + authorsLength +
+                "s|%-" + publisherLength + "s|%-" + dateLength +  "s|", "ISBN", "Book Title", "Author(s)",
+                "Publisher", "Date Published");
+        if(location.equals("library")) {
+            searchResultsString += String.format("%-" + numOfCopies + "s|%-" + availableCopies + "s|",
+                    "Total # Of Copies",
+                    "# Of AvailableCopies");
         }
+        searchResultsString += "\n";
 
-        System.out.println(line);
-        System.out.format("|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+
-                        publisherLength+"s|%-"+dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n",
-                "ISBN","Book Title", "Author(s)", "Publisher", "Date Published", "Total # Of Copies",
-                "# Of AvailableCopies");
-        System.out.println(line);
-        for(Book book: _books){
-            System.out.format("|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+
-                            publisherLength+ "s|%-"+dateLength+"s|%-"+numOfCopies+"s|%-"+availableCopies+"s|\n",
-                    book.getIsbn(),book.getTitle(), book.getAuthorsString(), book.getPublisher(),
-                    book.getPublishedDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")), book.getTotalNumCopies(),
-                    book.getNumAvailableCopies());
+        searchResultsString += line + "\n";
+        for(Book book: searchResults){
+            searchResultsString += String.format("|%-"+isbnLength+"s|%-"+titleLength+"s|%-"+authorsLength+"s|%-"+
+                    publisherLength+ "s|%-"+dateLength+"s|", book.getIsbn(),book.getTitle(), book.getAuthorsString(),
+                    book.getPublisher(), book.getPublishedDate());
+
+            if(location.equals("library")){
+                searchResultsString += String.format("%-"+numOfCopies+"s|%-"+availableCopies+"s|",
+                book.getTotalNumCopies(), book.getNumAvailableCopies());
+            }
+                    searchResultsString += "\n";
         }
-        System.out.println(line);
+        searchResultsString += line + "\n";
+
+        return searchResultsString;
     }
 
     public static HashMap<Long, Book> getMap(){

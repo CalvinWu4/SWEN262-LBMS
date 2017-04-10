@@ -164,18 +164,19 @@ public final class Exchange {
     }
 
 
-    static ArrayList<Parameter> getParamsFromRequest(String query){
-        String[] args = query.split(",");
+    static ArrayList<Parameter> getParamsFromRequest(String query) {
+        // Split on the comma only if that comma has zero, or an even number of quotes ahead of it
+        String[] args = query.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
         ArrayList<Parameter> parameters = new ArrayList<>();
-        if(args.length <= 1){
+        if (args.length <= 1) {
             //return an arrayList with just the query as the only parameter
             parameters.add(new Parameter<>(query));
             return parameters;
-        }else{
+        } else {
             Boolean braketChecker = false;
             ArrayList<String> multiparam = new ArrayList<>();
             String subparam = "";
-            for(int i=1; i<args.length;i++){
+            for (int i = 1; i < args.length; i++) {
                 if (args[i].contains("{")) {
                     braketChecker = true;
                 } else if (args[i].contains("}")) {
@@ -184,12 +185,12 @@ public final class Exchange {
                     parameters.add(new Parameter<>(multiparam));
                     continue;
                 }
-                if (braketChecker){
+                if (braketChecker) {
                     multiparam.add(args[i]);
-                    if(args[i].contains("}")){
+                    if (args[i].contains("}")) {
                         parameters.add(new Parameter<>(multiparam));
                     }
-                }else {
+                } else {
                     parameters.add(new Parameter<>(args[i]));
                 }
 

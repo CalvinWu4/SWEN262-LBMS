@@ -39,12 +39,7 @@ public class Book implements Serializable{
         return authors;
     }
     public String getAuthorsString(){
-        String auths = "";
-        for(String author : authors){
-            auths += author+",";
-        }
-        auths = auths.replaceAll(",","");
-        return auths;
+        return getAuthors().toString().replaceAll("\\[","{").replaceAll("]","}").replaceAll(",  ",", ");
     }
     public String getPublisher(){
         return publisher;
@@ -84,13 +79,5 @@ public class Book implements Serializable{
     }
     public void setNumAvailableCopies(Integer _numAvailableCopies){
         this.numAvailableCopies = _numAvailableCopies;
-    }
-
-    @Override
-    public String toString(){
-        ArrayList<Book> booky = new ArrayList<>();
-        booky.add(this);
-        Books.bookPrint(booky);
-        return "";
     }
 }

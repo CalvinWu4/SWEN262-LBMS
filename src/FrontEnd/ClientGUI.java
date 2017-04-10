@@ -10,13 +10,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import java.util.ArrayList;
 
 /**
- * Created by Jp on 4/3/17.
+ * Created by Anthony Perez on 4/3/17.
  */
 public class ClientGUI {
     BorderPane layoutPane = new BorderPane();
@@ -51,7 +52,9 @@ public class ClientGUI {
 
 
         txtResponse.setPrefWidth(550);
-        //txtResponse.setDisable(true);
+        txtResponse.setStyle("-fx-font-family: monospace");
+        txtResponse.setEditable(false);
+        txtResponse.setFont(Font.font(10.75));
 
         txtHeader.setText(this.currentView.printUI());
 

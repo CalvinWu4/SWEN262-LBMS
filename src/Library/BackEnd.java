@@ -35,15 +35,7 @@ public final class BackEnd {
      */
     static public Response LibraryBookSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        ArrayList<Book> results = Books.info(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4]);
-        if(results == null ||  results.size() == 0 || (results.get(0) == null)){
-
-            System.out.println("The search returned an empty result");
-        }else {
-            Books.bookPrint(results);
-        }
-        // Example of a response with a view to be changed to, only necessary when the response needs to take the user to a different view
-        return new Response("");
+        return new Response(Books.search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"library"));
     }
 
     /**
@@ -53,14 +45,7 @@ public final class BackEnd {
      */
     static public Response BookStoreSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        ArrayList<Book> results = Books.search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4]);
-        if(results == null ||  results.size() == 0 || (results.get(0) == null)){
-            System.out.println("The search returned an empty result");
-        }else {
-            Books.bookPrint(results);
-        }
-        // Example of a response with a view to be changed to, only necessary when the response needs to take the user to a different view
-        return new Response("");
+        return new Response(Books.search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore"));
     }
 
     /**
@@ -279,7 +264,6 @@ public final class BackEnd {
         String authors = "";//Initial authors string, it will stay like that if there are no authors
 
         for(int i = 0; i<bookSearchParams.length; i++){
-
             if(i < params.size()) {
                 Parameter param = params.get(i);
                 //If the parameter is an author then add it to authors array

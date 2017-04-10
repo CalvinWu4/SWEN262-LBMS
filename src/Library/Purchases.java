@@ -44,7 +44,6 @@ public final class Purchases extends Database implements Serializable{
                 Integer prevNumAvailableCopies = book.getNumAvailableCopies();
                 book.setTotalNumCopies(prevTotalNumCopies + quantity);
                 book.setNumAvailableCopies(prevNumAvailableCopies + quantity);
-//                Books.saveToFile();
                 if (!map.containsKey(Time.getDate())) {
                     map.put(Time.getDate(), quantity);
                 } else {
@@ -52,8 +51,8 @@ public final class Purchases extends Database implements Serializable{
                     map.put(Time.getDate(), oldQuantity + quantity);
                 }
                 seen.add(isbn);
-                result += book.getIsbn() + "," + book.getTitle() + "," + "{" + book.getAuthorsString() + "}" + "," +
-                        book.getPublishedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "," +
+                result += book.getIsbn() + "," + book.getTitle() + "," + book.getAuthorsString() + "," +
+                        book.getPublishedDate() + "," +
                         book.getTotalNumCopies() + "\n";
             }
         }

@@ -3,7 +3,7 @@ package FrontEnd;
 import java.util.HashMap;
 
 /**
- * Created by Jp on 4/4/17.
+ * Created by Anthony Perez on 4/4/17.
  */
 public class GUIClients {
     HashMap<Integer,ClientGUI> clientHash = new HashMap<Integer,ClientGUI>();

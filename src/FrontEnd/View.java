@@ -11,11 +11,10 @@ import java.util.*;
 
 
 
-
 public class View {
 
     /** The top and bottom borders of the UI **/
-    static private String border = "==================================================";
+    static private String border = "=======================";
 
     /** The options currently available for the view **/
     private TreeMap<String,MenuOption> options;
@@ -75,8 +74,8 @@ public class View {
 
         /** Books **/
         TreeMap<String,MenuOption> BookOptions =  new TreeMap<>();
-        MenuOption BookSearch = new MenuOption("info","Search for books in the bookstore - ex: \'info,\"title\",author(s),isbn,publisher,sortBy;\'",new BackEndCommand("LibraryBookSearch"),2,true);
-        MenuOption BookStoreSearch  = new MenuOption("search","Search for books in the library - ex: \'info,\"title\",author(s),isbn,publisher,sortBy;\'",new BackEndCommand("BookStoreSearch"),1,true);
+        MenuOption BookSearch = new MenuOption("info","Search for books in the library - ex: \'info,\"title\",author(s),isbn,publisher,sortBy;\'",new BackEndCommand("LibraryBookSearch"),2,true);
+        MenuOption BookStoreSearch  = new MenuOption("search","Search for books in the bookstore - ex: \'info,\"title\",author(s),isbn,publisher,sortBy;\'",new BackEndCommand("BookStoreSearch"),1,true);
         MenuOption BookPurchase  = new MenuOption("buy","Purchase a book - ex: \'buy,quantity,author(s),isbn(isbns separated by commas);\'",new BackEndCommand("BookPurchase"),2,true);
         BookOptions.put(back.getKeyWord(),back);
         BookOptions.put(BookSearch.getKeyWord(),BookSearch);
