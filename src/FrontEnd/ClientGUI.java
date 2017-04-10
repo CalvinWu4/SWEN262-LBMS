@@ -54,11 +54,12 @@ public class ClientGUI {
         txtResponse.setPrefWidth(550);
         txtResponse.setStyle("-fx-font-family: monospace");
         txtResponse.setEditable(false);
-        txtResponse.setFont(Font.font(10.75));
+//        txtResponse.setFont(Font.font(10.75));
 
         txtHeader.setText(this.currentView.printUI());
 
         txtHeader.setPrefWidth(250);
+        txtHeader.setEditable(false);
         txtHeader.setWrapText(true);
         txtHeader.setStyle("-fx-font-weight:  bold");
 
@@ -124,6 +125,7 @@ public class ClientGUI {
                 event.consume();
             }
         });
+
 
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override

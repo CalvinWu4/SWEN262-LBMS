@@ -7,6 +7,7 @@
 import FrontEnd.*;
 import Library.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -18,6 +19,9 @@ import FrontEnd.Exchange;
 import FrontEnd.Response;
 import FrontEnd.View;
 import Library.*;
+import javafx.stage.WindowEvent;
+
+import java.util.ArrayList;
 
 public class Main extends Application{
 
@@ -36,10 +40,8 @@ public class Main extends Application{
         MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
         MenuItem newClient = new MenuItem("New Client");
-        MenuItem appExit = new MenuItem("Exit");
 
         menuFile.getItems().add(newClient);
-        menuFile.getItems().add(appExit);
 
         menuBar.getMenus().addAll(menuFile);
 
@@ -86,10 +88,18 @@ public class Main extends Application{
             }
         });
 
-        appExit.setOnAction(new EventHandler<ActionEvent>() {
+        primaryStage.setOnHiding(new EventHandler<WindowEvent>() {
+
             @Override
-            public void handle(ActionEvent event) {
-                System.exit(0);
+            public void handle(WindowEvent event) {
+                Platform.runLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        BackEnd.exit(new ArrayList<>());
+                        System.exit(0);
+                    }
+                });
             }
         });
 

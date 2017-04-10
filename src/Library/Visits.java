@@ -62,6 +62,7 @@ public final class Visits extends Database{
         if(map.get(visitorID) == null){
             ArrayList<Visit> visits = new ArrayList<>();
             visits.add(activeVisit);
+            map.put(Time.getDate(), visits);
         }
         else{
             map.get(Time.getDate()).add(activeVisit);
