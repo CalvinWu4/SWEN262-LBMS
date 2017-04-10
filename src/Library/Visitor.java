@@ -16,7 +16,7 @@ public class Visitor implements Serializable{
     private LocalDate regDate;
     private Visit activeVisit;
 
-    Visitor(String firstName, String lastName, String address, String phone, Integer id, LocalDate regDate){
+    public Visitor(String firstName, String lastName, String address, String phone, Integer id, LocalDate regDate){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;

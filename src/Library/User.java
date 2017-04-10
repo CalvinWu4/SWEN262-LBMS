@@ -1,5 +1,7 @@
 package Library;
 
+import Library.Database.Users;
+
 import java.io.Serializable;
 
 /**
@@ -13,7 +15,7 @@ public class User implements Serializable{
     private String role;
     private Integer visitorID;
 
-    User(Integer _uid, String _username, String _password, String role, Integer visitorID){
+    public User(Integer _uid, String _username, String _password, String role, Integer visitorID){
         this.username = _username;
         this.password = _password;
         this.role = role;

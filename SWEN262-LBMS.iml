@@ -8,15 +8,15 @@
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="commons-csv-1.4" level="project" />
+    <orderEntry type="library" name="json-lib-2.4-jdk15" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/Library/commons-csv-1.4/commons-csv-1.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/commons-csv-1.4/commons-csv-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="json-lib-2.4-jdk15" level="project" />
   </component>
 </module>

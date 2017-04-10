@@ -1,5 +1,8 @@
-package Library;
+package Library.Database;
 
+import Library.Book;
+import Library.Database.Database;
+import Library.Parser;
 import Library.Query.*;
 import Library.Sort.*;
 
@@ -11,7 +14,7 @@ import java.util.HashMap;
 /**
  * Created by Anthony Perez on 3/5/17.
  */
-public final class Books extends Database{
+public final class Books extends Database {
     private static HashMap<Long, Book> map;
     private static final File FILE = new File("books.ser");
 

@@ -1,6 +1,7 @@
 package Library;
 
 import FrontEnd.*;
+import Library.Database.*;
 
 import java.util.ArrayList;
 
@@ -63,7 +64,7 @@ public final class BackEnd {
 //            for (String id : (ArrayList<String>)params.get(1).getParam()){
 //                booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
 //            }
-        return new Response("buy,"+Purchases.purchase(Integer.parseInt((String)params.get(0).getParam()),booksIds));
+        return new Response("buy,"+ Purchases.purchase(Integer.parseInt((String)params.get(0).getParam()),booksIds));
     }
 
 
@@ -140,7 +141,7 @@ public final class BackEnd {
         for(int i = 1; i < params.size(); i++){
             booksIds.add(Long.parseLong((String) params.get(i).getParam()));
         }
-        return new Response("borrow,"+Transactions.borrow(Integer.parseInt((String)params.get(0).getParam()),booksIds));
+        return new Response("borrow,"+ Transactions.borrow(Integer.parseInt((String)params.get(0).getParam()),booksIds));
     }
 
     /**

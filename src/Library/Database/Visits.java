@@ -1,4 +1,10 @@
-package Library;
+package Library.Database;
+
+import Library.Database.Database;
+import Library.Database.Time;
+import Library.Database.Visitors;
+import Library.Visit;
+import Library.Visitor;
 
 import java.io.*;
 import java.time.Duration;
@@ -12,9 +18,9 @@ import java.util.TreeMap;
 /**
  * Created by Calvin on 3/19/2017.
  */
-public final class Visits extends Database{
+public final class Visits extends Database {
     private static HashMap<LocalDate, ArrayList<Visit>> map;
-    public static final File FILE = new File("visits.ser");
+    private static final File FILE = new File("visits.ser");
 
 
     public Visits() {

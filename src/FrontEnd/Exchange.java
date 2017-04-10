@@ -9,10 +9,9 @@ import FrontEnd.Command.MenuOption;
 import FrontEnd.Command.ViewCommand;
 import Library.State.OpenState;
 import Library.BackEnd;
-import Library.Time;
+import Library.Database.Time;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.TreeMap;
 
 /** FrontEnd.Exchange class reads the user input, interprets the input and executes the selected action

@@ -1,4 +1,6 @@
-package Library;
+package Library.Database;
+
+import Library.Book;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -10,7 +12,7 @@ import java.util.HashMap;
  */
 public final class Purchases extends Database implements Serializable{
     private static HashMap<LocalDate, Integer> map; // Date, NumBooksPurchased
-    public static final File FILE = new File("purchases.ser");
+    private static final File FILE = new File("purchases.ser");
 
     public Purchases() {
         map = new HashMap<>();

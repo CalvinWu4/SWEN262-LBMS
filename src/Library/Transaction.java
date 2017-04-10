@@ -1,9 +1,8 @@
 package Library;
 
-import org.omg.PortableInterceptor.LOCATION_FORWARD;
+import Library.Database.Time;
 
 import java.io.Serializable;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -19,7 +18,7 @@ public class Transaction implements Serializable{
     private LocalDate returnedDate;
 
 
-    Transaction(Long isbn, LocalDate dateBorrowed, LocalDate dueDate){
+    public Transaction(Long isbn, LocalDate dateBorrowed, LocalDate dueDate){
         this.isbn = isbn;
         this.dateBorrowed = dateBorrowed;
         this.dueDate = dateBorrowed.plusWeeks(1);

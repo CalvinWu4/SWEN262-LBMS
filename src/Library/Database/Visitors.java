@@ -1,16 +1,20 @@
-package Library;
+package Library.Database;
+
+import Library.Database.Database;
+import Library.Database.Time;
+import Library.Visitor;
 
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.*;
 
 /**
- * A Database for the visitor Object
+ * A Library.Database.Database for the visitor Object
  * Created by cxw7054 on 3/10/2017.
  *
  *
  */
-public final class Visitors extends Database{
+public final class Visitors extends Database {
 
     private static TreeMap<Integer, Visitor> map; // visitorId, Visitor
     private static final File FILE = new File("visitors.ser");

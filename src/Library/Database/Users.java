@@ -1,4 +1,9 @@
-package Library;
+package Library.Database;
+
+import Library.Database.Database;
+import Library.Database.Time;
+import Library.Database.Visitors;
+import Library.User;
 
 import java.io.*;
 import java.time.format.DateTimeFormatter;
@@ -8,7 +13,7 @@ import java.util.TreeMap;
 /**
  * Created by Jp on 4/5/17.
  */
-public final class Users extends Database{
+public final class Users extends Database {
 
     private static TreeMap<Integer, User> map; // visitorId, Visitor
     private static final File FILE = new File("users.ser");

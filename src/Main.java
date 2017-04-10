@@ -6,6 +6,7 @@
  */
 import FrontEnd.*;
 import Library.*;
+import Library.Database.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -15,10 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import FrontEnd.Exchange;
-import FrontEnd.Response;
 import FrontEnd.View;
-import Library.*;
 import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;

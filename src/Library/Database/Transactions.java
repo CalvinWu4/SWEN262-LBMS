@@ -1,4 +1,8 @@
-package Library;
+package Library.Database;
+
+import Library.Book;
+import Library.Fine;
+import Library.Transaction;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -9,9 +13,9 @@ import java.util.HashMap;
 /**
  * Created by Calvin on 3/13/2017.
  */
-public final class Transactions extends Database{
+public final class Transactions extends Database {
     private static HashMap<Integer, ArrayList<Transaction>> map; // visitorId, borrowed books list
-    public static final File FILE = new File("transactions.ser");
+    private static final File FILE = new File("transactions.ser");
 
     public Transactions() {
         map = new HashMap<>();

@@ -2,7 +2,7 @@ package FrontEnd;
 
 import Library.BackEnd;
 import Library.User;
-import Library.Users;
+import Library.Database.Users;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -10,11 +10,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-
-import java.util.ArrayList;
 
 /**
  * Created by Anthony Perez on 4/3/17.
