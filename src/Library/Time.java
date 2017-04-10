@@ -6,7 +6,6 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -87,7 +86,7 @@ public final class Time extends Database implements Serializable{
     }
 
     public static String display(){
-        return dateTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+        return dateTime.toString();
     }
 
     // Helper function to exit all active visitors when the library closes
@@ -102,9 +101,6 @@ public final class Time extends Database implements Serializable{
     // Getters
     public static LocalDate getDate(){
         return dateTime.toLocalDate();
-    }
-    public static String getDateString(){
-        return Time.getDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
     public static LocalTime getTime(){
         return dateTime.toLocalTime();

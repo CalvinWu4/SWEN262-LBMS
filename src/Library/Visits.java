@@ -44,7 +44,7 @@ public final class Visits extends Database{
         }
         Visit visit = new Visit(visitorID, Time.getDateTime());
         visitor.setActiveVisit(visit);
-        return ("Visitor ID:" + visitor.getIdString() + " has begun his visit on " + Time.getDateString() + " at " + Time.getTime());
+        return ("Visitor ID:" + visitor.getIdString() + " has begun his visit on " + Time.getDate() + " at " + Time.getTime());
     }
 
     public static String leave(Integer visitorID, LocalTime time) {

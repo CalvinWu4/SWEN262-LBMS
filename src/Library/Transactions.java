@@ -2,7 +2,6 @@ package Library;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -82,7 +81,7 @@ public final class Transactions extends Database{
             }
         }
         return("Books have been borrowed and are due " +
-                dueDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+                dueDate);
     }
 
     public static String findBooks(Integer visitorId) {
@@ -100,7 +99,7 @@ public final class Transactions extends Database{
                 tempId++;
                 Book book = Books.getMap().get(transaction.getIsbn());
                 result += (tempId + "," + book.getIsbn() + "," + book.getTitle() + "," +
-                        transaction.getDateBorrowed().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")) + "\n");
+                        transaction.getDateBorrowed() + "\n");
             }
             return result;
         }

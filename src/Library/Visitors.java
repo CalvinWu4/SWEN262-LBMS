@@ -48,7 +48,7 @@ public final class Visitors extends Database{
             map.put(1,newVisitor);
         }
         return("Visitor ID:"+ tenDigit.format(map.lastKey()) + " has been registered on " +
-                Time.getDateString() + ".");
+                Time.getDate() + ".");
     }
 
     public static TreeMap<Integer, Visitor> getMap(){
