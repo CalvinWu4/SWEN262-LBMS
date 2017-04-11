@@ -1,19 +1,18 @@
-
-package Library.State;
-
+package Library.LibraryState;
 
 import FrontEnd.Response;
 
 /**
  * Created by Brandon on 3/25/2017.
  */
-public class OpenState implements OpenOrClosed{
+public class ClosedState implements LibraryState {
 
 
     @Override
-    public void toggle(OpenClosedContext wrapper){
-        wrapper.setState(new ClosedState());
+    public void toggle(LibraryContext wrapper){
+        wrapper.setState(new OpenState());
     }
+
     @Override
     public Response returnResponse() {
         return null;

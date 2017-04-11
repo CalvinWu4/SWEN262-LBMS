@@ -1,4 +1,4 @@
-package Library.Sort;
+package Library.BookSort;
 
 import Library.Book;
 
@@ -9,20 +9,20 @@ import java.util.Comparator;
 /**
  * Created by Tyler Lima on 3/5/2017.
  *
- * Sorting by Title
+ * Sorting by Published Date
  */
-public class TitleSort implements BookSort {
+public class PubDateSort implements BookSort {
 
-    private Comparator<Book> TitleComparator = new Comparator<Library.Book>() {
+    private Comparator<Book> PubDateComparator = new Comparator<Library.Book>() {
 
         @Override
         public int compare(Library.Book book1, Library.Book book2) {
-            return book1.getTitle().compareTo(book2.getTitle());
+            return book1.getPublishedDate().compareTo(book2.getPublishedDate());
         }
     };
 
     @Override
     public void sort(ArrayList<Book> books) {
-        Collections.sort(books, TitleComparator);
+        Collections.sort(books, PubDateComparator);
     }
 }

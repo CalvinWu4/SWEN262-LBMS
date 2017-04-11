@@ -1,7 +1,7 @@
 package Library.Database;
 
 import Library.*;
-import Library.State.OpenClosedContext;
+import Library.LibraryState.LibraryContext;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -22,13 +22,13 @@ public final class Time extends Database implements Serializable{
     private static final LocalTime openingTime = LocalTime.of(7,59);
     private static final LocalTime closingTime = LocalTime.of(19,0);
     // Context field that will check the state of the library for open or closed
-    static private OpenClosedContext context = new OpenClosedContext();
+    static private LibraryContext context = new LibraryContext();
     private static final File FILE = new File("time.ser");
 
 
     public Time() {
         dateTime = startDateTime;
-        context = new OpenClosedContext();
+        context = new LibraryContext();
         load();
     }
 
@@ -82,7 +82,7 @@ public final class Time extends Database implements Serializable{
         return ("Success");
     }
 
-    static public OpenClosedContext getTimeContext(){
+    static public LibraryContext getTimeContext(){
         return context;
     }
 

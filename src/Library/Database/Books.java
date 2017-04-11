@@ -1,10 +1,9 @@
 package Library.Database;
 
 import Library.Book;
-import Library.Database.Database;
 import Library.Parser;
-import Library.Query.*;
-import Library.Sort.*;
+import Library.BookQuery.*;
+import Library.BookSort.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -63,7 +62,7 @@ public final class Books extends Database {
         if(title.equals("*") || authors.equals("*") || isbn.equals("*") || publisher.equals("*")){
             searchResults = bookList;
         }
-        // Title Query
+        // Title BookQuery
         if(!title.equals("*")){
             TitleQuery query = new TitleQuery();
             if(searchResults.isEmpty()) {
@@ -73,7 +72,7 @@ public final class Books extends Database {
                 searchResults.retainAll(query.search(bookList, title));
             }
         }
-        // Authors Query
+        // Authors BookQuery
         if(!authors.equals("*")){
             AuthorsQuery query = new AuthorsQuery();
             if(searchResults.isEmpty()) {
@@ -83,7 +82,7 @@ public final class Books extends Database {
                 searchResults.retainAll(query.search(bookList, authors));
             }
         }
-        // ISBN Query
+        // ISBN BookQuery
         if(!isbn.equals("*")){
             IsbnQuery query = new IsbnQuery();
             if(searchResults.isEmpty()) {
@@ -93,7 +92,7 @@ public final class Books extends Database {
                 searchResults.retainAll(query.search(bookList, isbn));
             }
         }
-        // Publisher Query
+        // Publisher BookQuery
         if(!publisher.equals("*")){
             PublisherQuery query = new PublisherQuery();
             if(searchResults.isEmpty()) {
@@ -103,7 +102,7 @@ public final class Books extends Database {
                 searchResults.retainAll(query.search(bookList, publisher));
             }
         }
-        // Sort Order Query
+        // BookSort Order BookQuery
         if(!sortOrder.equals("*")) {
             if (sortOrder.equals("title")) {
                 TitleSort sorter = new TitleSort();

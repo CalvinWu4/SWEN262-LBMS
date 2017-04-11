@@ -7,7 +7,7 @@ package FrontEnd;
 import FrontEnd.Command.BackEndCommand;
 import FrontEnd.Command.MenuOption;
 import FrontEnd.Command.ViewCommand;
-import Library.State.OpenState;
+import Library.LibraryState.OpenState;
 import Library.BackEnd;
 import Library.Database.Time;
 

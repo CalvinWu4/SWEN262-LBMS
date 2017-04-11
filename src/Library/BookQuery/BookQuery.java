@@ -1,4 +1,4 @@
-package Library.Query;
+package Library.BookQuery;
 import Library.Book;
 import java.util.ArrayList;
 
