@@ -9,13 +9,15 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="commons-csv-1.4" level="project" />
     <orderEntry type="library" name="json-lib-2.4-jdk15" level="project" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/src/commons-csv-1.4/commons-csv-1.4.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/Java_JSON/java-json.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$USER_HOME$/Documents/Java_JSON/java-json.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>
