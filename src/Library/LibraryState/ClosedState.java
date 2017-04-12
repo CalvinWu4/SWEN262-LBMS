@@ -12,9 +12,4 @@ public class ClosedState implements LibraryState {
     public void toggle(LibraryContext wrapper){
         wrapper.setState(new OpenState());
     }
-
-    @Override
-    public Response returnResponse() {
-        return null;
-    }
 }

@@ -14,8 +14,4 @@ public class OpenState implements LibraryState {
     public void toggle(LibraryContext wrapper){
         wrapper.setState(new ClosedState());
     }
-    @Override
-    public Response returnResponse() {
-        return null;
-    }
 }
