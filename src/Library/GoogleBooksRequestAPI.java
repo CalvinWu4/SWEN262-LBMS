@@ -42,11 +42,21 @@ class RequestAPIExample {
                 JSONObject jobj = arr.getJSONObject(i).getJSONObject("volumeInfo");
 
                 String title = jobj.getString("title");
-                //JSONArray authors = jobj.getJSONArray("authors");
 
-//                String publisher = jobj.getString("publisher");
-//                String published = jobj.getString("publishedDate");
-//                String description =jobj.getString("description");
+                //TODO: TYLER create cases to handle json objects without publisher, publisherDate, and description
+
+                if(jobj.has("authors")) {
+                    JSONArray authors = jobj.getJSONArray("authors");
+                }
+                if(jobj.has("publisher")){
+                    String publisher = jobj.getString("publisher");
+                }
+                if(jobj.has("publishedDate")) {
+                    String published = jobj.getString("publishedDate");
+                }
+                if(jobj.has("description")) {
+                    String description =jobj.getString("description");
+                }
 
                 System.out.println(title);
             }
