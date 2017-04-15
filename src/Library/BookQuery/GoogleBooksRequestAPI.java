@@ -14,20 +14,17 @@ class RequestAPIExample {
     public static void main(String[] args) throws IOException {
         String url = "https://www.googleapis.com/books/v1/volumes/?q=";
 
-        //TODO: auth key not working; investigate why
-        //String authCode = "&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4";
+        String authCode = "&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4";
 
         Scanner input = new Scanner(System.in);
         System.out.println("Input search request here: ");
         String searchParam = input.nextLine();
 
-        //String searchParam = "Harry Potter and the order of the Phoenix";//temp search term for testing
-
         //Get user input search feature from gui search here
         searchParam = searchParam.replace(" ", "+");
 
         // Create a URL and open a connection
-        URL GoogleURL = new URL(url+ searchParam ); //+ authCode <- put this back in once I figure out why the key isn't working
+        URL GoogleURL = new URL(url+ searchParam + authCode);
         HttpURLConnection con = (HttpURLConnection) GoogleURL.openConnection();
 
         // Set the HTTP Request type method to GET (Default: GET)
@@ -70,10 +67,9 @@ class RequestAPIExample {
                     System.out.println(published);
                 }
                 if(jobj.has("pageCount")) {
-                    String description =jobj.getString("description");
-                    System.out.println(description + "\n");
+                    int pageCount = jobj.getInt("pageCount");
+                    System.out.println(pageCount + "\n");
                 }
-
 
 
             }
