@@ -12,11 +12,10 @@ public class CommandManager {
     private Stack<BackEndCommand> redoStack = new Stack<>();
 
     public void executeCmd(BackEndCommand cmd) {
-//        redoStack = new Stack<>(); // clear the redo stack
+//      redoStack = new Stack<>(); // clear the redo stack
         cmd.execute();
 //        if(cmd instanceof UndoableCommand) {
 //            undoStack.push(cmd);
-//            redoStack.push(cmd);
 //        }
     }
 
@@ -24,9 +23,6 @@ public class CommandManager {
         if(undoStack.isEmpty()) {
             return;
         }
-//        UndoableCommand cmd = (UndoableCommand)undoStack.pop();
-//        cmd.undo();
-
 //        undoStack.peek().undo();          // undo most recently executed command
 //        redoStack.push(undoStack.peek()); // add undone command to undo stack
 //        undoStack.pop();                  // remove top entry from undo stack
@@ -36,13 +32,10 @@ public class CommandManager {
         if(redoStack.isEmpty()) {
             return;
         }
-//        UndoableCommand cmd = (UndoableCommand)redoStack.pop();
-//        cmd.redo();
-
 //        redoStack.peek().redo();          // redo most recently executed command
 //        undoStack.push(redoStack.peek()); // add undone command to redo stack
 //        redoStack.pop();                  // remove top entry from redo stack
-//            cmd.execute();
+//        cmd.execute();
 
     }
 }

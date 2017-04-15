@@ -33,8 +33,8 @@ public final class Purchases extends Database implements Serializable{
         String result = "success\n";
         ArrayList<Long> seen = new ArrayList<>();
         for (Long isbn : isbns) {
-            Book book = Books.getMap().get(isbn);
-            if (!Books.getMap().containsKey(isbn)) {
+            Book book = RealBooks.getMap().get(isbn);
+            if (!RealBooks.getMap().containsKey(isbn)) {
                 return ("One or more of the book ISBNs are not valid.");
             }
             else if(seen.contains(isbn)){

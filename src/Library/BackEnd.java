@@ -36,7 +36,7 @@ public final class BackEnd {
      */
     static public Response LibraryBookSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        return new Response(Books.search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"library"));
+        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"library"));
     }
 
     /**
@@ -46,7 +46,7 @@ public final class BackEnd {
      */
     static public Response BookStoreSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        return new Response(Books.search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore"));
+        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore"));
     }
 
     /**
@@ -247,7 +247,7 @@ public final class BackEnd {
                 visitor.getActiveVisit().setDeparture(Time.getDateTime());
             }
         }
-        Books.save();
+        new ProxyBooks().save();
         Visits.save();
         Visitors.save();
         Transactions.save();
