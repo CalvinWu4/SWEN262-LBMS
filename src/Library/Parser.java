@@ -1,6 +1,6 @@
 package Library;
 
-import Library.Database.Books;
+import Library.Database.RealBooks;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -34,7 +34,7 @@ public class Parser {
             }
         }
 
-        HashMap<Long, Book> bookHashMap = Books.getMap();
+        HashMap<Long, Book> bookHashMap = RealBooks.getMap();
         assert fileParser != null;
         for(CSVRecord record : fileParser){
 

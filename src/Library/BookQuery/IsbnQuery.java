@@ -1,7 +1,7 @@
 package Library.BookQuery;
 
 import Library.Book;
-import Library.Database.Books;
+import Library.Database.RealBooks;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class IsbnQuery implements BookQuery {
     @Override
     public ArrayList<Book> search(ArrayList<Book> books, String searchParam){
         ArrayList<Book> newBooks = new ArrayList<>();
-        newBooks.add(Books.getMap().get(Long.parseLong(searchParam)));
+        newBooks.add(RealBooks.getMap().get(Long.parseLong(searchParam)));
         return newBooks;
     }
 }
