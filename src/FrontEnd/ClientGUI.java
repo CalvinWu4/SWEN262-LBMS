@@ -106,17 +106,7 @@ public class ClientGUI {
 
         txtSubmit.setOnKeyPressed(event -> {
             if(event.getCode() == KeyCode.ENTER){
-
-                String text;
-                if(clientConnection){
-                    text = (txtSubmit.getText().equals("")) ? "" : txtSubmit.getText().substring(5,txtSubmit.getText().length());
-                }
-                else{
-                    text = txtSubmit.getText();
-                }
-
-                this.handleSubmission(text);
-
+                this.handleSubmission(getTextFromInput());
                 event.consume();
             }
         });
@@ -125,21 +115,28 @@ public class ClientGUI {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String text;
-                if(clientConnection){
-                    text = (txtSubmit.getText().equals("")) ? "" : txtSubmit.getText().substring(5,txtSubmit.getText().length());
-                }
-                else{
-                    text = txtSubmit.getText();
-                }
-
-                handleSubmission(text);
+                handleSubmission(getTextFromInput());
             }
         });
     }
 
     public BorderPane returnClientGUI(){
         return layoutPane;
+    }
+
+    /**
+     * Obtains the String typed in the input and checks that it is valid
+     * @return
+     */
+    private String getTextFromInput(){
+        String text;
+        if(clientConnection){
+            text = (txtSubmit.getText().length() <= 5 && !txtSubmit.getText().contains(";")) ? "\0" : txtSubmit.getText().substring(5,txtSubmit.getText().length());
+        }
+        else{
+            text = txtSubmit.getText();
+        }
+        return text;
     }
 
     public void changeHeader(String txt){
@@ -221,9 +218,11 @@ public class ClientGUI {
 //                        this.setLoginStatus(login(loginData[1],loginData[2]));
 //                        this.addResponse(clientLogin ? "Successful Login!" : "Login Failed. Please Try again.");
 //                    }
-                    if(text.substring(0,11).equals("login,true;")){
+                    if(text.contains("login,true;")){
+                        //HAKZ
                         this.setLoginStatus(true);
-                        this.addResponse(clientLogin ? "Successful Login!" : "Login Failed. Please Try again.");
+                        this.addResponse("Successful Login!");
+                        this.changeHeader(this.currentView.printUI());
                     }
                     else{
                         this.addResponse(text+"\n");
@@ -231,8 +230,7 @@ public class ClientGUI {
                     }
                     break;
             }
-        }
-        if(clientConnection && clientLogin){
+        }else if(clientConnection && clientLogin){
             Response response = Exchange.interpret(text,this.currentView);
             if(text.equals("logout;")){
                 this.addResponse(text+"\n");
@@ -256,51 +254,6 @@ public class ClientGUI {
             }
             txtResponse.appendText("\n"+response.getResponseMessage());
         }
-
-
-//                if(text.equals("connect;") && !clientLogin && !clientConnection){
-//                    txtResponse.appendText(text+"\n");
-//                    txtResponse.appendText("Sucessful connection to LBMS network!\n");
-//                    setConnectionStatus(clients.connectClient(this));
-//                    this.changeHeader("===========================\nWelcome to the LBMS Application\nPlease log in to the library network with the following command:\n\"login,'username','password';\"\n===========================");
-//                }
-//                else if(text.equals("connect;") && !clientLogin && clientConnection){
-//                    txtResponse.appendText(text+"\n");
-//                    txtResponse.appendText("You already have a connection to LBMS network!\n");
-//                }
-//
-//                else if(text.equals("disconnect;") && !clientLogin && clientConnection){
-//                    txtResponse.appendText(text+"\n");
-//                    txtResponse.appendText("Sucessful disconnection to LBMS network!\n");
-//                    setConnectionStatus(clients.disconnectClient(this));
-//                    this.changeHeader("===========================\nWelcome to the LBMS Application\nPlease connect to the library network with the following command:\n\"connect;\"\n===========================");
-//                }
-//                else if(text.equals("disconnect;") && !clientLogin && !clientConnection){
-//                    txtResponse.appendText(text+"\n");
-//                    txtResponse.appendText("You do not have a connection to the LBMS network!\n");
-//                }
-//
-//                if(clientConnection || clientLogin){
-//                    Response response = Exchange.interpret(text,this.currentView);
-//                    if(!response.isEndResponse()){
-//                        // Only if there is a view attached to the response we assign a new view, otherwise just loop with
-//                        // the same view as before, so that if there is a problem with the response just loop again
-//                        if(response.getResponseView() != null ){
-//                            this.currentView = response.getResponseView();
-//                            txtHeader.setText(this.currentView.printUI());
-//                        }else if(BackEnd.isDebugMode()){
-//                            txtResponse.appendText("\nThe view specified for the back end method was not found");
-//                        }
-//                    }else{
-//                        System.exit(0);
-//                    }
-//                    txtResponse.appendText("\n"+response.getResponseMessage());
-//                }
-//                else{
-//                    txtResponse.appendText(text+"\n");
-//                    txtResponse.appendText("Invalid command, please connect to Library Network.\n");
-//                }
-//
         txtSubmit.clear();
         if(clientConnection){
             txtSubmit.setText(returnID()+" >> ");

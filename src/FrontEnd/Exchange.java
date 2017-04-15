@@ -38,20 +38,22 @@ public final class Exchange {
      * @param query: The finished query typed by the user.
      */
     static public Response interpret(String query, View ViewForOptions) {
+
+
+        // Options to find the valid commands from
+        viewAfterResponse = ViewForOptions;
+        options = ViewForOptions.getOptions();
+
+        //Cleanup and basic check of semicolon
         query = query.trim();
-
         if ((query = removeAndCheckSemicolon(query)).equals("\0"))
-            return new Response("All commands should end with a '0'").setResponseView(viewAfterResponse);
+            return new Response("All commands should end with a ';'").setResponseView(viewAfterResponse);
 
+        //Find the selected option given the trigger word from the query
         String[] args = query.split(",");
         String mainTrigger = args[0];
-        // Check that the query has at least a comma to show that iu
-        viewAfterResponse = ViewForOptions;
-        // Options to choose from, each will perform a series of Commands
-        TreeMap<String,MenuOption> theOptions = ViewForOptions.getOptions();
-        options = theOptions;
-        //Find the selected option given the trigger word from the query
         MenuOption chosenOption = options.get(mainTrigger);
+
         if (chosenOption != null) {
             //Check that the option is available after the library has closed
             if (chosenOption.isAvailableAfterClosed() || Time.getTimeContext().getState() instanceof OpenState) {
