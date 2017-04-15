@@ -126,17 +126,11 @@ public class ClientGUI {
 
     /**
      * Obtains the String typed in the input and checks that it is valid
-     * @return
+     * @return The string given bythe user
      */
     private String getTextFromInput(){
-        String text;
-        if(clientConnection){
-            text = (txtSubmit.getText().length() <= 5 && !txtSubmit.getText().contains(";")) ? "\0" : txtSubmit.getText().substring(5,txtSubmit.getText().length());
-        }
-        else{
-            text = txtSubmit.getText();
-        }
-        return text;
+            String text = txtSubmit.getText().trim();
+            return (text.length() <= 0 || !text.contains(";")) ? "\0" : text;
     }
 
     public void changeHeader(String txt){
@@ -256,7 +250,7 @@ public class ClientGUI {
         }
         txtSubmit.clear();
         if(clientConnection){
-            txtSubmit.setText(returnID()+" >> ");
+            txtSubmit.setText("");
             txtSubmit.positionCaret(7);
         }
         else{

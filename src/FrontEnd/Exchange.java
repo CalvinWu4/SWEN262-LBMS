@@ -44,8 +44,7 @@ public final class Exchange {
         viewAfterResponse = ViewForOptions;
         options = ViewForOptions.getOptions();
 
-        //Cleanup and basic check of semicolon
-        query = query.trim();
+        //Check of semicolon
         if ((query = removeAndCheckSemicolon(query)).equals("\0"))
             return new Response("All commands should end with a ';'").setResponseView(viewAfterResponse);
 
