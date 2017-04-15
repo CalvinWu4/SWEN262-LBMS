@@ -1,6 +1,6 @@
 /**
  * Created by Kevin on 3/18/2017.
- * The main class containing the main loop that creates an exchange and awaits for a Response.
+ * The main class containing the main application
  *
  *
  */

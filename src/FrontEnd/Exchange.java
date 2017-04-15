@@ -31,69 +31,6 @@ public final class Exchange {
     /** The view to load after the response is received **/
     static private View viewAfterResponse;
 
-
-    /**
-     * The Std input exchange from the user, it will select from a list of options in a specific format
-     * @param ViewForOptions: View to obtain the options from
-     */
-
-//    static public Response setExchangeView(View ViewForOptions){
-//        viewAfterResponse = ViewForOptions;
-//        // Options to choose from, each will perform a series of Commands
-//        TreeMap<String,MenuOption> theOptions = ViewForOptions.getOptions();
-//        isComplete = false;
-//        options = theOptions;
-//        Scanner userInput = new Scanner(System.in);
-//        return getRequest(userInput);
-//    }
-//
-//    static boolean getIsComplete(){
-//        return isComplete;
-//    }
-//
-//
-
-    /**
-     * Retrieves user input and send it to parse().
-     * @param userInput: std input received
-     */
-//    static public Response getRequest(Scanner userInput) {
-//        String userLine = "";
-//        while (!getIsComplete()) {
-//            System.out.print("~");
-//            userLine += userInput.nextLine();
-//            parse(userLine);
-//        }
-//        // Interpret the userInput
-//        return interpret(getExchange());
-//    }
-
-//    /**
-//     * Parses the user's input to decide whether the command was complete or not.
-//     * @param userInput: Input to be parsed
-//     */
-//    public static void parse(String userInput){
-//        Scanner StringParser = new Scanner(userInput);
-//        String completeUserLine = "";
-//        StringParser.useDelimiter("");
-//
-//        while(StringParser.hasNext()){
-//            if(StringParser.hasNext(";")){
-//                StringParser.close();
-//                isComplete = true;
-//                request = completeUserLine;
-//                return;
-//            }
-//            else{
-//                completeUserLine += StringParser.next();
-//                request = completeUserLine;
-//            }
-//        }
-//        StringParser.close();
-//
-//    }
-
-
     /**
      * Interprets the finished request query from the user.
      * If the query has a proper format then it executes the selected option's command.
@@ -102,6 +39,10 @@ public final class Exchange {
      */
     static public Response interpret(String query, View ViewForOptions) {
         query = query.trim();
+
+        if ((query = removeAndCheckSemicolon(query)).equals("\0"))
+            return new Response("All commands should end with a '0'").setResponseView(viewAfterResponse);
+
         String[] args = query.split(",");
         String mainTrigger = args[0];
         // Check that the query has at least a comma to show that iu
@@ -196,5 +137,15 @@ public final class Exchange {
             }
         }
         return parameters;
+    }
+
+    /**
+     * Checks that the last character of the query is a semicolon
+     *  and removes it if there is any.
+     * @param query: The query given by the user
+     * @return The substring
+     */
+    private static String removeAndCheckSemicolon(String query){
+        return (query.charAt(query.length()-1) == ';') ? query.substring(0,query.length()-1) : "\0";
     }
 }

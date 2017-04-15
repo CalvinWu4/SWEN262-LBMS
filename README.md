@@ -1,3 +1,3 @@
 # SWEN262-LBMS
 
-Library Book Management System (LBMS)
+Library Library.Book Management System (LBMS)
