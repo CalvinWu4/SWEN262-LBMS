@@ -16,6 +16,7 @@ class RequestAPIExample {
 
         String authCode = "&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4";
 
+        //String searchParam = "Harry Potter"; //temp search string for testing to make project work
         Scanner input = new Scanner(System.in);
         System.out.println("Input search request here: ");
         String searchParam = input.nextLine();
@@ -48,30 +49,47 @@ class RequestAPIExample {
             JSONArray arr = obj.getJSONArray("items");
 
             for(int i=0; i<arr.length(); i++){
-                JSONObject jobj = arr.getJSONObject(i).getJSONObject("volumeInfo");
+                JSONObject volumeInfoObj = arr.getJSONObject(i).getJSONObject("volumeInfo");
+                JSONObject saleInfoObj = arr.getJSONObject(i).getJSONObject("saleInfo");
 
-
-                String title = jobj.getString("title");
+                String title = volumeInfoObj.getString("title");
                 System.out.println(title);
 
-                if(jobj.has("authors")) {
-                    JSONArray authors = jobj.getJSONArray("authors");
+                if(volumeInfoObj.has("authors")) {
+                    JSONArray authors = volumeInfoObj.getJSONArray("authors");
                     System.out.println(authors);
                 }
-                if(jobj.has("publisher")){
-                    String publisher = jobj.getString("publisher");
+                if(volumeInfoObj.has("publisher")){
+                    String publisher = volumeInfoObj.getString("publisher");
                     System.out.println(publisher);
                 }
-                if(jobj.has("publishedDate")) {
-                    String published = jobj.getString("publishedDate");
+                if(volumeInfoObj.has("publishedDate")) {
+                    String published = volumeInfoObj.getString("publishedDate");
                     System.out.println(published);
                 }
-                if(jobj.has("pageCount")) {
-                    int pageCount = jobj.getInt("pageCount");
-                    System.out.println(pageCount + "\n");
+                if(volumeInfoObj.has("pageCount")) {
+                    int pageCount = volumeInfoObj.getInt("pageCount");
+                    System.out.println(pageCount);
                 }
-
-
+                //cannot find the object "industryIdentifier or can't find the key of it as identifier
+                JSONArray isbnArr = volumeInfoObj.getJSONArray("industryIdentifiers");
+                for (int j = 0; j <isbnArr.length() ; j++) {
+                    if(isbnArr.getJSONObject(j).has("identifier")){
+                        String isbn = isbnArr.getJSONObject(j).getString("identifier");
+                        if(isbn.length()>12){
+                            String isbn13 = isbn;
+                            System.out.println(isbn13);
+                        }
+                    }
+                }
+                if(saleInfoObj.has("country")) {
+                    String country = saleInfoObj.getString("country");
+                    System.out.println(country);
+                }
+                if(saleInfoObj.has("saleability")) {
+                    String saleability = saleInfoObj.getString("saleability");
+                    System.out.println(saleability + "\n");
+                }
             }
 
         } catch (JSONException je) {
