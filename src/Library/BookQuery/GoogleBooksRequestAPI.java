@@ -71,14 +71,15 @@ class RequestAPIExample {
                     int pageCount = volumeInfoObj.getInt("pageCount");
                     System.out.println(pageCount);
                 }
-                //cannot find the object "industryIdentifier or can't find the key of it as identifier
-                JSONArray isbnArr = volumeInfoObj.getJSONArray("industryIdentifiers");
-                for (int j = 0; j <isbnArr.length() ; j++) {
-                    if(isbnArr.getJSONObject(j).has("identifier")){
-                        String isbn = isbnArr.getJSONObject(j).getString("identifier");
-                        if(isbn.length()>12){
-                            String isbn13 = isbn;
-                            System.out.println(isbn13);
+                if(volumeInfoObj.has("industryIdentifiers")){
+                    JSONArray isbnArr = volumeInfoObj.getJSONArray("industryIdentifiers");
+                    for (int j = 0; j <isbnArr.length() ; j++) {
+                        if(isbnArr.getJSONObject(j).has("identifier")){
+                            String isbn = isbnArr.getJSONObject(j).getString("identifier");
+                            if(isbn.length()>12){
+                                String isbn13 = isbn;
+                                System.out.println(isbn13);
+                            }
                         }
                     }
                 }
