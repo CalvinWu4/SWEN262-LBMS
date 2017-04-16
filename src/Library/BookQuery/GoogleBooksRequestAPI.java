@@ -14,7 +14,7 @@ class RequestAPIExample {
     public static void main(String[] args) throws IOException {
         String url = "https://www.googleapis.com/books/v1/volumes/?q=";
 
-        String authCode = "&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4";
+        String authCode = "&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4&maxResults=40";
 
         //String searchParam = "Harry Potter"; //temp search string for testing to make project work
         Scanner input = new Scanner(System.in);
