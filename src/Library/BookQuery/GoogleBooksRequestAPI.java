@@ -110,7 +110,11 @@ class RequestAPIExample {
                     if (saleInfoObj.has("saleability")) {
                         String saleability = saleInfoObj.getString("saleability");
                         //System.out.println(saleability + "\n");
-                        requestResponse += (saleability+"|\n");
+                        requestResponse += (saleability+"|");
+                    }
+                    if (saleInfoObj.getJSONObject("listPrice").has("amount")){
+                        double listPrice = saleInfoObj.getJSONObject("listPrice").getDouble("amount");
+                        requestResponse += (listPrice+"\n");
                     }
                 }
             }
