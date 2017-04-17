@@ -14,7 +14,7 @@ class RequestAPIExample {
     public static void main(String[] args) throws IOException {
         String url = "https://www.googleapis.com/books/v1/volumes/?langRestrict=en&q=";
 
-        String authCode = "&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4";
+        String authCode = "&maxResults=40&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4";
 
         //String searchParam = "Harry Potter"; //temp search string for testing to make project work
         Scanner input = new Scanner(System.in);
@@ -23,7 +23,7 @@ class RequestAPIExample {
 
         String[] paramList = searchParam.split(",");
 
-        String titleParam = (paramList.length > 1) ? "intitle%3A" + paramList[0] + "+" : "";
+        String titleParam = (paramList.length >= 1) ? "intitle%3A" + paramList[0] + "+" : "";
         titleParam = titleParam.replace(" ", "%20");
         String authorParam = (paramList.length >= 2) ? "inauthor%3A" + paramList[1] + "+" : "";
         authorParam = authorParam.replace(" ", "%20");
@@ -56,6 +56,8 @@ class RequestAPIExample {
             response.append(inputLine);
         }
 
+        String requestResponse="";
+
         try {
             JSONObject obj = new JSONObject(response.toString());
 
@@ -70,23 +72,24 @@ class RequestAPIExample {
                     JSONObject saleInfoObj = arr.getJSONObject(i).getJSONObject("saleInfo");
 
                     String title = volumeInfoObj.getString("title");
-                    System.out.println(title);
+
+                    requestResponse += (title+"|");
 
                     if (volumeInfoObj.has("authors")) {
                         JSONArray authors = volumeInfoObj.getJSONArray("authors");
-                        System.out.println(authors);
+                        requestResponse += (authors+"|");
                     }
                     if (volumeInfoObj.has("publisher")) {
                         String publisher = volumeInfoObj.getString("publisher");
-                        System.out.println(publisher);
+                        requestResponse += (publisher+"|");
                     }
                     if (volumeInfoObj.has("publishedDate")) {
                         String published = volumeInfoObj.getString("publishedDate");
-                        System.out.println(published);
+                        requestResponse += (published+"|");
                     }
                     if (volumeInfoObj.has("pageCount")) {
                         int pageCount = volumeInfoObj.getInt("pageCount");
-                        System.out.println(pageCount);
+                        requestResponse += (pageCount+"|");
                     }
                     if (volumeInfoObj.has("industryIdentifiers")) {
                         JSONArray isbnArr = volumeInfoObj.getJSONArray("industryIdentifiers");
@@ -95,25 +98,26 @@ class RequestAPIExample {
                                 String isbn = isbnArr.getJSONObject(j).getString("identifier");
                                 if (isbn.length() > 12) {
                                     String isbn13 = isbn;
-                                    System.out.println(isbn13);
+                                    requestResponse += (isbn13+"|");
                                 }
                             }
                         }
                     }
                     if (saleInfoObj.has("country")) {
                         String country = saleInfoObj.getString("country");
-                        System.out.println(country);
+                        requestResponse += (country+"|");
                     }
                     if (saleInfoObj.has("saleability")) {
                         String saleability = saleInfoObj.getString("saleability");
-                        System.out.println(saleability + "\n");
+                        //System.out.println(saleability + "\n");
+                        requestResponse += (saleability+"|\n");
                     }
                 }
             }
+            System.out.println(requestResponse);
         } catch (JSONException je) {
             System.out.println("Error: " + je);
         }
         in.close();
-
     }
 }
