@@ -24,6 +24,7 @@ public class ClientGUI {
     Integer clientGuiID = 0;
     Boolean clientLogin = false;
     Boolean clientConnection = false;
+    Boolean isLocal = null;
 
     GUIClients clients;
     View currentView;
@@ -163,6 +164,7 @@ public class ClientGUI {
     public void setConnectionStatus(Boolean status){
         this.clientConnection = status;
     }
+
     public void setLoginStatus(Boolean status){
         this.clientLogin = status;
     }
@@ -215,8 +217,8 @@ public class ClientGUI {
                     if(text.contains("login,true;")){
                         //HAKZ
                         this.setLoginStatus(true);
-                        this.addResponse("Successful Login!");
-                        this.changeHeader(this.currentView.printUI());
+                        this.addResponse("Successful Login!\n");
+                        this.changeHeader("===========================\nWelcome to the LBMS Application\nPlease select your service location (local or google) using the following command:\n\"service,'info-service';\"\n===========================");
                     }
                     else{
                         this.addResponse(text+"\n");
@@ -224,7 +226,22 @@ public class ClientGUI {
                     }
                     break;
             }
-        }else if(clientConnection && clientLogin){
+        }
+
+        else if(clientConnection && clientLogin && isLocal == null){
+            if(text.equals("service,local;")){
+                this.isLocal = true;
+                this.addResponse("Service location has been set to: Local");
+                this.changeHeader(this.currentView.printUI());
+            }
+            else if(text.equals("service,google;")){
+                this.isLocal = false;
+                this.addResponse("Service location has been set to: Google");
+                this.changeHeader(this.currentView.printUI());
+            }
+        }
+
+        else if(clientConnection && clientLogin && isLocal != null){
             Response response = Exchange.interpret(text,this.currentView);
             if(text.equals("logout;")){
                 this.addResponse(text+"\n");
@@ -249,13 +266,5 @@ public class ClientGUI {
             txtResponse.appendText("\n"+response.getResponseMessage());
         }
         txtSubmit.clear();
-        if(clientConnection){
-            txtSubmit.setText("");
-            txtSubmit.positionCaret(7);
-        }
-        else{
-            txtSubmit.clear();
-            txtSubmit.positionCaret(0);
-        }
     }
 }
