@@ -92,9 +92,9 @@ public final class Time extends Database implements Serializable{
 
     // Helper function to exit all active visitors when the library closes
     static public void exitActiveVisitors(){
-        for(Visitor visitor: Visitors.getMap().values()) {
-            if(visitor.getActiveVisit() != null){
-                Visits.leave(visitor.getId(), closingTime);
+        for(Visit visit: Visits.getMap().get(dateTime.toLocalDate())) {
+            if(visit.getDeparture() != null){
+                Visits.leave(visit.getVisitorID(), closingTime);
             }
         }
     }
