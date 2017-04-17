@@ -26,4 +26,6 @@ public class AuthorsQuery implements BookQuery {
         }
         return newBooks;
     }
+    //TODO: TYLER incorporate this class to also do a Query using googleBooks
+
 }

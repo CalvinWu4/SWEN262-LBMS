@@ -242,11 +242,6 @@ public final class BackEnd {
     /// UTILITY METHODS ///
 
     static public Response exit(ArrayList<Parameter> params){
-        for(Visitor visitor: Visitors.getMap().values()){
-            if(visitor.getActiveVisit() != null) {
-                visitor.getActiveVisit().setDeparture(Time.getDateTime());
-            }
-        }
         new ProxyBooks().save();
         Visits.save();
         Visitors.save();
