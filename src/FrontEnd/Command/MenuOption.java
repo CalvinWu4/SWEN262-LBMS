@@ -1,5 +1,6 @@
 package FrontEnd.Command;
 
+import FrontEnd.Command.Commands.ChangeViewCommand;
 import FrontEnd.Parameter;
 import FrontEnd.Response;
 
@@ -92,7 +93,7 @@ public class MenuOption {
      */
     public void setCommandIfView(){
         if(this.futureViewId != null && this.command == null){
-            this.command = new ViewCommand(this.futureViewId);
+            this.command = new ChangeViewCommand(this.futureViewId);
         }
     }
 

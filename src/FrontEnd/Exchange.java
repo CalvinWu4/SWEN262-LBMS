@@ -6,7 +6,7 @@ package FrontEnd;
 
 import FrontEnd.Command.BackEndCommand;
 import FrontEnd.Command.MenuOption;
-import FrontEnd.Command.ViewCommand;
+import FrontEnd.Command.Commands.ChangeViewCommand;
 import Library.LibraryState.OpenState;
 import Library.BackEnd;
 import Library.Database.Time;
@@ -58,7 +58,7 @@ public final class Exchange {
             if (chosenOption.isAvailableAfterClosed() || Time.getTimeContext().getState() instanceof OpenState) {
                 if (args.length >= chosenOption.getMinArgsSize() + 1) {
                     //Set the arguments for the commands
-                    if (chosenOption.getCommand() instanceof ViewCommand) {
+                    if (chosenOption.getCommand() instanceof ChangeViewCommand) {
                         //Empty arrayList if the command is to just change views
                         chosenOption.setCommandArgs(new ArrayList<>());
                     } else {

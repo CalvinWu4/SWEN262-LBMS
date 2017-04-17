@@ -1,5 +1,6 @@
-package FrontEnd.Command;
+package FrontEnd.Command.Commands;
 
+import FrontEnd.Command.Command;
 import FrontEnd.Parameter;
 import FrontEnd.Response;
 import FrontEnd.View;
@@ -10,11 +11,11 @@ import java.util.ArrayList;
  * Created by Kevin on 3/18/2017.
  *
  */
-public class ViewCommand implements Command {
+public class ChangeViewCommand implements Command {
 
     private int viewToGo;
 
-    public ViewCommand(int ViewId){
+    public ChangeViewCommand(int ViewId){
         this.viewToGo = ViewId;
     }
 

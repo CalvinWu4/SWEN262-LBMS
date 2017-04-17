@@ -129,8 +129,8 @@ public class ClientGUI {
      * @return The string given bythe user
      */
     private String getTextFromInput(){
-            String text = txtSubmit.getText().trim();
-            return (text.length() <= 0 || !text.contains(";")) ? "\0" : text;
+        String text = txtSubmit.getText().trim();
+        return (text.length() <= 0 || !text.contains(";")) ? "\0" : text;
     }
 
     public void changeHeader(String txt){
