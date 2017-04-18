@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
  * Created by Anthony Perez on 4/3/17.
  */
 public class ClientGUI {
+
     BorderPane layoutPane = new BorderPane();
     TextArea txtResponse = new TextArea();
     TextArea txtHeader = new TextArea();
@@ -44,8 +45,6 @@ public class ClientGUI {
         btn.setText("Submit");
         btn1.setText("Undo");
         btn2.setText("Redo");
-
-
 
         txtResponse.setPrefWidth(550);
         txtResponse.setStyle("-fx-font-family: monospace");
@@ -111,6 +110,8 @@ public class ClientGUI {
                 event.consume();
             }
         });
+
+
 
 
         btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -269,5 +270,9 @@ public class ClientGUI {
     }
     public static boolean getIsLocal(){
         return isLocal;
+    }
+
+    public Integer getClientGuiID(){
+        return clientGuiID;
     }
 }

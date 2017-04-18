@@ -35,4 +35,7 @@ public class GUIClients {
             return true;
         }
     }
+    public HashMap<Integer,ClientGUI> returnHash(){
+        return clientHash;
+    }
 }

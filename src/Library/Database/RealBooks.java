@@ -1,6 +1,7 @@
 package Library.Database;
 
 import FrontEnd.ClientGUI;
+import FrontEnd.Exchange;
 import Library.Book;
 import Library.Parser;
 import Library.BookQuery.*;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,8 +25,6 @@ public final class RealBooks extends Database implements Books{
     private static HashMap<Long, Book> map;
     private static File file;
 
-    private ArrayList<Book> bookSearchResult;
-
     private String url = "https://www.googleapis.com/books/v1/volumes/?langRestrict=en&q=";
     private String authCode = "&maxResults=40&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4";
 
@@ -34,12 +34,9 @@ public final class RealBooks extends Database implements Books{
     private String publisherParam="";
 
     public RealBooks() {
-        if(ClientGUI.getIsLocal()){
             file = new File("books.ser");
-        }
-        else{
-            file = new File("googleBooks.ser");
-        }
+
+
         if(map == null) {
             map = new HashMap<>();
             load();
@@ -170,7 +167,14 @@ public final class RealBooks extends Database implements Books{
         }
 
         if(service){
-            String requestResponse="";
+            String requestResponse= "";
+
+            String responseTitle;
+            String responsePublisher = "";
+            String responsePublished = "";
+            Integer responsePageCount = 0;
+            String responseIsbn = "";
+
             System.out.println(url + authorParam + titleParam + isbnParam + publisherParam + authCode);
             try {
 
@@ -198,29 +202,28 @@ public final class RealBooks extends Database implements Books{
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject objInfo = arr.getJSONObject(i).getJSONObject("saleInfo");
 
+                    ArrayList<String> responseAuthors = new ArrayList<>();
+
                     if (objInfo.getString("country").equals("US") && objInfo.getString("saleability").equals("FOR_SALE")) {
                         JSONObject volumeInfoObj = arr.getJSONObject(i).getJSONObject("volumeInfo");
                         JSONObject saleInfoObj = arr.getJSONObject(i).getJSONObject("saleInfo");
 
-                        String _title = volumeInfoObj.getString("title");
-
-                        requestResponse += (_title+"|");
+                        responseTitle = "\""+volumeInfoObj.getString("title")+"\"";
 
                         if (volumeInfoObj.has("authors")) {
                             JSONArray _authors = volumeInfoObj.getJSONArray("authors");
-                            requestResponse += (_authors+"|");
+                            for(int j=0; j<_authors.length();j++){
+                                responseAuthors.add(_authors.getString(j));
+                            }
                         }
                         if (volumeInfoObj.has("publisher")) {
-                            String _publisher = volumeInfoObj.getString("publisher");
-                            requestResponse += (_publisher+"|");
+                            responsePublisher = volumeInfoObj.getString("publisher");
                         }
                         if (volumeInfoObj.has("publishedDate")) {
-                            String _published = volumeInfoObj.getString("publishedDate");
-                            requestResponse += (_published+"|");
+                            responsePublished = volumeInfoObj.getString("publishedDate");
                         }
                         if (volumeInfoObj.has("pageCount")) {
-                            int pageCount = volumeInfoObj.getInt("pageCount");
-                            requestResponse += (pageCount+"|");
+                            responsePageCount = (volumeInfoObj.getInt("pageCount"));
                         }
                         if (volumeInfoObj.has("industryIdentifiers")) {
                             JSONArray isbnArr = volumeInfoObj.getJSONArray("industryIdentifiers");
@@ -228,20 +231,24 @@ public final class RealBooks extends Database implements Books{
                                 if (isbnArr.getJSONObject(j).has("identifier")) {
                                     String _isbn = isbnArr.getJSONObject(j).getString("identifier");
                                     if (_isbn.length() > 12) {
-                                        String isbn13 = _isbn;
-                                        requestResponse += (isbn13+"|");
+                                        responseIsbn = _isbn;
                                     }
                                 }
                             }
                         }
-                        if (saleInfoObj.has("country")) {
-                            String country = saleInfoObj.getString("country");
-                            requestResponse += (country+"|");
-                        }
-                        if (saleInfoObj.has("saleability")) {
-                            String saleability = saleInfoObj.getString("saleability");
-                            requestResponse += (saleability+"|\n");
-                        }
+//                        if (saleInfoObj.has("country")) {
+//                            String country = saleInfoObj.getString("country");
+//                            requestResponse += (country+"|");
+//                        }
+//                        if (saleInfoObj.has("saleability")) {
+//                            String saleability = saleInfoObj.getString("saleability");
+//                            requestResponse += (saleability+"|\n");
+//                        }
+
+                        //Long _isbn, String _title, ArrayList<String> _authors, String _publisher,
+                        //LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies
+                        searchResults.add(new Book(Long.parseLong(responseIsbn),responseTitle,responseAuthors,responsePublisher,LocalDate.parse(responsePublished),responsePageCount,0,0));
+                        //responseAuthors.clear();
                     }
                 }
                 in.close();
@@ -252,7 +259,6 @@ public final class RealBooks extends Database implements Books{
             catch (JSONException je) {
                 System.out.println("JSON Error: " + je);
             }
-            return requestResponse;
         }
 
         // Book Print
