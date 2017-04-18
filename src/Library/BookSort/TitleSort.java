@@ -1,7 +1,6 @@
 package Library.BookSort;
 
 import Library.Book;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +17,7 @@ public class TitleSort implements BookSort {
 
         @Override
         public int compare(Library.Book book1, Library.Book book2) {
-            return StringUtils.upperCase(book1.getTitle()).compareTo(StringUtils.upperCase(book2.getTitle()));
+            return book1.getTitle().toUpperCase().compareTo(book2.getTitle().toUpperCase());
         }
     };
 
