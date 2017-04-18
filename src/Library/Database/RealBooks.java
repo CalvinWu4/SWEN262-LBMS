@@ -5,8 +5,13 @@ import Library.Book;
 import Library.Parser;
 import Library.BookQuery.*;
 import Library.BookSort.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +22,16 @@ import java.util.HashMap;
 public final class RealBooks extends Database implements Books{
     private static HashMap<Long, Book> map;
     private static File file;
+
+    private ArrayList<Book> bookSearchResult;
+
+    private String url = "https://www.googleapis.com/books/v1/volumes/?langRestrict=en&q=";
+    private String authCode = "&maxResults=40&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4";
+
+    private String authorParam="";
+    private String titleParam="";
+    private String isbnParam="";
+    private String publisherParam="";
 
     public RealBooks() {
         if(ClientGUI.getIsLocal()){
@@ -48,7 +63,7 @@ public final class RealBooks extends Database implements Books{
     // Search Library/Book Store
     @Override
     public String search(String title, String authors, String isbn, String publisher, String sortOrder,
-                         String location){
+                         String location, boolean service){
         ArrayList<Book> searchResults = new ArrayList<Book>();
         Collection<Book> bookCollection = map.values();
 
@@ -72,44 +87,65 @@ public final class RealBooks extends Database implements Books{
         if(title.equals("*") || authors.equals("*") || isbn.equals("*") || publisher.equals("*")){
             searchResults = bookList;
         }
+        if(title.equals("*") && authors.equals("*") && isbn.equals("*") && publisher.equals("*")){
+            if (service){
+                return "Search is too broad, please be more specific.";
+            }
+        }
         // Title Query
         if(!title.equals("*")){
-            TitleQuery query = new TitleQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, title));
+            if(!service){
+                TitleQuery query = new TitleQuery();
+                if (searchResults.isEmpty()) {
+                    searchResults = new ArrayList<Book>(query.search(bookList, title));
+                } else {
+                    searchResults.retainAll(query.search(bookList, title));
+                }
             }
             else{
-                searchResults.retainAll(query.search(bookList, title));
+                titleParam = "intitle%3A" + title + "+";
             }
         }
         // Authors Query
         if(!authors.equals("*")){
-            AuthorsQuery query = new AuthorsQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, authors));
+            if(!service){
+                AuthorsQuery query = new AuthorsQuery();
+                if (searchResults.isEmpty()) {
+                    searchResults = new ArrayList<Book>(query.search(bookList, authors));
+                } else {
+                    searchResults.retainAll(query.search(bookList, authors));
+                }
             }
             else{
-                searchResults.retainAll(query.search(bookList, authors));
+                authorParam = "inauthor%3A" + authors + "+";
             }
         }
         // ISBN Query
         if(!isbn.equals("*")){
-            IsbnQuery query = new IsbnQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, isbn));
+            if(!service) {
+                IsbnQuery query = new IsbnQuery();
+                if (searchResults.isEmpty()) {
+                    searchResults = new ArrayList<Book>(query.search(bookList, isbn));
+                } else {
+                    searchResults.retainAll(query.search(bookList, isbn));
+                }
             }
             else{
-                searchResults.retainAll(query.search(bookList, isbn));
+                isbnParam = "isbn%3A" + isbn + "+";
             }
         }
         // Publisher Query
         if(!publisher.equals("*")){
-            PublisherQuery query = new PublisherQuery();
-            if(searchResults.isEmpty()) {
-                searchResults = new ArrayList<Book>(query.search(bookList, publisher));
+            if(!service) {
+                PublisherQuery query = new PublisherQuery();
+                if (searchResults.isEmpty()) {
+                    searchResults = new ArrayList<Book>(query.search(bookList, publisher));
+                } else {
+                    searchResults.retainAll(query.search(bookList, publisher));
+                }
             }
-            else{
-                searchResults.retainAll(query.search(bookList, publisher));
+            else {
+                publisherParam ="inpublisher%3A" + publisher + "+";
             }
         }
         // Sort Order Query
@@ -130,6 +166,91 @@ public final class RealBooks extends Database implements Books{
                 System.out.println("The specified sort order doesn't match one of the expected values.");
                 return null;
             }
+        }
+
+        if(service){
+            //String requestResponse="";
+            System.out.println(url + authorParam + titleParam + isbnParam + publisherParam + authCode);
+           // try {
+
+//                URL GoogleURL = new URL(url + authorParam + titleParam + isbnParam + publisherParam + authCode);
+//                HttpURLConnection con = (HttpURLConnection) GoogleURL.openConnection();
+//
+//                // Set the HTTP Request type method to GET (Default: GET)
+//                con.setRequestMethod("GET");
+//                con.setConnectTimeout(10000);
+//                con.setReadTimeout(10000);
+//
+//                // Created a BufferedReader to read the contents of the request.
+//                BufferedReader in = new BufferedReader(
+//                        new InputStreamReader(con.getInputStream()));
+//                String inputLine;
+//                StringBuilder response = new StringBuilder();
+//
+//                while ((inputLine = in.readLine()) != null) {
+//                    response.append(inputLine);
+//                }
+//
+//                JSONObject obj = new JSONObject(response.toString());
+//                JSONArray arr = obj.getJSONArray("items");
+//
+//                for (int i = 0; i < arr.length(); i++) {
+//                    JSONObject objInfo = arr.getJSONObject(i).getJSONObject("saleInfo");
+//
+//                    if (objInfo.getString("country").equals("US") && objInfo.getString("saleability").equals("FOR_SALE")) {
+//                        JSONObject volumeInfoObj = arr.getJSONObject(i).getJSONObject("volumeInfo");
+//                        JSONObject saleInfoObj = arr.getJSONObject(i).getJSONObject("saleInfo");
+//
+//                        String _title = volumeInfoObj.getString("title");
+//
+//                        requestResponse += (_title+"|");
+//
+//                        if (volumeInfoObj.has("authors")) {
+//                            JSONArray _authors = volumeInfoObj.getJSONArray("authors");
+//                            requestResponse += (_authors+"|");
+//                        }
+//                        if (volumeInfoObj.has("publisher")) {
+//                            String _publisher = volumeInfoObj.getString("publisher");
+//                            requestResponse += (_publisher+"|");
+//                        }
+//                        if (volumeInfoObj.has("publishedDate")) {
+//                            String _published = volumeInfoObj.getString("publishedDate");
+//                            requestResponse += (_published+"|");
+//                        }
+//                        if (volumeInfoObj.has("pageCount")) {
+//                            int pageCount = volumeInfoObj.getInt("pageCount");
+//                            requestResponse += (pageCount+"|");
+//                        }
+//                        if (volumeInfoObj.has("industryIdentifiers")) {
+//                            JSONArray isbnArr = volumeInfoObj.getJSONArray("industryIdentifiers");
+//                            for (int j = 0; j < isbnArr.length(); j++) {
+//                                if (isbnArr.getJSONObject(j).has("identifier")) {
+//                                    String _isbn = isbnArr.getJSONObject(j).getString("identifier");
+//                                    if (_isbn.length() > 12) {
+//                                        String isbn13 = _isbn;
+//                                        requestResponse += (isbn13+"|");
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        if (saleInfoObj.has("country")) {
+//                            String country = saleInfoObj.getString("country");
+//                            requestResponse += (country+"|");
+//                        }
+//                        if (saleInfoObj.has("saleability")) {
+//                            String saleability = saleInfoObj.getString("saleability");
+//                            requestResponse += (saleability+"|\n");
+//                        }
+//                    }
+//                }
+//                in.close();
+//            }
+//            catch (IOException ioe){
+//                System.out.println("IO Error: "+ioe);
+//            }
+//            catch (JSONException je) {
+//                System.out.println("JSON Error: " + je);
+//            }
         }
 
         // Book Print

@@ -12,9 +12,7 @@ import java.util.ArrayList;
  */
 public final class BackEnd {
 
-
     private static Boolean debugMode;
-
 
     public static void setDebugMode(Boolean onOrOff){
         debugMode = onOrOff;
@@ -36,7 +34,7 @@ public final class BackEnd {
      */
     static public Response LibraryBookSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"library"));
+        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"library",true));
     }
 
     /**
@@ -46,7 +44,13 @@ public final class BackEnd {
      */
     static public Response BookStoreSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore"));
+
+        if(ClientGUI.getIsLocal()){
+            return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore",true));
+        }
+        else{
+            return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore",true));
+        }
     }
 
     /**

@@ -22,7 +22,7 @@ public class BookSearch implements Command{
     @Override
     public Response execute() {
         String[] bookSearchParams = getBookSearchParams(this.args);
-        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"library"));
+        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"library",true));
     }
 
     @Override

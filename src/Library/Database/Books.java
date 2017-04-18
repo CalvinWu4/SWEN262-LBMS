@@ -5,5 +5,5 @@ package Library.Database;
  */
 public interface Books {
     void save();
-    String search(String title, String authors, String isbn, String publisher, String sortOrder, String location);
+    String search(String title, String authors, String isbn, String publisher, String sortOrder, String location, boolean service);
 }
