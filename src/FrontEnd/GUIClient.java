@@ -231,12 +231,12 @@ public class GUIClient {
 
         else if(clientConnection && clientLogin && isLocal == null){
             if(text.equals("service,local;")){
-                this.isLocal = true;
+                isLocal = true;
                 this.addResponse("Service location has been set to: Local");
                 this.changeHeader(this.currentView.printUI());
             }
             else if(text.equals("service,google;")){
-                this.isLocal = false;
+                isLocal = false;
                 this.addResponse("Service location has been set to: Google");
                 this.changeHeader(this.currentView.printUI());
             }

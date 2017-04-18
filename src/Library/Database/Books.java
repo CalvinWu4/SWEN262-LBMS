@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 public interface Books {
     void save();
-    String search(String title, String authors, String isbn, String publisher, String sortOrder, String location, boolean service);
+    String search(String title, String authors, String isbn, String publisher, String sortOrder, boolean isLibrary, boolean isGoogle);
     HashMap<Long, Book> getMap();
 
 }

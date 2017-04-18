@@ -1,5 +1,6 @@
 package Library.Database;
 
+import FrontEnd.Parameter;
 import Library.Book;
 import Library.Parser;
 import Library.BookQuery.*;
@@ -45,9 +46,9 @@ public final class RealBooks extends Database implements Books{
         if(read(file) != null){
             map = (HashMap<Long, Book>)read(file);
         }
-        else{
-            new Parser();
-        }
+//        else{
+//            new Parser();
+//        }
     }
 
     @Override
@@ -55,41 +56,42 @@ public final class RealBooks extends Database implements Books{
         write(map, file);
     }
 
-    // Search Library/Book Store
+    // Search library/bookstore depending on isLibrary and local/Google Books bookstore depending on isGoogle
     @Override
     public String search(String title, String authors, String isbn, String publisher, String sortOrder,
-                         String location, boolean service){
+                         boolean isLibrary, boolean isGoogle){
         ArrayList<Book> searchResults = new ArrayList<Book>();
         Collection<Book> bookCollection = map.values();
 
         ArrayList<Book> bookList = new ArrayList<>();
 
         // Choose which books to query
-        if(location.equals("bookstore")){
-            for(Book book: bookCollection){
-                bookList.add(book);
-            }
-        }
-        else{
+
+        if(isLibrary){
+            bookList = new ArrayList<>();
             for(Book book: bookCollection){
                 if(book.getTotalNumCopies() >= 1){
                     bookList.add(book);
                 }
             }
         }
+        else{
+            if(!isGoogle){
+                bookList = Parser.parse();
+            }
+        }
 
         // Check for wildcards
-        if((title.equals("*") || authors.equals("*") || isbn.equals("*") || publisher.equals("*")) && !service){
+        if(!isGoogle && title.equals("*") || authors.equals("*") || isbn.equals("*") || publisher.equals("*")){
             searchResults = bookList;
         }
-        if(title.equals("*") && authors.equals("*") && isbn.equals("*") && publisher.equals("*")){
-            if (service){
-                return "Search is too broad, please be more specific.";
-            }
+        // Special case where we know there are too many search results for Google Books to display
+        if(isGoogle && title.equals("*") && authors.equals("*") && isbn.equals("*") && publisher.equals("*")){
+                return ("Search is too broad, please be more specific.");
         }
         // Title Query
         if(!title.equals("*")){
-            if(!service){
+            if(!isGoogle){
                 TitleQuery query = new TitleQuery();
                 if (searchResults.isEmpty()) {
                     searchResults = new ArrayList<Book>(query.search(bookList, title));
@@ -104,7 +106,7 @@ public final class RealBooks extends Database implements Books{
         }
         // Authors Query
         if(!authors.equals("*")){
-            if(!service){
+            if(!isGoogle){
                 AuthorsQuery query = new AuthorsQuery();
                 if (searchResults.isEmpty()) {
                     searchResults = new ArrayList<Book>(query.search(bookList, authors));
@@ -118,7 +120,7 @@ public final class RealBooks extends Database implements Books{
         }
         // ISBN Query
         if(!isbn.equals("*")){
-            if(!service) {
+            if(!isGoogle) {
                 IsbnQuery query = new IsbnQuery();
                 if (searchResults.isEmpty()) {
                     searchResults = new ArrayList<Book>(query.search(bookList, isbn));
@@ -132,7 +134,7 @@ public final class RealBooks extends Database implements Books{
         }
         // Publisher Query
         if(!publisher.equals("*")){
-            if(!service) {
+            if(!isGoogle) {
                 PublisherQuery query = new PublisherQuery();
                 if (searchResults.isEmpty()) {
                     searchResults = new ArrayList<Book>(query.search(bookList, publisher));
@@ -152,9 +154,8 @@ public final class RealBooks extends Database implements Books{
             } else if (sortOrder.equals("publish-date")) {
                 PubDateSort sorter = new PubDateSort();
                 sorter.sort(searchResults);
-
             }
-            else if (location.equals("library") && sortOrder.equals("book-status")) {
+            else if (isLibrary && sortOrder.equals("book-status")) {
                 NumAvailSort sorter = new NumAvailSort();
                 sorter.sort(searchResults);
             }
@@ -164,7 +165,7 @@ public final class RealBooks extends Database implements Books{
             }
         }
 
-        if(service){
+        if(isGoogle){
             String requestResponse= "";
 
             String responseTitle;
@@ -331,7 +332,7 @@ public final class RealBooks extends Database implements Books{
                 line += "-";
             }
         }
-        if(location.equals("library")) {
+        if(isLibrary) {
             for (int i = 0; i <= numOfCopies; i++) {
                 if (i == numOfCopies) {
                     line += "+";
@@ -354,7 +355,7 @@ public final class RealBooks extends Database implements Books{
         searchResultsString += String.format("|%-" + isbnLength + "s|%-" + titleLength + "s|%-" + authorsLength +
                         "s|%-" + publisherLength + "s|%-" + dateLength +  "s|", "ISBN", "Book Title", "Author(s)",
                 "Publisher", "Date Published");
-        if(location.equals("library")) {
+        if(isLibrary) {
             searchResultsString += String.format("%-" + numOfCopies + "s|%-" + availableCopies + "s|",
                     "Total # Of Copies",
                     "# Of AvailableCopies");
@@ -367,7 +368,7 @@ public final class RealBooks extends Database implements Books{
                             publisherLength+ "s|%-"+dateLength+"s|", book.getIsbn(),book.getTitle(), book.getAuthorsString(),
                     book.getPublisher(), book.getPublishedDate());
 
-            if(location.equals("library")){
+            if(isLibrary){
                 searchResultsString += String.format("%-"+numOfCopies+"s|%-"+availableCopies+"s|",
                         book.getTotalNumCopies(), book.getNumAvailableCopies());
             }

@@ -20,11 +20,11 @@ public class ProxyBooks implements Books{
 
     @Override
     public String search(String title, String authors, String isbn, String publisher,
-                         String sortOrder, String location, boolean service) {
+                         String sortOrder, boolean isLibrary, boolean isGoogle) {
         if (realBooks == null){
             realBooks = new RealBooks();
         }
-        return realBooks.search(title,authors,isbn,publisher,sortOrder,location, service);
+        return realBooks.search(title, authors, isbn, publisher, sortOrder, isLibrary, isGoogle);
     }
 
     @Override

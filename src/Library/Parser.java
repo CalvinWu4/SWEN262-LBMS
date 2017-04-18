@@ -8,14 +8,13 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Brandon on 3/19/2017.
  */
 public class Parser {
 
-    public Parser(){
+    public static ArrayList<Book> parse(){
         CSVParser fileParser = null;
         FileReader BOOKCSV = null;
 
@@ -34,7 +33,8 @@ public class Parser {
             }
         }
 
-        HashMap<Long, Book> bookHashMap = new ProxyBooks().getMap();
+//        HashMap<Long, Book> bookHashMap = new ProxyBooks().getMap();
+        ArrayList<Book> books = new ArrayList<>();
         assert fileParser != null;
         for(CSVRecord record : fileParser){
 
@@ -68,8 +68,10 @@ public class Parser {
             int _numAvailableCopies = 0;
 
             Book nextBook = new Book(_isbn,_title,_authors, _publisher,_pubDate,_pageCount, _totalNumCopies, _numAvailableCopies);
-            bookHashMap.put(_isbn, nextBook);
+            books.add(nextBook);
+//            bookHashMap.put(_isbn, nextBook);
         }
+        return books;
     }
 
 }
