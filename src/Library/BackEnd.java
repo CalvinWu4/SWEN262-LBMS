@@ -45,7 +45,7 @@ public final class BackEnd {
     static public Response BookStoreSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
 
-        if(ClientGUI.getIsLocal()){
+        if(GUIClient.getIsLocal()){
             return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore",false));
         }
         else{

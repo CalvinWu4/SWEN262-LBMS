@@ -14,7 +14,7 @@ import javafx.scene.layout.BorderPane;
 /**
  * Created by Anthony Perez on 4/3/17.
  */
-public class ClientGUI {
+public class GUIClient {
 
     BorderPane layoutPane = new BorderPane();
     TextArea txtResponse = new TextArea();
@@ -22,7 +22,7 @@ public class ClientGUI {
     BorderPane bottomPane = new BorderPane();
     TextArea txtSubmit = new TextArea();
 
-    Integer clientGuiID = 0;
+    Number clientGuiID = 0;
     Boolean clientLogin = false;
     Boolean clientConnection = false;
     static Boolean isLocal;
@@ -31,7 +31,7 @@ public class ClientGUI {
     View currentView;
     //User class object for login purposes
 
-    public ClientGUI(Integer _clientGuiID, GUIClients _clients){
+    public GUIClient(Number _clientGuiID, GUIClients _clients){
     //The current view that will display the available options at the left
 
         this.clientGuiID = _clientGuiID;
@@ -148,7 +148,7 @@ public class ClientGUI {
         txtResponse.appendText(text);
     }
 
-    public Integer returnID() {
+    public Number returnID() {
         return clientGuiID;
     }
 
@@ -272,7 +272,7 @@ public class ClientGUI {
         return isLocal;
     }
 
-    public Integer getClientGuiID(){
+    public Number getClientGuiID(){
         return clientGuiID;
     }
 }

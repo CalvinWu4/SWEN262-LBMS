@@ -9,6 +9,8 @@ import Library.*;
 import Library.Database.*;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -20,6 +22,8 @@ import FrontEnd.View;
 import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
+
+import static FrontEnd.GUIClients.setActiveClient;
 
 public class Main extends Application{
 
@@ -52,7 +56,7 @@ public class Main extends Application{
         pane.setTop(menuBar);
         pane.setCenter(tabPane);
 
-        ClientGUI cl1 = new ClientGUI(tabPane.getTabs().size(), clients);
+        GUIClient cl1 = new GUIClient(tabPane.getTabs().size(), clients);
 
         cl1.changeHeader("==================================================\nWelcome to the LBMS Application\nPlease connect to the library network with the following command:\n\"connect;\"\n==================================================");
 
@@ -67,6 +71,15 @@ public class Main extends Application{
 
         //scene.getStylesheets().add(getClass().getResource("base.css").toExternalForm());
 
+        // Listener to get the active tab
+        tabPane.getSelectionModel().selectedIndexProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                        setActiveClient(GUIClients.getClientHash().get(newValue));
+                    }
+                }
+        );
 
         newClient.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -75,7 +88,7 @@ public class Main extends Application{
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab);
 
-                ClientGUI client = new ClientGUI(tabPane.getTabs().size(), clients);
+                GUIClient client = new GUIClient(tabPane.getTabs().size(), clients);
 
                 BorderPane newBody = client.returnClientGUI();
 

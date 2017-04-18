@@ -6,13 +6,14 @@ import java.util.HashMap;
  * Created by Anthony Perez on 4/4/17.
  */
 public class GUIClients {
-    HashMap<Integer,ClientGUI> clientHash = new HashMap<Integer,ClientGUI>();
+    private static HashMap<Number, GUIClient> clientHash = new HashMap<Number, GUIClient>();
+    private static GUIClient activeClient;
 
     public GUIClients(){
         clientHash = new HashMap<>();
     }
 
-    public Boolean connectClient(ClientGUI gui){
+    public Boolean connectClient(GUIClient gui){
         clientHash.put(gui.returnID(), gui);
         System.out.println(clientHash);
 
@@ -24,7 +25,7 @@ public class GUIClients {
         }
     }
 
-    public Boolean disconnectClient(ClientGUI gui){
+    public Boolean disconnectClient(GUIClient gui){
         clientHash.remove(gui.returnID());
         System.out.println(clientHash);
 
@@ -35,7 +36,16 @@ public class GUIClients {
             return true;
         }
     }
-    public HashMap<Integer,ClientGUI> returnHash(){
+    public HashMap<Number, GUIClient> returnHash(){
+        return clientHash;
+    }
+    public static void setActiveClient(GUIClient client){
+        activeClient = client;
+    }
+    public static GUIClient getActiveClient(){
+        return activeClient;
+    }
+    public static HashMap<Number, GUIClient> getClientHash(){
         return clientHash;
     }
 }
