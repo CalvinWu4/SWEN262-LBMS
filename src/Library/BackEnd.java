@@ -34,7 +34,7 @@ public final class BackEnd {
      */
     static public Response LibraryBookSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"library",true));
+        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"library",false));
     }
 
     /**
@@ -46,7 +46,7 @@ public final class BackEnd {
         String[] bookSearchParams = getBookSearchParams(params);
 
         if(ClientGUI.getIsLocal()){
-            return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore",true));
+            return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore",false));
         }
         else{
             return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],"bookstore",true));
