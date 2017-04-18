@@ -24,7 +24,7 @@ public class ClientGUI {
     Integer clientGuiID = 0;
     Boolean clientLogin = false;
     Boolean clientConnection = false;
-    Boolean isLocal = null;
+    static Boolean isLocal;
 
     GUIClients clients;
     View currentView;
@@ -266,5 +266,8 @@ public class ClientGUI {
             txtResponse.appendText("\n"+response.getResponseMessage());
         }
         txtSubmit.clear();
+    }
+    public static boolean getIsLocal(){
+        return isLocal;
     }
 }

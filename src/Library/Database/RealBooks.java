@@ -1,5 +1,6 @@
 package Library.Database;
 
+import FrontEnd.ClientGUI;
 import Library.Book;
 import Library.Parser;
 import Library.BookQuery.*;
@@ -15,9 +16,15 @@ import java.util.HashMap;
  */
 public final class RealBooks extends Database implements Books{
     private static HashMap<Long, Book> map;
-    private static final File FILE = new File("books.ser");
+    private static File file;
 
     public RealBooks() {
+        if(ClientGUI.getIsLocal()){
+            file = new File("books.ser");
+        }
+        else{
+            file = new File("googleBooks.ser");
+        }
         if(map == null) {
             map = new HashMap<>();
             load();
@@ -25,8 +32,8 @@ public final class RealBooks extends Database implements Books{
     }
 
     public void load(){
-        if(read(FILE) != null){
-            map = (HashMap<Long, Book>)read(FILE);
+        if(read(file) != null){
+            map = (HashMap<Long, Book>)read(file);
         }
         else{
             new Parser();
@@ -35,7 +42,7 @@ public final class RealBooks extends Database implements Books{
 
     @Override
     public void save(){
-        write(map, FILE);
+        write(map, file);
     }
 
     // Search Library/Book Store
