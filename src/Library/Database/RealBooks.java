@@ -1,7 +1,5 @@
 package Library.Database;
 
-import FrontEnd.ClientGUI;
-import FrontEnd.Exchange;
 import Library.Book;
 import Library.Parser;
 import Library.BookQuery.*;
@@ -380,7 +378,7 @@ public final class RealBooks extends Database implements Books{
         return searchResultsString;
     }
 
-    public static HashMap<Long, Book> getMap(){
+    public HashMap<Long, Book> getMap(){
         return map;
     }
 

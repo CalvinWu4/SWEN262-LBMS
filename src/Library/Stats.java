@@ -30,7 +30,7 @@ public class Stats {
             LocalDate queriedDate = Time.getDate().minusDays(i);
             // Number of Books
             Integer numBooks = 0;
-            for (Book book : RealBooks.getMap().values()) {
+            for (Book book : new ProxyBooks().getMap().values()) {
                 numBooks += book.getTotalNumCopies();
             }
             // Number of Visitors

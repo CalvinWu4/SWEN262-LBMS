@@ -1,5 +1,9 @@
 package Library.Database;
 
+import Library.Book;
+
+import java.util.HashMap;
+
 /**
  * Created by Calvin on 4/15/2017.
  */
@@ -21,5 +25,14 @@ public class ProxyBooks implements Books{
             realBooks = new RealBooks();
         }
         return realBooks.search(title,authors,isbn,publisher,sortOrder,location, service);
+    }
+
+    @Override
+    public HashMap<Long, Book> getMap(){
+        if (realBooks == null){
+            realBooks = new RealBooks();
+        }
+        return realBooks.getMap();
+
     }
 }

@@ -16,6 +16,7 @@ import java.util.HashMap;
 public final class Transactions extends Database {
     private static HashMap<Integer, ArrayList<Transaction>> map; // visitorId, borrowed books list
     private static final File FILE = new File("transactions.ser");
+    private static HashMap<Long, Book> bookMap = new ProxyBooks().getMap();
 
     public Transactions() {
         map = new HashMap<>();
@@ -62,7 +63,7 @@ public final class Transactions extends Database {
         }
         else {
             for (Long isbn : isbns) {
-                Book book = RealBooks.getMap().get(isbn);
+                Book book = bookMap.get(isbn);
                 if (book == null) {
                     return("One or more of the book IDs specified do not match the IDs for the most" +
                             " recent library book search.");
@@ -101,7 +102,7 @@ public final class Transactions extends Database {
             int tempId = 0;
             for (Transaction transaction : transactions) {
                 tempId++;
-                Book book = RealBooks.getMap().get(transaction.getIsbn());
+                Book book = bookMap.get(transaction.getIsbn());
                 result += (tempId + "," + book.getIsbn() + "," + book.getTitle() + "," +
                         transaction.getDateBorrowed() + "\n");
             }
@@ -115,7 +116,7 @@ public final class Transactions extends Database {
             return("The visitor ID does not match a registered visitor.");
         } else {
             for (Long isbn : isbns) {
-                Book book = RealBooks.getMap().get(isbn);
+                Book book = bookMap.get(isbn);
                 if (book == null) {
                     return("One or more of the book IDs are not valid.");
                 } else {

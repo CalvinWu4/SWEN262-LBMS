@@ -13,6 +13,7 @@ import java.util.HashMap;
 public final class Purchases extends Database implements Serializable{
     private static HashMap<LocalDate, Integer> map; // Date, NumBooksPurchased
     private static final File FILE = new File("purchases.ser");
+    private static HashMap<Long, Book> bookMap = new ProxyBooks().getMap();
 
     public Purchases() {
         map = new HashMap<>();
@@ -33,8 +34,8 @@ public final class Purchases extends Database implements Serializable{
         String result = "success\n";
         ArrayList<Long> seen = new ArrayList<>();
         for (Long isbn : isbns) {
-            Book book = RealBooks.getMap().get(isbn);
-            if (!RealBooks.getMap().containsKey(isbn)) {
+            Book book = bookMap.get(isbn);
+            if (!bookMap.containsKey(isbn)) {
                 return ("One or more of the book ISBNs are not valid.");
             }
             else if(seen.contains(isbn)){
