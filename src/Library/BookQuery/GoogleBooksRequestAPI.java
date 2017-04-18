@@ -6,23 +6,35 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.*;
-
 import java.util.Scanner;
 
+/*
+ * Currently requests a search term from user through a scanner input. The search words are parsed by comma parser and
+  * prepared to put in googleBookAPI url format. The url string then returns a json array of up to 40 json objects
+  * representing books. These objects (with the exception of the book title) are checked to ensure they have author,
+  * publisher, for_sale, etc. Once those 40 books are determined to be valid their information is extracted and
+  * outputted to the terminal.
+  * TODO: Once we decide how we are calling our local search or google search, this class needs to be modified to:
+  *     TODO: return the information to the user through the gui, with all necessary information so a book can be made
+  *     TODO: from the returned information (name, authors, publisher, date published, price.*/
 class RequestAPIExample {
 
     public static void main(String[] args) throws IOException {
+        //starting google api url for submitting a query of search strings
         String url = "https://www.googleapis.com/books/v1/volumes/?langRestrict=en&q=";
 
+        //code used to access full google api privileges using an api_auth key, will return max of 40 "books"
         String authCode = "&maxResults=40&key=AIzaSyBgIxRv3oqcXzLTH0JpIVoDutzOL7yf5k4";
 
-        //String searchParam = "Harry Potter"; //temp search string for testing to make project work
         Scanner input = new Scanner(System.in);
         System.out.println("Input search request here: ");
+        //request search words from user
         String searchParam = input.nextLine();
 
+        //array list storing and separating the search from the user by commas
         String[] paramList = searchParam.split(",");
 
+        //
         String titleParam = (paramList.length >= 1) ? "intitle%3A" + paramList[0] + "+" : "";
         titleParam = titleParam.replace(" ", "%20");
         String authorParam = (paramList.length >= 2) ? "inauthor%3A" + paramList[1] + "+" : "";
@@ -32,12 +44,10 @@ class RequestAPIExample {
         String publisherParam = (paramList.length >= 4) ? "inpublisher%3A" + paramList[3] + "+" : "";
         publisherParam = publisherParam.replace(" ", "%20");
 
-        //Get user input search feature from gui search here
-        //searchParam = searchParam.replace(" ", "+");
 
         System.out.println(url + authorParam + titleParam + isbnParam + publisherParam + authCode);
 
-        // Create a URL and open a connection
+        // Create a URL from beginning url, auth_key, and search param list and open a connection
         URL GoogleURL = new URL(url + authorParam + titleParam + isbnParam + publisherParam + authCode);
         HttpURLConnection con = (HttpURLConnection) GoogleURL.openConnection();
 
