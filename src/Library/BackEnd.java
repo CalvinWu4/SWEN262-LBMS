@@ -34,7 +34,7 @@ public final class BackEnd {
      */
     static public Response LibraryBookSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        return new Response(new ProxyBooks().bookPrint(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],true,false));
+        return new Response(new ProxyBooks().getFormattedResults(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],true,false));
     }
 
     /**
@@ -44,12 +44,12 @@ public final class BackEnd {
      */
     static public Response BookStoreSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-
+        ProxyBooks proxyBooks = new ProxyBooks();
         if(GUIClient.getIsLocal()){
-            return new Response(new ProxyBooks().bookPrint(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],false,false));
+            return new Response(proxyBooks.getFormattedResults(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],false,false));
         }
         else{
-            return new Response(new ProxyBooks().bookPrint(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],false,true));
+            return new Response(proxyBooks.getFormattedResults(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],false,true));
         }
     }
 

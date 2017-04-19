@@ -265,8 +265,8 @@ public final class RealBooks extends Database implements Books{
         return searchResults;
     }
 
-    // Prints books into a formatted table
-    public String bookPrint(String title, String authors, String isbn, String publisher, String sortOrder, boolean isLibrary, boolean isGoogle){
+    // Prints book query search results into a formatted table
+    public String getFormattedResults(String title, String authors, String isbn, String publisher, String sortOrder, boolean isLibrary, boolean isGoogle){
 
         ArrayList<Book> searchResults;
         try {

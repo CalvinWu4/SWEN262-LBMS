@@ -13,8 +13,8 @@ public interface Books {
     void save();
     ArrayList<Book> search(String title, String authors, String isbn, String publisher, String sortOrder,
                            boolean isLibrary, boolean isGoogle) throws IOException;
-    String bookPrint(String title, String authors, String isbn, String publisher, String sortOrder,
-                     boolean isLibrary, boolean isGoogle);
+    String getFormattedResults(String title, String authors, String isbn, String publisher, String sortOrder,
+                               boolean isLibrary, boolean isGoogle);
     HashMap<Long, Book> getMap();
 
 }

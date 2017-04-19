@@ -30,12 +30,12 @@ public class ProxyBooks implements Books{
     }
 
     @Override
-    public String bookPrint(String title, String authors, String isbn, String publisher, String sortOrder, boolean isLibrary,
-                     boolean isGoogle){
+    public String getFormattedResults(String title, String authors, String isbn, String publisher, String sortOrder, boolean isLibrary,
+                                      boolean isGoogle){
         if (realBooks == null){
             realBooks = new RealBooks();
         }
-        return realBooks.bookPrint(title, authors, isbn, publisher, sortOrder, isLibrary, isGoogle);
+        return realBooks.getFormattedResults(title, authors, isbn, publisher, sortOrder, isLibrary, isGoogle);
     }
 
 
