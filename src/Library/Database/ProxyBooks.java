@@ -2,6 +2,8 @@ package Library.Database;
 
 import Library.Book;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -19,13 +21,23 @@ public class ProxyBooks implements Books{
     }
 
     @Override
-    public String search(String title, String authors, String isbn, String publisher,
-                         String sortOrder, boolean isLibrary, boolean isGoogle) {
+    public ArrayList<Book> search(String title, String authors, String isbn, String publisher,
+                            String sortOrder, boolean isLibrary, boolean isGoogle) throws IOException{
         if (realBooks == null){
             realBooks = new RealBooks();
         }
         return realBooks.search(title, authors, isbn, publisher, sortOrder, isLibrary, isGoogle);
     }
+
+    @Override
+    public String bookPrint(String title, String authors, String isbn, String publisher, String sortOrder, boolean isLibrary,
+                     boolean isGoogle){
+        if (realBooks == null){
+            realBooks = new RealBooks();
+        }
+        return realBooks.bookPrint(title, authors, isbn, publisher, sortOrder, isLibrary, isGoogle);
+    }
+
 
     @Override
     public HashMap<Long, Book> getMap(){

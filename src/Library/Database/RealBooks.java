@@ -13,6 +13,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,8 +59,8 @@ public final class RealBooks extends Database implements Books{
 
     // Search library/bookstore depending on isLibrary and local/Google Books bookstore depending on isGoogle
     @Override
-    public String search(String title, String authors, String isbn, String publisher, String sortOrder,
-                         boolean isLibrary, boolean isGoogle){
+    public ArrayList<Book> search(String title, String authors, String isbn, String publisher, String sortOrder,
+                         boolean isLibrary, boolean isGoogle) throws IOException{
         ArrayList<Book> searchResults = new ArrayList<Book>();
         Collection<Book> bookCollection = map.values();
 
@@ -67,107 +68,98 @@ public final class RealBooks extends Database implements Books{
 
         // Choose which books to query
 
-        if(isLibrary){
+        if (isLibrary) {
             bookList = new ArrayList<>();
-            for(Book book: bookCollection){
-                if(book.getTotalNumCopies() >= 1){
+            for (Book book : bookCollection) {
+                if (book.getTotalNumCopies() >= 1) {
                     bookList.add(book);
                 }
             }
-        }
-        else{
-            if(!isGoogle){
+        } else {
+            if (!isGoogle) {
                 bookList = Parser.parse();
             }
         }
 
         // Check for wildcards
-        if(!isGoogle && title.equals("*") || authors.equals("*") || isbn.equals("*") || publisher.equals("*")){
+        if (!isGoogle && title.equals("*") || authors.equals("*") || isbn.equals("*") || publisher.equals("*")) {
             searchResults = bookList;
         }
-        // Special case where we know there are too many search results for Google Books to display
-        if(isGoogle && title.equals("*") && authors.equals("*") && isbn.equals("*") && publisher.equals("*")){
-                return ("Search is too broad, please be more specific.");
-        }
+//        // Special case where we know there are too many search results for Google Books to display
+//        if (isGoogle && title.equals("*") && authors.equals("*") && isbn.equals("*") && publisher.equals("*")) {
+//            return ("Search is too broad, please be more specific.");
+//        }
         // Title Query
-        if(!title.equals("*")){
-            if(!isGoogle){
+        if (!title.equals("*")) {
+            if (!isGoogle) {
                 TitleQuery query = new TitleQuery();
                 if (searchResults.isEmpty()) {
                     searchResults = new ArrayList<Book>(query.search(bookList, title));
                 } else {
                     searchResults.retainAll(query.search(bookList, title));
                 }
-            }
-            else{
-                titleParam = "intitle%3A" + title.replace("\"","").replace(" ","%20") + "+";
+            } else {
+                titleParam = "intitle%3A" + title.replace("\"", "").replace(" ", "%20") + "+";
 
             }
         }
         // Authors Query
-        if(!authors.equals("*")){
-            if(!isGoogle){
+        if (!authors.equals("*")) {
+            if (!isGoogle) {
                 AuthorsQuery query = new AuthorsQuery();
                 if (searchResults.isEmpty()) {
                     searchResults = new ArrayList<Book>(query.search(bookList, authors));
                 } else {
                     searchResults.retainAll(query.search(bookList, authors));
                 }
-            }
-            else{
-                authorParam = "inauthor%3A" + authors.replace("{","").replace("}","").replace(" ","%20") + "+";
+            } else {
+                authorParam = "inauthor%3A" + authors.replace("{", "").replace("}", "").replace(" ", "%20") + "+";
             }
         }
         // ISBN Query
-        if(!isbn.equals("*")){
-            if(!isGoogle) {
+        if (!isbn.equals("*")) {
+            if (!isGoogle) {
                 IsbnQuery query = new IsbnQuery();
                 if (searchResults.isEmpty()) {
                     searchResults = new ArrayList<Book>(query.search(bookList, isbn));
                 } else {
                     searchResults.retainAll(query.search(bookList, isbn));
                 }
-            }
-            else{
+            } else {
                 isbnParam = "isbn%3A" + isbn + "+";
             }
         }
         // Publisher Query
-        if(!publisher.equals("*")){
-            if(!isGoogle) {
+        if (!publisher.equals("*")) {
+            if (!isGoogle) {
                 PublisherQuery query = new PublisherQuery();
                 if (searchResults.isEmpty()) {
                     searchResults = new ArrayList<Book>(query.search(bookList, publisher));
                 } else {
                     searchResults.retainAll(query.search(bookList, publisher));
                 }
-            }
-            else {
-                publisherParam ="inpublisher%3A" + publisher.replace(" ","%20") + "+";
+            } else {
+                publisherParam = "inpublisher%3A" + publisher.replace(" ", "%20") + "+";
             }
         }
         // Sort Order Query
-        if(!sortOrder.equals("*")) {
+        if (!sortOrder.equals("*")) {
             if (sortOrder.equals("title")) {
                 TitleSort sorter = new TitleSort();
                 sorter.sort(searchResults);
             } else if (sortOrder.equals("publish-date")) {
                 PubDateSort sorter = new PubDateSort();
                 sorter.sort(searchResults);
-            }
-            else if (isLibrary && sortOrder.equals("book-status")) {
+            } else if (isLibrary && sortOrder.equals("book-status")) {
                 NumAvailSort sorter = new NumAvailSort();
                 sorter.sort(searchResults);
-            }
-            else {
+            } else {
                 System.out.println("The specified sort order doesn't match one of the expected values.");
                 return null;
             }
         }
 
-        if(isGoogle){
-            String requestResponse= "";
-
+        if (isGoogle) {
             String responseTitle;
             String responsePublisher = "";
             String responsePublished = "";
@@ -207,11 +199,11 @@ public final class RealBooks extends Database implements Books{
                         JSONObject volumeInfoObj = arr.getJSONObject(i).getJSONObject("volumeInfo");
                         JSONObject saleInfoObj = arr.getJSONObject(i).getJSONObject("saleInfo");
 
-                        responseTitle = "\""+volumeInfoObj.getString("title")+"\"";
+                        responseTitle = "\"" + volumeInfoObj.getString("title") + "\"";
 
                         if (volumeInfoObj.has("authors")) {
                             JSONArray _authors = volumeInfoObj.getJSONArray("authors");
-                            for(int j=0; j<_authors.length();j++){
+                            for (int j = 0; j < _authors.length(); j++) {
                                 responseAuthors.add(_authors.getString(j));
                             }
                         }
@@ -246,21 +238,44 @@ public final class RealBooks extends Database implements Books{
 
                         //Long _isbn, String _title, ArrayList<String> _authors, String _publisher,
                         //LocalDate _publishedDate, Integer _pageCount, Integer _totalNumCopies, int _numAvailableCopies
-                        searchResults.add(new Book(Long.parseLong(responseIsbn),responseTitle,responseAuthors,responsePublisher,LocalDate.parse(responsePublished),responsePageCount,0,0));
-                        //responseAuthors.clear();
+                        LocalDate pubDate;
+                        if (responsePublished.equals("")) {   // Some books don't have pubDates
+                            pubDate = LocalDate.of(1, 1, 1);
+                        } else {
+                            String[] dateArray = responsePublished.split("-|/"); //formats all potential dates into LocalDates
+                            if (dateArray.length == 1) {
+                                pubDate = LocalDate.of(Integer.parseInt(dateArray[0]), 1, 1);
+                            } else if (dateArray.length == 2) {
+                                pubDate = LocalDate.of(Integer.parseInt(dateArray[0]), Integer.parseInt(dateArray[1]), 1);
+                            } else {
+                                pubDate = LocalDate.of(Integer.parseInt(dateArray[0]), Integer.parseInt(dateArray[1]), Integer.parseInt(dateArray[2]));
+                            }
+                            searchResults.add(new Book(Long.parseLong(responseIsbn), responseTitle, responseAuthors, responsePublisher, pubDate, responsePageCount, 0, 0));
+                            //responseAuthors.clear();
+                        }
                     }
                 }
                 in.close();
-            }
-            catch (IOException ioe){
-                System.out.println("IO Error: "+ioe);
-            }
-            catch (JSONException je) {
+            } catch (IOException ioe) {
+                throw ioe;
+            } catch (JSONException je) {
                 System.out.println("JSON Error: " + je);
             }
         }
+        return searchResults;
+    }
 
-        // Book Print
+    // Prints books into a formatted table
+    public String bookPrint(String title, String authors, String isbn, String publisher, String sortOrder, boolean isLibrary, boolean isGoogle){
+
+        ArrayList<Book> searchResults;
+        try {
+            searchResults = search(title, authors, isbn, publisher, sortOrder, isLibrary, isGoogle);
+        }
+        catch (IOException ioe){
+            return("Too many search results were returned.");
+        }
+
         int isbnLength = 13;
         int titleLength = 10;
         int authorsLength = 10;

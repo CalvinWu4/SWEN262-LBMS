@@ -34,7 +34,7 @@ public final class BackEnd {
      */
     static public Response LibraryBookSearch(ArrayList<Parameter> params){
         String[] bookSearchParams = getBookSearchParams(params);
-        return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],true,false));
+        return new Response(new ProxyBooks().bookPrint(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],true,false));
     }
 
     /**
@@ -46,10 +46,10 @@ public final class BackEnd {
         String[] bookSearchParams = getBookSearchParams(params);
 
         if(GUIClient.getIsLocal()){
-            return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],false,false));
+            return new Response(new ProxyBooks().bookPrint(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],false,false));
         }
         else{
-            return new Response(new ProxyBooks().search(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],false,true));
+            return new Response(new ProxyBooks().bookPrint(bookSearchParams[0],bookSearchParams[1],bookSearchParams[2],bookSearchParams[3],bookSearchParams[4],false,true));
         }
     }
 
@@ -63,11 +63,6 @@ public final class BackEnd {
         for(int i = 1; i < params.size(); i++){
             booksIds.add(Long.parseLong((String) params.get(i).getParam()));
         }
-
-//        ArrayList<Long> booksIds = new ArrayList<>();
-//            for (String id : (ArrayList<String>)params.get(1).getParam()){
-//                booksIds.add((Long.parseLong(id.replace("{","").replace("}",""))));
-//            }
         return new Response("buy,"+ Purchases.purchase(Integer.parseInt((String)params.get(0).getParam()),booksIds));
     }
 

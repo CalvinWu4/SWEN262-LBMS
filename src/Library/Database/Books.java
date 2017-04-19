@@ -2,6 +2,8 @@ package Library.Database;
 
 import Library.Book;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -9,7 +11,10 @@ import java.util.HashMap;
  */
 public interface Books {
     void save();
-    String search(String title, String authors, String isbn, String publisher, String sortOrder, boolean isLibrary, boolean isGoogle);
+    ArrayList<Book> search(String title, String authors, String isbn, String publisher, String sortOrder,
+                           boolean isLibrary, boolean isGoogle) throws IOException;
+    String bookPrint(String title, String authors, String isbn, String publisher, String sortOrder,
+                     boolean isLibrary, boolean isGoogle);
     HashMap<Long, Book> getMap();
 
 }

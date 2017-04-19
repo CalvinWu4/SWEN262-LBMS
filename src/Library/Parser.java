@@ -8,6 +8,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Brandon on 3/19/2017.
