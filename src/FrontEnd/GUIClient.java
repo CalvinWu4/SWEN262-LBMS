@@ -211,8 +211,13 @@ public class GUIClient {
                         String txt = text.replace(";","");
                         String[] loginData = txt.split(",");
                         this.setLoginStatus(login(loginData[1],loginData[2]));
-                        this.addResponse(clientLogin ? "Successful Login!\n" : "Login Failed. Please Try again.\n");
-                        this.changeHeader("===========================\nWelcome to the LBMS Application\nPlease select your service location (local or google) using the following command:\n\"service,'info-service';\"\n===========================");
+                        if(this.clientLogin){
+                            this.addResponse("Successful Login!\n");
+                            this.changeHeader("===========================\nWelcome to the LBMS Application\nPlease select your service location (local or google) using the following command:\n\"service,'info-service';\"\n===========================");
+                        }
+                        else{
+                            this.addResponse("Login Failed. Please Try again.\n");
+                        }
                     }
 //                    if(text.contains("login,true;")){
 //                        //HAKZ
