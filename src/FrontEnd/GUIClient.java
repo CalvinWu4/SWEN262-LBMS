@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 
 /**
  * Created by Anthony Perez on 4/3/17.
+ * This class represents a new tab view
  */
 public class GUIClient {
 

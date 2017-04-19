@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 /**
  * Created by Anthony Perez on 4/4/17.
+ *
+ * The GUI tabs manager
  */
 public class GUIClients {
     private static HashMap<Number, GUIClient> clientHash = new HashMap<Number, GUIClient>();
