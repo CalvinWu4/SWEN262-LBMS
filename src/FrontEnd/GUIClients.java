@@ -15,7 +15,6 @@ public class GUIClients {
 
     public Boolean connectClient(GUIClient gui){
         clientHash.put(gui.returnID(), gui);
-        System.out.println(clientHash);
 
         if(clientHash.containsKey(gui.clientGuiID)){
             return true;
@@ -27,7 +26,6 @@ public class GUIClients {
 
     public Boolean disconnectClient(GUIClient gui){
         clientHash.remove(gui.returnID());
-        System.out.println(clientHash);
 
         if(!clientHash.containsKey(gui.clientGuiID)){
             return false;

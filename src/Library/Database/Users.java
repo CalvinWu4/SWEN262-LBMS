@@ -65,10 +65,6 @@ public final class Users extends Database {
     public static void load() {
         if(read(FILE) != null){
             map = (TreeMap<Integer, User>)read(FILE);
-
-            for(User user : map.values()){
-                System.out.println(user.getVisitorID()+"-"+user.getUsername()+"-"+user.getPassword());
-            }
         }
     }
 

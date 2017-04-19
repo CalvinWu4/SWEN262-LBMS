@@ -69,8 +69,6 @@ public class Main extends Application{
 
         root.getChildren().add(pane);
 
-        //scene.getStylesheets().add(getClass().getResource("base.css").toExternalForm());
-
         // Listener to get the active tab
         tabPane.getSelectionModel().selectedIndexProperty().addListener(
                 new ChangeListener<Number>() {

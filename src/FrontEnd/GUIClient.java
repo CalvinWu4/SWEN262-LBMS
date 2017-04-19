@@ -29,7 +29,6 @@ public class GUIClient {
 
     GUIClients clients;
     View currentView;
-    //User class object for login purposes
 
     public GUIClient(Number _clientGuiID, GUIClients _clients){
     //The current view that will display the available options at the left
@@ -37,6 +36,7 @@ public class GUIClient {
         this.clientGuiID = _clientGuiID;
         this.currentView = View.findView(0);
         this.clients = _clients;
+        this.isLocal = null;
 
         Button btn = new Button();
         Button btn1 = new Button();
@@ -154,7 +154,6 @@ public class GUIClient {
 
     public Boolean login(String _user, String _pass){
         for(User user: Users.getMap().values()){
-            System.out.println(user.getVisitorID()+"-"+user.getUsername()+"-"+user.getPassword());
             if((user.getUsername().equals(_user)) && (user.getPassword().equals(_pass))){
                 return true;
             }
@@ -177,7 +176,7 @@ public class GUIClient {
                 case "connect;":
                     this.addResponse(text+"\n");
                     this.addResponse("Sucessful connection to LBMS network!\n");
-                    setConnectionStatus(clients.connectClient(this));
+                    this.setConnectionStatus(clients.connectClient(this));
                     this.changeHeader("========================================\nWelcome to the LBMS Application\nPlease log in to the library network with the following command:\n\"login,'username','password';\"\n========================================");
                     break;
 
@@ -208,19 +207,19 @@ public class GUIClient {
                     break;
 
                 default:
-//                    if(text.substring(0,5).equals("login")){
-//                        this.addResponse(text+"\n");
-//                        String txt = text.replace(";","");
-//                        String[] loginData = txt.split(",");
-//                        this.setLoginStatus(login(loginData[1],loginData[2]));
-//                        this.addResponse(clientLogin ? "Successful Login!" : "Login Failed. Please Try again.");
-//                    }
-                    if(text.contains("login,true;")){
-                        //HAKZ
-                        this.setLoginStatus(true);
-                        this.addResponse("Successful Login!\n");
+                    if(text.substring(0,5).equals("login")){
+                        String txt = text.replace(";","");
+                        String[] loginData = txt.split(",");
+                        this.setLoginStatus(login(loginData[1],loginData[2]));
+                        this.addResponse(clientLogin ? "Successful Login!\n" : "Login Failed. Please Try again.\n");
                         this.changeHeader("===========================\nWelcome to the LBMS Application\nPlease select your service location (local or google) using the following command:\n\"service,'info-service';\"\n===========================");
                     }
+//                    if(text.contains("login,true;")){
+//                        //HAKZ
+//                        this.setLoginStatus(true);
+//                        this.addResponse("Successful Login!\n");
+//                        this.changeHeader("===========================\nWelcome to the LBMS Application\nPlease select your service location (local or google) using the following command:\n\"service,'info-service';\"\n===========================");
+//                    }
                     else{
                         this.addResponse(text+"\n");
                         this.addResponse("Invalid command.\n");
@@ -229,20 +228,24 @@ public class GUIClient {
             }
         }
 
-        else if(clientConnection && clientLogin && isLocal == null){
+        else if(this.clientConnection && this.clientLogin && this.isLocal == null){
             if(text.equals("service,local;")){
-                isLocal = true;
+                this.isLocal = true;
                 this.addResponse("Service location has been set to: Local");
                 this.changeHeader(this.currentView.printUI());
             }
             else if(text.equals("service,google;")){
-                isLocal = false;
+                this.isLocal = false;
                 this.addResponse("Service location has been set to: Google");
                 this.changeHeader(this.currentView.printUI());
             }
+            else{
+                this.addResponse(text+"\n");
+                this.addResponse("Invalid command.\n");
+            }
         }
 
-        else if(clientConnection && clientLogin && isLocal != null){
+        else if(this.clientConnection && this.clientLogin && this.isLocal != null){
             Response response = Exchange.interpret(text,this.currentView);
             if(text.equals("logout;")){
                 this.addResponse(text+"\n");
